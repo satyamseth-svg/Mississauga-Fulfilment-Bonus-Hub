@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Returns Team — Weekly Bonus Hub | Mississauga Warehouse</title>
+<meta name="description" content="Weekly bonus tracking for the Mississauga Returns team — priority-tiered WPI scoring, IT compliance, and payout history.">
+<style>
+/* ─── Root ─────────────────────────────────────────── */
+:root{
+  --bg:#f0f2f5;--card:#fff;--bdr:#e2e8f0;
+  --fg:#0f172a;--muted:#64748b;
+  --accent:#0891b2;--accentl:rgba(8,145,178,.1);
+  --ph:#059669;--pw:#d97706;--pl:#dc2626;
+  --nav:#134e5e;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--fg);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;min-height:100vh}
+
+/* ─── Navbar ─────────────────────────────────────── */
+.nav{background:linear-gradient(135deg,#134e5e,#0e7490);padding:0 24px;height:56px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:200;box-shadow:0 2px 10px rgba(0,0,0,.15)}
+.nav-brand{display:flex;align-items:center;gap:10px}
+.nav-icon{font-size:22px}
+.nav-title{font-size:14px;font-weight:800;color:#fff}
+.nav-sub{font-size:10px;color:rgba(255,255,255,.7);font-weight:500}
+.nav-btns{display:flex;gap:8px}
+.nbtn{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);color:#fff;padding:6px 14px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;transition:.15s}
+.nbtn:hover{background:rgba(255,255,255,.28)}
+.nbtn.danger{background:rgba(239,68,68,.1);border-color:rgba(239,68,68,.3);color:#fca5a5}
+.nbtn.danger:hover{background:rgba(239,68,68,.2)}
+
+/* ─── Bench bar ──────────────────────────────────── */
+.bench-bar{background:#fff;border-bottom:1px solid var(--bdr);padding:8px 24px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;font-size:12px;font-weight:600;color:var(--fg);box-shadow:0 1px 3px rgba(0,0,0,.05)}
+.bench-lbl{font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.7px;color:var(--muted);margin-right:4px}
+.bp{background:#0e7490;color:#fff;padding:2px 8px;border-radius:6px;font-size:10.5px;font-weight:800}
+.bp.wpi-tag{background:#7c3aed;color:#fff}
+
+/* ─── Upload zone ────────────────────────────────── */
+.upload-wrap{padding:24px}
+.upload-zone{border:2px dashed #94c5d1;border-radius:16px;padding:44px 24px;text-align:center;cursor:pointer;background:#fff;transition:border-color .2s,background .2s}
+.upload-zone:hover,.upload-zone.drag{border-color:#0e7490;background:rgba(8,145,178,.04)}
+.upload-icon{font-size:44px;margin-bottom:14px}
+.upload-title{font-size:17px;font-weight:800;color:var(--fg);margin-bottom:6px}
+.upload-sub{font-size:13px;color:var(--muted);margin-bottom:16px}
+.upload-hint{font-size:11px;color:var(--muted);opacity:.7;margin-top:6px}
+
+/* ─── Main content ───────────────────────────────── */
+.main{padding:20px 24px 48px}
+
+/* Week pills */
+.pills-row{display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap}
+.wpill{background:var(--card);border:1px solid var(--bdr);border-radius:10px;padding:8px 14px;cursor:pointer;transition:border-color .15s,box-shadow .15s;min-width:90px;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+.wpill.sel{border-color:#0e7490;background:rgba(8,145,178,.06);box-shadow:0 0 0 1px #0e7490}
+.wpill:hover:not(.sel){border-color:#94c5d1}
+.wpill-label{font-size:12px;font-weight:800;color:var(--fg)}
+.wpill-ct{font-size:10px;color:var(--muted);margin-top:2px}
+.wpill-conf{font-size:9px;color:var(--accent)}
+
+/* Week header */
+.wk-hd{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:16px;flex-wrap:wrap;gap:8px}
+.wk-title{font-size:17px;font-weight:800;color:var(--fg)}
+.wk-meta{font-size:13px;color:#0e7490;font-weight:700}
+
+/* Bonus banner */
+.bb{background:linear-gradient(135deg,#0f2b36,#134e5e);border-radius:16px;padding:16px 20px;margin-bottom:20px;box-shadow:0 4px 16px rgba(0,0,0,.12)}
+.bb-head{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.8px;color:#7dd3fc;margin-bottom:12px}
+.bb-people{display:flex;gap:10px;flex-wrap:wrap}
+.bb-card{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);border-radius:10px;padding:10px 14px;min-width:150px}
+.bb-name{font-size:13px;font-weight:800;color:#fff;margin-bottom:2px}
+.bb-info{font-size:11px;color:rgba(255,255,255,.65)}
+.bb-badges{display:flex;align-items:center;gap:6px;margin-top:6px}
+.bb-tier{font-size:10px;font-weight:800;padding:2px 8px;border-radius:12px}
+.bb-tier.qe{background:#78350f;color:#fbbf24}
+.bb-tier.qh{background:#1e1b4b;color:#a5b4fc}
+.bb-tier.qb{background:#064e3b;color:#6ee7b7}
+.bb-pay{font-size:15px;font-weight:900;color:#34d399}
+.bb-none{font-size:13px;color:rgba(255,255,255,.6);font-style:italic;padding:8px}
+.bb-total{font-size:13px;font-weight:700;color:#7dd3fc;margin-top:10px;padding-top:10px;border-top:1px solid rgba(255,255,255,.12)}
+
+/* Cards grid */
+#cards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px}
+@media(max-width:600px){#cards-grid{grid-template-columns:1fr}}
+
+/* Empty */
+.empty{grid-column:1/-1;text-align:center;padding:56px 20px;color:var(--muted);font-size:15px;font-weight:600;background:var(--card);border-radius:16px;border:2px dashed var(--bdr)}
+
+/* ─── Modal ──────────────────────────────────────── */
+#dm{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.82);z-index:99999;overflow-y:auto;padding:20px}
+#dp{background:#fff;border-radius:20px;max-width:580px;margin:auto;padding:26px;position:relative;box-shadow:0 20px 60px rgba(0,0,0,.3)}
+#dm-close{position:absolute;top:14px;right:14px;background:#f1f5f9;border:none;color:#334155;font-size:16px;width:30px;height:30px;border-radius:8px;cursor:pointer;line-height:30px}
+#dm-close:hover{background:#e2e8f0}
+
+/* ─── Suggestions section ────────────────────────── */
+.sug-wrap{margin-top:32px;background:#fff;border:1px solid var(--bdr);border-radius:16px;padding:22px 24px;box-shadow:0 1px 4px rgba(0,0,0,.05)}
+.sug-hd{font-size:14px;font-weight:800;color:var(--fg);margin-bottom:4px}
+.sug-sub{font-size:12px;color:var(--muted);margin-bottom:16px}
+.sug-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px}
+.sug-item{background:#f8fafc;border-radius:10px;border:1px solid var(--bdr);padding:14px;display:flex;gap:10px}
+.sug-ic{font-size:20px;flex-shrink:0}
+.sug-name{font-size:12px;font-weight:800;color:var(--fg);margin-bottom:3px}
+.sug-desc{font-size:11px;color:var(--muted);line-height:1.5}
+
+/* ─── Process status bar (modal) ─────────────────── */
+.proc-bar-track{height:7px;background:#e2e8f0;border-radius:4px;overflow:hidden;margin:5px 0 7px}
+.proc-bar-fill{height:100%;border-radius:4px}
+.ph-fill{background:linear-gradient(90deg,#059669,#34d399)}
+.pw-fill{background:linear-gradient(90deg,#d97706,#fbbf24)}
+.pl-fill{background:linear-gradient(90deg,#dc2626,#f87171)}
+</style>
+</head>
+<body>
+
+<!-- ─── Nav ──────────────────────────────────────── -->
+<nav class="nav">
+  <div class="nav-brand">
+    <span class="nav-icon">📦</span>
+    <div>
+      <div class="nav-title">Returns Team — Weekly Bonus Hub</div>
+      <div class="nav-sub">Mississauga · Weekly Performance · 9 Weeks Loaded</div>
+    </div>
+  </div>
+  <div class="nav-btns">
+    <label class="nbtn" style="cursor:pointer">
+      📤 Upload CSV
+      <input type="file" id="csv-file" accept=".csv" style="display:none" onchange="handleFile(this.files[0])">
+    </label>
+    <button class="nbtn" onclick="downloadHTML()">⬇ Download Hub</button>
+    <button class="nbtn danger" onclick="clearWeeks()" id="clear-btn" style="display:none">🗑 Clear All</button>
+  </div>
+</nav>
+
+<!-- ─── Benchmark bar ─────────────────────────────── -->
+<div class="bench-bar">
+  <span class="bench-lbl">Returns Benchmarks (units / IT hr):</span>
+  <span>Customer Return <span class="bp">12/hr</span></span>
+  <span>Move Cancelled Items <span class="bp wpi-tag">35/hr</span></span>
+  <span>Move Extra Items <span class="bp wpi-tag">35/hr</span></span>
+  <span>Move Sortly Item <span class="bp">120/hr</span></span>
+  <span>Sortly Create Skids <span class="bp">80/hr</span></span>
+  <span style="color:rgba(255,255,255,.25)">|</span>
+  <span>IT Goal <span class="bp">6.5h/day</span></span>
+  <span style="color:rgba(255,255,255,.25)">|</span>
+  <span style="font-size:10.5px;color:var(--muted)"><span style="background:#7c3aed;color:#fff;padding:1px 5px;border-radius:4px;font-weight:700">WPI</span> P1 CR+SCS 50% · P2 MSI 30% · P3 MCI+MEI 20%</span>
+  <span style="color:rgba(255,255,255,.25)">|</span>
+  <span style="font-size:10.5px;color:var(--muted)"><b>Bonus gate:</b> 4d→24h · 5d→30h (IT+NonIT) + WPI≥100%</span>
+  <span style="color:rgba(0,0,0,.15)">|</span>
+  <span style="font-size:10.5px;color:var(--muted)">⭐ Elite ≥130% → <b style="color:#d97706">$125</b></span>
+  <span style="font-size:10.5px;color:var(--muted)">💠 High 110–130% → <b style="color:#a5b4fc">$95</b></span>
+  <span style="font-size:10.5px;color:var(--muted)">✅ Base 100–110% → <b style="color:#6ee7b7">$50</b></span>
+</div>
+
+<!-- ─── Upload zone (shown when no data) ──────────── -->
+<div class="upload-wrap" id="upload-wrap">
+  <div class="upload-zone" id="upload-zone"
+    ondragover="event.preventDefault();this.classList.add('drag')"
+    ondragleave="this.classList.remove('drag')"
+    ondrop="event.preventDefault();this.classList.remove('drag');handleFile(event.dataTransfer.files[0])">
+    <div class="upload-icon">📊</div>
+    <div class="upload-title">Add More Weeks</div>
+    <div class="upload-sub">9 weeks (27 Apr – 28 Jun 2026) are already loaded below. Drop a new CSV here to add more weeks.</div>
+    <div style="font-size:12px;color:var(--accent);margin-top:12px">Accepted: WH_Reporting_-_Report_-_[date].csv</div>
+    <div class="upload-hint">Processes scored: Customer Return · Move Cancelled Items · Move Extra Items · Move Sortly Item · Sortly Create Skids</div>
+  </div>
+</div>
+
+<!-- ─── Main dashboard (shown when data present) ──── -->
+<div class="main" id="main-dash" style="display:none">
+
+  <!-- Week pills -->
+  <div class="pills-row" id="pills-row"></div>
+
+  <!-- Week header + bonus banner -->
+  <div class="wk-hd">
+    <div class="wk-title" id="wk-title">—</div>
+    <div class="wk-meta" id="wk-meta"></div>
+  </div>
+  <div class="bb" id="bonus-banner"></div>
+
+  <!-- Grand total -->
+  <div style="background:rgba(6,182,212,.08);border:1px solid rgba(6,182,212,.2);border-radius:12px;padding:14px 18px;margin-bottom:18px">
+    <table width="100%" cellpadding="0" cellspacing="0"><tr>
+      <td><div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:#0e7490;margin-bottom:4px">Grand Total · 27 Apr – 28 Jun 2026</div>
+          <div style="font-size:26px;font-weight:900;color:var(--fg)">$1,270</div>
+          <div style="font-size:12px;color:var(--muted);margin-top:2px">across 9 weeks · tiered WPI · WPI≥100% + 24h/30h gate</div></td>
+      <td align="right" valign="middle" style="white-space:nowrap">
+        <div style="font-size:11px;color:var(--muted)">Hemant Gupta <b style="color:#059669">$375</b> (3 wks)</div>
+        <div style="font-size:11px;color:var(--muted);margin-top:2px">Pritpal Singh <b style="color:#059669">$895</b> (8 wks)</div>
+      </td>
+    </tr></table>
+  </div>
+
+
+  <!-- Qualifier cards -->
+  <div id="cards-grid"></div>
+
+</div>
+
+<!-- ─── Popup Modal ───────────────────────────────── -->
+<div id="dm" onclick="if(event.target===this)closeDet()">
+  <div id="dp">
+    <button id="dm-close" onclick="closeDet()">✕</button>
+    <!-- populated by openDet() -->
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════
+// CONFIG
+// ═══════════════════════════════════════════════════
+const BENCH = {
+  'Customer Return':      12,
+  'Move Cancelled Items': 35,
+  'Move Extra Items':     35,
+  'Move Sortly Item':     120,
+  'Sortly Create Skids':  80,
+};
+
+// WPI pair: Move Cancelled Items + Move Extra Items
+// Both are "move" operations at 35/hr — combined with volume weighting
+// WPI = achMCI × (MCI_qty/total) + achMEI × (MEI_qty/total)
+const WPI_A = 'Move Cancelled Items';
+const WPI_B = 'Move Extra Items';
+const WPI_LABEL = 'Move (MCI+MEI)';
+
+// Processes to skip (not scored)
+const SKIP = new Set([
+  'picking','stowing','packing (s)','packing (m)','packing (l)','docking','scanning',
+  'fulfilment','customer handing','cs pick up','returns','move items',
+  'sortly scan items',
+]);
+
+const SCORED = new Set(Object.keys(BENCH).map(k => k.toLowerCase()));
+
+const TIERS = [
+  {tier:'Elite', min:130, pay:125},
+  {tier:'High',  min:110, pay:95 },
+  {tier:'Base',  min:100, pay:50 },
+];
+
+const IT_DAY = 6.5;
+const MIN_DAYS = 4;
+const BANNED = new Set(['Suresh Singh','Andres Valdes','Sewe Loaknauth','Kulwinder Kumar','Sumeet Kumar']);
+
+// ── Baked weekly data (all 9 weeks pre-loaded) ────────────────────
+const BAKED_WEEKS = [{"dateFrom": "2026-04-27", "filename": "WH_Reporting_-_Returns__27apr-3may_.csv", "csvText": "Name,Shift,Role ,Process,Productivity,Productivity %,Productivity Benchmark,IT Hours,Total IT Hours,NON IT Hours,Working days,Date of Joining\nJeffery Morgan,M,Returns,Customer Return,160,100%,160.8,13:24:00,13:24:00,00:10:00,5,15-Dec-25\nHarsimran Singh,M,Returns,Move Cancelled Items,810,98%,829.5,23:42:00,00:00:00,37:10:00,5,10-Jun-24\nPritpal Singh,M,Returns,Stowing,6,5%,111.6,01:43:00,16:43:00,28:05:00,6,23-Jul-24\n,,,Customer Return,328,182%,180,15:00:00,,,,\nHemant Gupta,M,Returns,Stowing,102,45%,225.3,03:28:00,20:15:00,24:00:00,6,13-May-24\n,,,Scanning,1,12%,8,00:04:00,,,,\n,,,Customer Return,334,167%,200.6,16:43:00,,,,\n"}, {"dateFrom": "2026-05-04", "filename": "WH_Reporting_-_Returns__4thmay-_10thmay_.csv", "csvText": "Name,Shift,Role ,Process,Productivity,Productivity %,Productivity Benchmark,IT Hours,NON IT Hours,Total IT Hours,Working days,Date of Joining\nJeffery Morgan,M,Returns,Customer Return,79,72%,109,09:05:00,00:00:00,09:05:00,5,15-Dec-25\n,,,Move Cancelled Items,0,0%,16.3,00:28:00,,,,\n,,,Sortly Create Skids,0,0%,10.7,00:08:00,,,,\nHarsimran Singh,M,Returns,Customer Return,27,82%,33,02:45:00,29:53:00,02:45:00,5,10-Jun-24\n,,,Move Cancelled Items,396,148%,268.3,07:40:00,,,,\n,,,Move Sortly Item,938,59%,1600,13:20:00,,,,\nPritpal Singh,M,Returns,Customer Return,601,170%,354.2,29:31:00,10:04:00,29:31:00,7,23-Jul-24\nHemant Gupta,M,Returns,Stowing,9,18%,50.9,00:47:00,15:05:00,23:09:00,7,13-May-24\n,,,Customer Return,408,152%,268.4,22:22:00,,,,\n,,,Move Cancelled Items,88,117%,75.3,02:09:00,,,,\n"}, {"dateFrom": "2026-05-11", "filename": "WH_Reporting_-_Returns_11thmay-17thmay_.csv", "csvText": "Name,Shift,Role ,Process,Productivity,Productivity %,Productivity Benchmark,IT Hours,NON IT Hours,Total IT Hours,Working days,Date of Joining\n,,,Move Cancelled Items,0,0%,14,00:24:00,,,,\nJeffery Morgan,M,Returns,Customer Return,37,77%,48.2,04:01:00,00:00:00,04:01:00,6,15-Dec-25\n,,,Move Sortly Item,284,50%,564,04:42:00,,,,\n,,,Sortly Create Skids,72,23%,313.3,03:55:00,,,,\nHarsimran Singh,M,Returns,Move Sortly Item,700,44%,1598,13:19:00,32:27:00,00:00:00,6,10-Jun-24\n,,,Sortly Create Skids,409,67%,613.3,07:40:00,,,,\nPritpal Singh,M,Returns,Customer Return,228,154%,147.6,12:18:00,17:16:00,12:18:00,6,23-Jul-24\n,,,Move Cancelled Items,56,113%,49.6,01:25:00,,,,\n,,,Move Sortly Item,802,46%,1756,14:38:00,,,,\n,,,Sortly Create Skids,2,15%,13.3,00:10:00,,,,\nHemant Gupta,M,Returns,Customer Return,225,131%,171.8,14:19:00,12:05:00,14:19:00,6,13-May-24\n,,,Move Cancelled Items,47,110%,42.6,01:13:00,,,,\n,,,Move Sortly Item,98,64%,154,01:17:00,,,,\n,,,Sortly Create Skids,479,47%,1025.3,12:49:00,,,,\n"}, {"dateFrom": "2026-05-18", "filename": "WH_Reporting_-_Returns_18thmay-24thmay_.csv", "csvText": "Name,Shift,Role ,Process,Productivity,Productivity %,Productivity Benchmark,IT Hours,NON IT Hours,Total IT Hours,Working days,Date of Joining\nJeffery Morgan,M,Returns,Customer Return,22,239%,9.2,00:46:00,00:00:00,00:46:00,4,15-Dec-25\n,,,Sortly Create Skids,103,46%,224,02:48:00,,,,\nHarsimran Singh,M,Returns,Move Sortly Item,448,47%,946,07:53:00,38:52:00,00:00:00,5,10-Jun-24\n,,,Sortly Create Skids,208,68%,305.3,03:49:00,,,,\nPritpal Singh,M,Returns,Customer Return,557,167%,332.6,27:43:00,04:29:00,27:43:00,4,23-Jul-24\nHemant Gupta,M,Returns,Customer Return,802,170%,471,39:15:00,04:55:00,39:15:00,6,13-May-24\n"}, {"dateFrom": "2026-05-25", "filename": "WH_Reporting_-_Returns_25thmay-31stmay_.csv", "csvText": "Name,Shift,Role ,Process,Productivity,Productivity %,Productivity Benchmark,IT Hours,NON IT Hours,Total IT Hours,Working days,Date of Joining\nJeffery Morgan,M,Returns,Move Sortly Item,12,12%,98,00:49:00,00:57:00,00:00:00,4,15-Dec-25\n,,,Sortly Create Skids,41,35%,118.7,01:29:00,,,,\nHarsimran Singh,M,Returns,Move Sortly Item,240,46%,526,04:23:00,31:18:00,00:00:00,5,10-Jun-24\n,,,Sortly Create Skids,348,100%,346.7,04:20:00,,,,\nPritpal Singh,M,Returns,Customer Return,590,135%,436.4,36:22:00,10:28:00,36:22:00,6,23-Jul-24\n,,,Move Cancelled Items,3,14%,21,00:36:00,,,,\n,,,Move Sortly Item,0,0%,14,00:07:00,,,,\nHemant Gupta,M,Returns,Customer Return,390,124%,315.6,26:18:00,15:20:00,26:18:00,6,13-May-24\n,,,Move Sortly Item,38,34%,112,00:56:00,,,,\n,,,Sortly Create Skids,60,31%,190.7,02:23:00,,,,\n"}, {"dateFrom": "2026-06-01", "filename": "WH_Reporting_-_Returns_1jun-7jun_.csv", "csvText": "Name,Shift,Role ,Process,Productivity,Productivity %,Productivity Benchmark,IT Hours,NON IT Hours,Total IT Hours,Working days,Date of Joining\nJeffery Morgan,M,Returns,Sortly Create Skids,29,32%,92,01:09:00,00:00:00,00:00:00,5,15-Dec-25\n,,,Move Extra Items,0,0%,16.3,00:28:00,,,,\nHarsimran Singh,M,Returns,Move Sortly Item,134,28%,472,03:56:00,40:01:00,00:00:00,7,10-Jun-24\n,,,Sortly Create Skids,332,51%,657.3,08:13:00,,,,\nPritpal Singh,M,Returns,Customer Return,494,139%,355.4,29:37:00,10:31:00,29:37:00,5,23-Jul-24\nHemant Gupta,M,Returns,Customer Return,253,116%,218.8,18:14:00,12:50:00,18:14:00,6,13-May-24\n,,,Move Sortly Item,429,55%,782,06:31:00,,,,\n,,,Sortly Create Skids,37,19%,197.3,02:28:00,,,,\n"}, {"dateFrom": "2026-06-08", "filename": "WH_Reporting_-_Returns_8jun-14jun_.csv", "csvText": "Name,Shift,Role ,Process,Productivity,Productivity %,Productivity Benchmark,IT Hours,NON IT Hours,Total IT Hours,Working days,Date of Joining\nJeffery Morgan,M,Returns,Customer Return,163,113%,144.2,12:01:00,00:00:00,12:01:00,5,15-Dec-25\n,,,Move Cancelled Items,1,86%,1.2,00:02:00,,,,\n,,,Sortly Create Skids,425,85%,500,06:15:00,,,,\nHarsimran Singh,M,Returns,Customer Return,107,113%,94.6,07:53:00,27:02:00,07:53:00,6,10-Jun-24\n,,,Move Sortly Item,116,95%,122,01:01:00,,,,\n,,,Sortly Create Skids,321,56%,577.3,07:13:00,,,,\nPritpal Singh,M,Returns,Customer Return,437,149%,293.4,24:27:00,06:16:00,24:27:00,4,23-Jul-24\n,,,Sortly Create Skids,8,120%,6.7,00:05:00,,,,\nHemant Gupta,M,Returns,Scanning,2,100%,2,00:01:00,24:00:00,00:01:00,5,13-May-24\n,,,Move Sortly Item,3,6%,50,00:25:00,,,,\n,,,Sortly Create Skids,105,16%,677.3,08:28:00,,,,\n"}, {"dateFrom": "2026-06-15", "filename": "WH_Reporting_-_Returns_15jun-21jun_.csv", "csvText": "Name,Shift,Role ,Process,Productivity,Productivity %,Productivity Benchmark,IT Hours,NON IT Hours,Total IT Hours,Working days,Date of Joining\nJeffery Morgan,M,Returns,Customer Return,151,95%,159.4,13:17:00,00:00:00,13:17:00,5,15-Dec-25\n,,,Move Cancelled Items,3,129%,2.3,00:04:00,,,,\n,,,Move Sortly Item,44,31%,140,01:10:00,,,,\nHarsimran Singh,M,Returns,Customer Return,18,122%,14.8,01:14:00,36:14:00,01:14:00,5,10-Jun-24\n,,,Move Sortly Item,625,75%,832,06:56:00,,,,\n,,,Sortly Create Skids,487,70%,693.3,08:40:00,,,,\nPritpal Singh,M,Returns,Customer Return,349,144%,242,20:10:00,12:06:00,20:10:00,4,23-Jul-24\nHemant Gupta,M,Returns,Move Sortly Item,147,38%,382,03:11:00,08:00:00,00:00:00,5,13-May-24\n,,,Sortly Create Skids,65,15%,424,05:18:00,,,,\n"}, {"dateFrom": "2026-06-22", "filename": "WH_Reporting_-_Returns_22jun-28jun_.csv", "csvText": "Name,Shift,Role ,Process,Productivity,Productivity %,Productivity Benchmark,IT Hours,NON IT Hours,Total IT Hours,Working days,Date of Joining\nJeffery Morgan,M,Returns,Customer Return,170,109%,156.2,13:01:00,00:00:00,13:01:00,5,15-Dec-25\n,,,Move Cancelled Items,1,7%,14,00:24:00,,,,\n,,,Move Sortly Item,58,51%,114,00:57:00,,,,\nHarsimran Singh,M,Returns,Move Sortly Item,271,77%,350,02:55:00,46:20:00,00:00:00,6,10-Jun-24\n,,,Sortly Create Skids,514,80%,644,08:03:00,,,,\nPritpal Singh,M,Returns,Customer Return,226,157%,143.6,11:58:00,12:29:00,11:58:00,4,23-Jul-24\n,,,Move Cancelled Items,4,11%,36.2,01:02:00,,,,\nHemant Gupta,M,Returns,Customer Return,1,125%,0.8,00:04:00,00:00:00,00:04:00,5,13-May-24\n,,,Move Sortly Item,1,25%,4,00:02:00,,,,\n,,,Sortly Create Skids,86,17%,509.3,06:22:00,,,,\n,,,Move Extra Items,1,86%,1.2,00:02:00,,,,\nPresila Anthony,M,,Customer Return,346,148%,233,19:25:00,08:35:00,19:25:00,5,07-May-26\n,,,Sortly Create Skids,345,50%,685.3,08:34:00,,,,\n"}];
+
+// ═══════════════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════════════
+let weeks = [], selIdx = 0;
+const LS_KEY = 'returns_hub_v1';
+
+// ═══════════════════════════════════════════════════
+// HELPERS
+// ═══════════════════════════════════════════════════
+function hms(s) {
+  if (!s || !s.trim()) return 0;
+  const p = s.trim().split(':');
+  if (p.length === 3) return +p[0] + +p[1]/60 + +p[2]/3600;
+  if (p.length === 2) return +p[0] + +p[1]/60;
+  return parseFloat(s) || 0;
+}
+
+function splitLine(l) {
+  const c = []; let s = '', q = false;
+  for (const ch of l) {
+    if (ch === '"') { q = !q; }
+    else if (ch === ',' && !q) { c.push(s.trim()); s = ''; }
+    else s += ch;
+  }
+  c.push(s.trim()); return c;
+}
+
+function col(v) { return v >= 100 ? '#34d399' : v >= 80 ? '#fbbf24' : '#f87171'; }
+function colFill(v) { return v >= 100 ? 'ph-fill' : v >= 80 ? 'pw-fill' : 'pl-fill'; }
+function weekLabel(dateFrom) {
+  if (!dateFrom) return '—';
+  const d = new Date(dateFrom + 'T00:00:00');
+  const end = new Date(d); end.setDate(end.getDate() + 6);
+  const fmt = dt => dt.toLocaleDateString('en-GB', {day:'numeric', month:'short'});
+  return `${fmt(d)} – ${fmt(end)}`;
+}
+
+// ═══════════════════════════════════════════════════
+// CSV PARSING
+// ═══════════════════════════════════════════════════
+function parseCSV(txt) {
+  const lines = txt.trim().split(/[\r\n]+/).filter(x => x.trim());
+  const hdrs = splitLine(lines[0]);
+  const ci = (...ns) => {
+    for (const n of ns) {
+      const nk = n.toLowerCase().replace(/[\s_-]/g, '');
+      let i = hdrs.findIndex(h => h.trim().toLowerCase().replace(/[\s_-]/g, '') === nk);
+      if (i >= 0) return i;
+      i = hdrs.findIndex(h => {
+        const hk = h.trim().toLowerCase().replace(/[\s_-]/g, '');
+        return hk.includes(nk) && !hk.includes('benchmark') && !hk.includes('%');
+      });
+      if (i >= 0) return i;
+    }
+    return -1;
+  };
+  const iName = ci('name','associate');
+  const iShift = ci('shift');
+  const iRole = ci('role');
+  const iProc = ci('process','activity');
+  let iProd = hdrs.findIndex(h => /^productivity( count)?$/i.test(h.trim()));
+  if (iProd < 0) iProd = ci('productivitycount','productivity');
+  const iBench = hdrs.findIndex(h => /^productivity\s*benchmark$/i.test(h.trim()));
+  const iITH = ci('ithours','it hours');
+  const iNIT = ci('nonithours','non it hours','nonit');
+  const iTotIT = ci('totalithours','total it hours');
+  const iDays = ci('workingdays','working days');
+  const iJoin = ci('dateofjoining','date of joining');
+
+  const out = []; let cur = null;
+  for (let i = 1; i < lines.length; i++) {
+    if (!lines[i].trim()) continue;
+    const c = splitLine(lines[i]);
+    const name = iName >= 0 ? (c[iName] || '').trim() : '';
+    if (name) {
+      if (cur) out.push(cur);
+      cur = {
+        name, shift: iShift >= 0 ? (c[iShift]||'').trim() : '',
+        role: iRole >= 0 ? (c[iRole]||'').trim() : '',
+        joined: iJoin >= 0 ? (c[iJoin]||'—').trim() : '—',
+        days: iDays >= 0 ? (parseInt(c[iDays]) || 0) : 0,
+        daysColPresent: iDays >= 0,
+        totalit: hms(iTotIT >= 0 ? c[iTotIT] : ''),
+        nonit: hms(iNIT >= 0 ? c[iNIT] : ''),
+        procs: [],
+      };
+    }
+    if (cur) {
+      const proc = iProc >= 0 ? (c[iProc]||'').trim() : '';
+      const qty  = iProd >= 0 ? (parseInt(c[iProd]) || 0) : 0;
+      const bench = iBench >= 0 ? (parseFloat(c[iBench]) || 0) : 0;
+      const ith  = iITH >= 0 ? hms(c[iITH]) : 0;
+      if (proc) cur.procs.push({ proc, qty, bench, ith });
+    }
+  }
+  if (cur) out.push(cur);
+  return out;
+}
+
+// ═══════════════════════════════════════════════════
+// SCORING
+// ═══════════════════════════════════════════════════
+function isExcluded(name, role) {
+  if (!name || name.includes('@')) return true;
+  if (/^(newhire|calg trial|trial)\d*$/i.test(name.trim())) return true;
+  if (BANNED.has(name.trim())) return true;
+  if (/supervisor|driver/i.test(role)) return true;
+  return false;
+}
+
+function scoreAssociate(raw) {
+  if (isExcluded(raw.name, raw.role)) return null;
+
+  // ── Priority tiers (WPI applied within AND across tiers) ──
+  //   P1 (weight 50%): Customer Return + Sortly Create Skids
+  //   P2 (weight 30%): Move Sortly Item
+  //   P3 (weight 20%): Move Cancelled Items + Move Extra Items
+  // Within a tier: volume-weighted WPI of member processes.
+  // Across tiers: fixed priority weights, renormalised over tiers actually worked.
+  const TIER_DEF = [
+    { key:'P1', label:'Customer Return + Sortly Create Skids', weight:0.5,
+      members:['Customer Return','Sortly Create Skids'] },
+    { key:'P2', label:'Move Sortly Item', weight:0.3,
+      members:['Move Sortly Item'] },
+    { key:'P3', label:'Move Cancelled + Move Extra', weight:0.2,
+      members:['Move Cancelled Items','Move Extra Items'] },
+  ];
+
+  // Accumulate per-process
+  const acc = {}; // proc → {qty,target,ith}
+  let hasAnyProc = false;
+  for (const p of raw.procs) {
+    const pk = p.proc.toLowerCase().trim();
+    if (SKIP.has(pk)) continue;
+    const matchedKey = Object.keys(BENCH).find(k => k.toLowerCase() === pk);
+    if (!matchedKey) continue;
+    hasAnyProc = true;
+    const rate = BENCH[matchedKey];
+    const target = p.bench > 0 ? Math.round(p.bench * 10) / 10 : Math.round(p.ith * rate * 10) / 10;
+    if (!acc[matchedKey]) acc[matchedKey] = { qty: 0, target: 0, ith: 0 };
+    acc[matchedKey].qty += p.qty;
+    acc[matchedKey].target += target;
+    acc[matchedKey].ith += p.ith;
+  }
+  if (!hasAnyProc) return null;
+
+  // Build tiers
+  const tiers = [];
+  for (const td of TIER_DEF) {
+    const procs = [];
+    for (const m of td.members) {
+      if (!acc[m]) continue;
+      const d = acc[m];
+      const target = Math.round(d.target * 10) / 10;
+      const pct = target > 0 ? Math.round(d.qty / d.target * 100) : 0;
+      procs.push({ proc: m, qty: d.qty, target, pct, ith: d.ith, ts: fmtH(d.ith), rate: BENCH[m] });
+    }
+    if (!procs.length) continue;
+    // Tier % = volume-weighted WPI of members with qty>0 (single member → its own pct)
+    const active = procs.filter(p => p.qty > 0);
+    let tierPct = 0, volLabel = '';
+    if (active.length) {
+      const totQ = active.reduce((s, p) => s + p.qty, 0);
+      tierPct = Math.round(active.reduce((s, p) => s + p.pct * (p.qty / totQ), 0));
+      volLabel = active.map(p =>
+        shortName(p.proc) + ' ' + p.pct + '%\u00d7' + Math.round(p.qty / totQ * 100) + '%').join(' + ');
+    }
+    tiers.push({ key: td.key, label: td.label, weight: td.weight,
+                 procs, pct: tierPct, hasVolume: active.length > 0, volLabel });
+  }
+
+  // Overall WPI = Σ(tierPct × weight) over worked tiers, renormalised
+  const workedTiers = tiers.filter(t => t.hasVolume);
+  let wpi = 0, wpiFormula = '';
+  if (workedTiers.length) {
+    const wSum = workedTiers.reduce((s, t) => s + t.weight, 0);
+    wpi = Math.round(workedTiers.reduce((s, t) => s + t.pct * (t.weight / wSum), 0));
+    wpiFormula = workedTiers.map(t =>
+      t.key + ' ' + t.pct + '%\u00d7' + Math.round(t.weight / wSum * 100) + '%').join(' + ') + ' = ' + wpi + '%';
+  }
+  const avg = wpi; // bonus scoring uses the tiered WPI
+
+  // IT compliance
+  const it = Math.round(raw.totalit * 10) / 10;
+  const nonit = Math.round(raw.nonit * 10) / 10;
+  const total = Math.round((it + nonit) * 10) / 10;
+  let goalDays = raw.days;
+  if (goalDays === 0 && !raw.daysColPresent && total > 0) {
+    goalDays = Math.min(5, Math.max(1, Math.round(total / IT_DAY)));
+  }
+  const goal = Math.round(goalDays * IT_DAY * 10) / 10 || IT_DAY;
+  const itComp = goal > 0 ? Math.round(total / goal * 100) : 0;
+
+  // Eligibility: ≥4 days + WPI ≥ 100% + hours gate (4d→24h, 5d+→30h IT+NonIT)
+  const daysOk = raw.days >= MIN_DAYS;
+  const prodOk = avg >= 100;  // WPI of exactly 100% qualifies
+  const hrsReq = raw.days >= 5 ? 30 : (raw.days === 4 ? 24 : 0);
+  const hrsOk = hrsReq > 0 && total >= hrsReq;
+
+  let tier = null, pay = 0;
+  if (daysOk && prodOk && hrsOk) {
+    for (const t of TIERS) {
+      if (avg >= t.min) { tier = t.tier; pay = t.pay; break; }
+    }
+  }
+
+  return {
+    name: raw.name, shift: raw.shift, role: raw.role, joined: raw.joined,
+    days: raw.days, it, nonit, total, goal, itComp,
+    tiers, wpi, wpiFormula,
+    avg, tier, pay, hrsReq, hrsOk,
+    qualifies: !!tier, daysOk, prodOk,
+  };
+}
+
+function shortName(proc) {
+  return { 'Customer Return':'CR', 'Sortly Create Skids':'SCS', 'Move Sortly Item':'MSI',
+           'Move Cancelled Items':'MCI', 'Move Extra Items':'MEI' }[proc] || proc;
+}
+
+function fmtH(h) {
+  const tot = Math.round(h * 60);
+  const hh = Math.floor(tot / 60), mm = tot % 60;
+  return `${hh}h ${mm.toString().padStart(2, '0')}m`;
+}
+
+// ═══════════════════════════════════════════════════
+// WEEK MANAGEMENT
+// ═══════════════════════════════════════════════════
+function inferDateFrom(filename, csvText) {
+  // Try to parse date from filename: WH_Reporting_-_Report_-_June_1_-_June_7.csv
+  const m = filename.match(/(\d{1,2})[_\s]([A-Za-z]+)[_\s](\d{4})/);
+  if (m) {
+    const d = new Date(`${m[2]} ${m[1]} ${m[3]}`);
+    if (!isNaN(d)) return d.toISOString().slice(0, 10);
+  }
+  // fallback: look for a "Week starting" comment in CSV or today
+  return new Date().toISOString().slice(0, 10);
+}
+
+function addWeek(csvText, filename) {
+  const dateFrom = inferDateFrom(filename, csvText);
+  // Check if week already exists
+  if (weeks.find(w => w.dateFrom === dateFrom)) {
+    if (!confirm(`Week starting ${dateFrom} already loaded. Replace it?`)) return;
+    weeks = weeks.filter(w => w.dateFrom !== dateFrom);
+  }
+  const raw = parseCSV(csvText);
+  const allScored = raw.map(scoreAssociate).filter(Boolean);
+  const qualifiers = allScored.filter(a => a.qualifies);
+  const totalPay = qualifiers.reduce((s, a) => s + a.pay, 0);
+  const week = {
+    id: Date.now(), dateFrom, filename,
+    csvText, // keep for download
+    scored: allScored, qualifiers, totalPay,
+  };
+  weeks.push(week);
+  weeks.sort((a, b) => new Date(a.dateFrom) - new Date(b.dateFrom));
+  selIdx = weeks.findIndex(w => w.dateFrom === dateFrom);
+  saveToLS();
+  render();
+}
+
+function saveToLS() {
+  try { localStorage.setItem(LS_KEY, JSON.stringify(weeks)); } catch (e) {}
+}
+
+function loadFromLS() {
+  // Try localStorage first (user-added weeks)
+  let source = [];
+  try {
+    const d = JSON.parse(localStorage.getItem(LS_KEY) || '[]');
+    if (Array.isArray(d) && d.length) source = d;
+  } catch (e) {}
+
+  // Fall back to baked weeks if localStorage is empty
+  if (!source.length && typeof BAKED_WEEKS !== 'undefined' && BAKED_WEEKS.length) {
+    source = BAKED_WEEKS;
+  }
+
+  weeks = source.map(w => {
+    try {
+      const raw = parseCSV(w.csvText);
+      const allScored = raw.map(scoreAssociate).filter(Boolean);
+      const qualifiers = allScored.filter(a => a.qualifies);
+      return { ...w, scored: allScored, qualifiers,
+               totalPay: qualifiers.reduce((s, a) => s + a.pay, 0) };
+    } catch (e) { return null; }
+  }).filter(Boolean).sort((a, b) => new Date(a.dateFrom) - new Date(b.dateFrom));
+  selIdx = Math.max(0, weeks.length - 1);
+}
+
+function clearWeeks() {
+  if (!confirm('Clear all weeks? This cannot be undone.')) return;
+  weeks = []; selIdx = 0;
+  try { localStorage.removeItem(LS_KEY); } catch (e) {}
+  render();
+}
+
+// ═══════════════════════════════════════════════════
+// FILE HANDLING
+// ═══════════════════════════════════════════════════
+function handleFile(file) {
+  if (!file) return;
+  const r = new FileReader();
+  r.onload = e => addWeek(e.target.result, file.name);
+  r.readAsText(file);
+}
+
+// ═══════════════════════════════════════════════════
+// RENDERING
+// ═══════════════════════════════════════════════════
+function render() {
+  const hasData = weeks.length > 0;
+  document.getElementById('upload-wrap').style.display = hasData ? 'none' : 'block';
+  document.getElementById('main-dash').style.display = hasData ? 'block' : 'none';
+  document.getElementById('clear-btn').style.display = hasData ? 'inline-block' : 'none';
+  if (!hasData) return;
+  if (selIdx < 0 || selIdx >= weeks.length) selIdx = weeks.length - 1;
+  renderPills();
+  renderWeek();
+}
+
+function renderPills() {
+  document.getElementById('pills-row').innerHTML = weeks.map((w, i) =>
+    `<div class="wpill${i === selIdx ? ' sel' : ''}" onclick="selIdx=${i};renderWeek()">
+      <div class="wpill-label">${weekLabel(w.dateFrom)}</div>
+      <div class="wpill-ct">${w.qualifiers.length}/${w.scored.length} paid · $${w.totalPay}</div>
+    </div>`
+  ).join('');
+}
+
+function renderWeek() {
+  renderPills();
+  const w = weeks[selIdx];
+  if (!w) return;
+  document.getElementById('wk-title').textContent = weekLabel(w.dateFrom);
+  document.getElementById('wk-meta').textContent =
+    `$${w.totalPay} total · ${w.qualifiers.length} of ${w.scored.length} associates qualified`;
+  renderBanner(w);
+  renderCards(w.scored);
+}
+
+function renderBanner(w) {
+  const el = document.getElementById('bonus-banner');
+  if (!w.qualifiers.length) {
+    el.innerHTML = `<div class="bb-head">🏆 Weekly Bonus Qualifiers — ${weekLabel(w.dateFrom)}</div>
+      <div class="bb-none">No bonus qualifiers this week.</div>`;
+    return;
+  }
+  const sorted = [...w.qualifiers].sort((a, b) => b.pay - a.pay || b.avg - a.avg);
+  const TC = { Elite: 'qe', High: 'qh', Base: 'qb' };
+  el.innerHTML =
+    `<div class="bb-head">🏆 Weekly Bonus Qualifiers — ${weekLabel(w.dateFrom)} &nbsp;<span style="color:#34d399;font-size:12px">$${w.totalPay} paid</span></div>
+    <div class="bb-people">${sorted.map(a =>
+      `<div class="bb-card">
+        <div class="bb-name">${a.name}</div>
+        <div class="bb-info">${a.avg}% WPI · ${a.days}d · ${a.total}h</div>
+        <div class="bb-info" style="margin-top:1px">IT compliance ${a.itComp}%</div>
+        <div class="bb-badges">
+          <span class="bb-tier ${TC[a.tier]||'qb'}">◆ ${a.tier}</span>
+          <span class="bb-pay">$${a.pay}</span>
+        </div>
+      </div>`
+    ).join('')}</div>
+    <div class="bb-total">Total payout: <b>$${w.totalPay}</b> across ${w.qualifiers.length} associate${w.qualifiers.length !== 1 ? 's' : ''}</div>`;
+}
+
+// ─── Compact qualifier cards ───────────────────────
+window.__qd = [];
+function renderCards(allAssociates) {
+  const el = document.getElementById('cards-grid');
+  if (!allAssociates || !allAssociates.length) {
+    el.innerHTML = '<div class="empty">No associate data this week.</div>';
+    return;
+  }
+  // Qualifiers first (by pay desc), then non-qualifiers (by avg desc)
+  window.__qd = [...allAssociates].sort((a, b) =>
+    (b.qualifies ? 1 : 0) - (a.qualifies ? 1 : 0) || b.pay - a.pay || b.avg - a.avg);
+  const TBG = { qe: '#78350f', qh: '#1e1b4b', qb: '#064e3b' };
+  const TFG = { qe: '#fbbf24', qh: '#a5b4fc', qb: '#6ee7b7' };
+  const BDR = { qe: '#f59e0b', qh: '#6366f1', qb: '#10b981' };
+
+  el.innerHTML = window.__qd.map((a, i) => {
+    const tc = { Elite: 'qe', High: 'qh', Base: 'qb' }[a.tier] || 'qb';
+    const SN = { M: 'Morning', E: 'Evening', N: 'Night' };
+    const shift = SN[a.shift] || a.shift || '';
+    const meta = [shift, a.days ? a.days + 'd' : ''].filter(Boolean).join(' · ');
+    const ac = col(a.avg), ic = col(a.itComp);
+    const q = a.qualifies;
+    const bdr = q ? BDR[tc] : '#cbd5e1';
+    const tbg = TBG[tc], tfg = TFG[tc];
+
+    // Right-side badge: tier+$ for qualifiers, failure reason for others
+    let badgeHtml;
+    if (q) {
+      badgeHtml = '<span style="display:inline-block;font-size:10px;font-weight:800;padding:3px 9px;border-radius:20px;background:' + tbg + ';color:' + tfg + '">◆ ' + a.tier + '</span>'
+        + '<br><span style="font-size:22px;font-weight:900;color:var(--fg)">$' + a.pay + '</span>'
+        + '<span style="font-size:10px;color:var(--muted)">/wk</span>';
+    } else {
+      let why = [];
+      if (a.days < 4) why.push(a.days + 'd < 4d');
+      if (!a.hrsOk) why.push(a.total + 'h < ' + (a.hrsReq || 24) + 'h');
+      if (a.avg < 100) why.push('WPI <100%');
+      badgeHtml = '<span style="display:inline-block;font-size:10px;font-weight:800;padding:3px 9px;border-radius:20px;background:#f1f5f9;color:#94a3b8">— No bonus</span>'
+        + '<br><span style="font-size:10px;color:#dc2626;font-weight:600">' + why.join(' · ') + '</span>';
+    }
+
+    return '<div onclick="openDet(' + i + ')" '
+      + 'style="background:var(--card);border-radius:14px;border:2px solid ' + bdr + ';padding:18px;cursor:pointer' + (q ? '' : ';opacity:.82') + '" '
+      + 'onmouseenter="this.style.boxShadow=\'0 8px 24px rgba(0,0,0,.15)\'" '
+      + 'onmouseleave="this.style.boxShadow=\'\'">'
+      // Header: name left, tier+pay (or reason) right
+      + '<table width="100%" cellpadding="0" cellspacing="0"><tr>'
+      + '<td valign="top" style="padding-right:8px">'
+      + '<div style="font-size:15px;font-weight:800;color:var(--fg);line-height:1.3">' + a.name + '</div>'
+      + '<div style="font-size:11px;color:var(--muted);margin-top:3px">' + meta + '</div>'
+      + '</td>'
+      + '<td valign="top" align="right" style="white-space:nowrap;width:40%">'
+      + badgeHtml
+      + '</td>'
+      + '</tr></table>'
+      // Divider
+      + '<div style="border-top:1px solid rgba(255,255,255,.08);margin:12px 0 10px"></div>'
+      // Metrics: avg left, IT right
+      + '<table width="100%" cellpadding="0" cellspacing="0"><tr>'
+      + '<td align="center" style="padding:4px 0;border-right:1px solid rgba(255,255,255,.08)">'
+      + '<div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:#64748b;margin-bottom:3px">WPI Score</div>'
+      + '<div style="font-size:28px;font-weight:900;color:' + ac + '">' + a.avg + '%</div>'
+      + '</td>'
+      + '<td align="center" style="padding:4px 0">'
+      + '<div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:#64748b;margin-bottom:3px">IT Compliance</div>'
+      + '<div style="font-size:22px;font-weight:900;color:' + ic + '">' + a.itComp + '%</div>'
+      + '</td>'
+      + '</tr></table>'
+      // Footer hint
+      + '<div style="text-align:center;margin-top:10px;font-size:10px;color:#475569;border-top:1px solid rgba(255,255,255,.06);padding-top:8px">▸ tap for process breakdown</div>'
+      + '</div>';
+  }).join('');
+}
+
+// ─── Popup modal ───────────────────────────────────
+function openDet(i) {
+  try {
+  const a = window.__qd[i]; if (!a) return;
+  const TBG = { qe: '#78350f', qh: '#1e1b4b', qb: '#064e3b' };
+  const TFG = { qe: '#fbbf24', qh: '#a5b4fc', qb: '#6ee7b7' };
+  const tc = { Elite: 'qe', High: 'qh', Base: 'qb' }[a.tier] || 'qb';
+  const tbg = TBG[tc], tfg = TFG[tc];
+  const SN = { M: 'Morning', E: 'Evening', N: 'Night' };
+  const shift = SN[a.shift] || a.shift || '';
+  const meta = [shift, a.days ? a.days + 'd' : ''].filter(Boolean).join(' · ');
+  const ac = col(a.avg), ic = col(a.itComp);
+  const itSub = a.nonit > 0 ? (a.it + 'h IT + ' + a.nonit + 'h Non-IT = ' + a.total + 'h') : (a.it + 'h IT');
+  const itGoal = a.days > 0 ? (' (' + a.days + 'd × ' + (a.goal / a.days).toFixed(1) + 'h)') : '';
+  const itBar = a.goal > 0 ? Math.min(a.total / a.goal * 100, 100) : 0;
+
+  // Build process detail — tiered WPI layout
+  let procHtml = '';
+  const TIER_COL = { P1: '#0e7490', P2: '#7c3aed', P3: '#b45309' };
+  (a.tiers || []).forEach(t => {
+    const tcol = TIER_COL[t.key] || '#475569';
+    const bw = Math.min(t.pct / 2, 100);
+    // Per-process rows in the same short format as everything else:
+    //   NAME: qty ÷ target = pct% · time · rate/hr
+    const rows = t.procs.map(d => {
+      const tiny = d.qty <= 3 && d.qty > 0 && d.pct > 150 ? ' <b style="color:#d97706;font-size:10px">⚠ tiny vol</b>' : '';
+      const zn = d.qty === 0 ? ' <span style="color:#d97706;font-size:10px">(0 units — not in WPI)</span>' : '';
+      return '<div style="font-size:12px;color:var(--muted);padding:2px 0">'
+        + '<b style="color:var(--fg)">' + shortName(d.proc) + '</b> '
+        + d.qty + ' ÷ ' + d.target.toFixed(1) + ' = <b style="color:' + col(d.pct) + '">' + d.pct + '%</b>'
+        + ' · ' + d.ts + ' · ' + d.rate + '/hr' + tiny + zn
+        + '</div>';
+    }).join('');
+    // Tier WPI line (only when 2+ active processes — single process IS the tier %)
+    const activeN = t.procs.filter(p => p.qty > 0).length;
+    const tierWpiLine = activeN > 1
+      ? '<div style="font-size:11px;color:#0369a1;margin-top:3px;font-family:monospace;font-weight:700">'
+        + t.key + ' WPI · ' + t.volLabel + ' = <b style="color:' + col(t.pct) + '">' + t.pct + '%</b></div>'
+      : '';
+    procHtml += '<div style="margin-bottom:14px">'
+      + '<table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:5px"><tr>'
+      + '<td style="font-size:13px;font-weight:700;color:var(--fg)">'
+      + '<span style="font-size:9px;background:' + tcol + ';color:#fff;padding:2px 6px;border-radius:4px;font-weight:800;margin-right:6px">' + t.key + ' · ' + Math.round(t.weight * 100) + '%</span>'
+      + t.label + '</td>'
+      + '<td align="right" style="font-size:17px;font-weight:900;color:' + col(t.pct) + '">' + t.pct + '%</td>'
+      + '</tr></table>'
+      + '<div class="proc-bar-track"><div class="proc-bar-fill ' + colFill(t.pct) + '" style="width:' + bw.toFixed(1) + '%"></div></div>'
+      + rows
+      + tierWpiLine
+      + '</div>';
+  });
+  // Overall WPI formula
+  if (a.wpiFormula) {
+    procHtml += '<div style="background:rgba(8,145,178,.06);border:1px solid rgba(8,145,178,.15);border-radius:8px;padding:8px 12px;margin-top:4px">'
+      + '<div style="font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.7px;color:#0e7490;margin-bottom:3px">Overall WPI · priority-weighted</div>'
+      + '<div style="font-size:11.5px;font-family:monospace;font-weight:700;color:#0369a1">' + a.wpiFormula + '</div>'
+      + '</div>';
+  }
+
+  // Tier / pay badge for header
+  let badge;
+  if (a.qualifies) {
+    badge = '<span style="display:inline-block;font-size:10px;font-weight:800;padding:3px 9px;border-radius:20px;background:' + tbg + ';color:' + tfg + '">◆ ' + a.tier + '</span>'
+      + '<br><span style="font-size:24px;font-weight:900;color:var(--fg)">$' + a.pay + '</span>'
+      + '<span style="font-size:10px;color:var(--muted)">/wk</span>';
+  } else {
+    badge = '<span style="display:inline-block;font-size:10px;font-weight:800;padding:3px 9px;border-radius:20px;background:#f1f5f9;color:#94a3b8">— No bonus</span>';
+  }
+
+  document.getElementById('dp').innerHTML =
+    '<button id="dm-close" onclick="closeDet()" style="position:absolute;top:14px;right:14px;background:#f1f5f9;border:none;color:#334155;font-size:16px;width:30px;height:30px;border-radius:8px;cursor:pointer;line-height:30px">✕</button>'
+    // Header: name left, tier+pay right
+    + '<table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:14px"><tr>'
+    + '<td valign="top" style="padding-right:10px">'
+    + '<div style="font-size:17px;font-weight:800;color:var(--fg)">' + a.name + '</div>'
+    + '<div style="font-size:12px;color:var(--muted);margin-top:3px">' + meta + '</div>'
+    + '</td>'
+    + '<td valign="top" align="right" style="white-space:nowrap;width:36%">' + badge + '</td>'
+    + '</tr></table>'
+    // Processes section (tiered WPI)
+    + '<div style="border-top:1px solid rgba(8,145,178,.15);margin-bottom:14px"></div>'
+    + '<div style="font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:#0e7490;margin-bottom:10px">📊 Returns Processes · Priority WPI</div>'
+    + (procHtml || '<div style="font-size:13px;color:var(--muted);font-style:italic">No scored process data.</div>')
+    // IT section
+    + '<div style="border-top:1px solid rgba(8,145,178,.15);margin:14px 0"></div>'
+    + '<div style="font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:#0e7490;margin-bottom:8px">🕐 IT Compliance</div>'
+    + '<div style="font-size:12px;color:var(--muted);margin-bottom:5px">' + itSub + '</div>'
+    + '<div class="proc-bar-track"><div class="proc-bar-fill ' + colFill(a.itComp) + '" style="width:' + itBar.toFixed(1) + '%"></div></div>'
+    + '<div style="font-size:11px;color:#64748b;margin-bottom:6px">Goal: ' + a.goal + 'h' + itGoal + '</div>'
+    + '<table width="100%" cellpadding="0" cellspacing="0"><tr>'
+    + '<td style="font-size:13px;color:var(--muted)">IT Compliance</td>'
+    + '<td align="right" style="font-size:22px;font-weight:900;color:' + ic + '">' + a.itComp + '%</td>'
+    + '</tr></table>'
+    // Eligibility gate summary
+    + '<div style="border-top:1px solid rgba(8,145,178,.15);margin:14px 0 10px"></div>'
+    + '<div style="font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:#0e7490;margin-bottom:8px">✅ Bonus Eligibility</div>'
+    + '<table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:10px">'
+    + '<tr><td style="font-size:12px;color:var(--muted);padding:2px 0">' + (a.days>=4?'✔':'✘') + ' Days worked</td>'
+    + '<td align="right" style="font-size:12px;font-weight:700;color:' + (a.days>=4?'#059669':'#dc2626') + '">' + a.days + 'd (min 4)</td></tr>'
+    + '<tr><td style="font-size:12px;color:var(--muted);padding:2px 0">' + (a.hrsOk?'✔':'✘') + ' Hours (IT+NonIT)</td>'
+    + '<td align="right" style="font-size:12px;font-weight:700;color:' + (a.hrsOk?'#059669':'#dc2626') + '">' + a.total + 'h / ' + (a.hrsReq||24) + 'h req</td></tr>'
+    + '<tr><td style="font-size:12px;color:var(--muted);padding:2px 0">' + (a.avg>=100?'✔':'✘') + ' WPI Score</td>'
+    + '<td align="right" style="font-size:12px;font-weight:700;color:' + (a.avg>=100?'#059669':'#dc2626') + '">' + a.avg + '% (≥100%)</td></tr>'
+    + '</table>'
+    // Avg
+    + '<div style="border-top:1px solid rgba(8,145,178,.15);margin:10px 0"></div>'
+    + '<table width="100%" cellpadding="0" cellspacing="0"><tr>'
+    + '<td style="font-size:13px;font-weight:700;color:var(--muted)">WPI Score (priority-weighted)</td>'
+    + '<td align="right" style="font-size:28px;font-weight:900;color:' + ac + '">' + a.avg + '%</td>'
+    + '</tr></table>';
+
+  document.getElementById('dm').style.display = 'block';
+  document.body.style.overflow = 'hidden';
+  } catch(err) {
+    document.getElementById('dp').innerHTML =
+      '<button onclick="closeDet()" style="position:absolute;top:14px;right:14px;background:#f1f5f9;border:none;color:#334155;font-size:16px;width:30px;height:30px;border-radius:8px;cursor:pointer">✕</button>'
+      + '<div style="font-size:14px;font-weight:700;color:#dc2626;padding:20px 0">Could not render details: ' + (err && err.message ? err.message : 'unknown') + '</div>';
+    document.getElementById('dm').style.display = 'block';
+  }
+}
+
+function closeDet() {
+  document.getElementById('dm').style.display = 'none';
+  document.body.style.overflow = '';
+}
+
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeDet(); });
+
+// ═══════════════════════════════════════════════════
+// DOWNLOAD BAKED HTML
+// ═══════════════════════════════════════════════════
+function downloadHTML() {
+  if (!weeks.length) { alert('No data to download yet. Upload at least one week first.'); return; }
+  const bakedWeeks = weeks.map(w => ({
+    dateFrom: w.dateFrom,
+    filename: w.filename,
+    csvText: w.csvText,
+  }));
+
+  const src = document.documentElement.outerHTML;
+  // Inject baked data + auto-init script before </body>
+  const injection = `
+<script>
+(function(){
+  var BAKED = ${JSON.stringify(bakedWeeks)};
+  if(typeof weeks === 'undefined') return;
+  BAKED.forEach(function(b){
+    try{
+      var raw = parseCSV(b.csvText);
+      var allScored = raw.map(scoreAssociate).filter(Boolean);
+      var qualifiers = allScored.filter(function(a){return a.qualifies;});
+      weeks.push({id:Date.now()+Math.random(),dateFrom:b.dateFrom,filename:b.filename,
+        csvText:b.csvText,scored:qualifiers,qualifiers:qualifiers,
+        totalPay:qualifiers.reduce(function(s,a){return s+a.pay;},0)});
+    }catch(e){}
+  });
+  weeks.sort(function(a,b){return new Date(a.dateFrom)-new Date(b.dateFrom);});
+  selIdx=Math.max(0,weeks.length-1);
+  render();
+})();
+<\/script>`;
+
+  const baked = src.replace('</body>', injection + '</body>');
+  const blob = new Blob([baked], { type: 'text/html' });
+  const a = Object.assign(document.createElement('a'), {
+    href: URL.createObjectURL(blob),
+    download: `WH_Returns_Bonus_Hub_${new Date().toISOString().slice(0,10)}.html`,
+  });
+  a.click(); URL.revokeObjectURL(a.href);
+}
+
+// ═══════════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════════
+loadFromLS();
+render();
+window.__weeks=function(){return weeks;};
+</script>
+</body>
+</html>
