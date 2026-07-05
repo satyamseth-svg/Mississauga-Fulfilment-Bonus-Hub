@@ -2,866 +2,1215 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Returns Team — Weekly Bonus Hub | Mississauga Warehouse</title>
-<meta name="description" content="Weekly bonus tracking for the Mississauga Returns team — priority-tiered WPI scoring, IT compliance, and payout history.">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Mississauga Fulfilment — Weekly Bonus Hub</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
-/* ─── Root ─────────────────────────────────────────── */
+
 :root{
-  --bg:#f0f2f5;--card:#fff;--bdr:#e2e8f0;
-  --fg:#0f172a;--muted:#64748b;
-  --accent:#0891b2;--accentl:rgba(8,145,178,.1);
-  --ph:#059669;--pw:#d97706;--pl:#dc2626;
-  --nav:#134e5e;
+  --pr:#2563eb;--pr-d:#1d4ed8;--ok:#059669;--warn:#d97706;--bad:#dc2626;
+  --bg:#f0f2f5;--card:#fff;--inner:#f8fafc;--bdr:#e2e8f0;
+  --txt:#0f172a;--muted:#64748b;--muted2:#94a3b8;
 }
 *{box-sizing:border-box;margin:0;padding:0}
-body{background:var(--bg);color:var(--fg);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;min-height:100vh}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--txt);min-height:100vh;-webkit-print-color-adjust:exact;print-color-adjust:exact}
 
-/* ─── Navbar ─────────────────────────────────────── */
-.nav{background:linear-gradient(135deg,#134e5e,#0e7490);padding:0 24px;height:56px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:200;box-shadow:0 2px 10px rgba(0,0,0,.15)}
-.nav-brand{display:flex;align-items:center;gap:10px}
-.nav-icon{font-size:22px}
-.nav-title{font-size:14px;font-weight:800;color:#fff}
-.nav-sub{font-size:10px;color:rgba(255,255,255,.7);font-weight:500}
-.nav-btns{display:flex;gap:8px}
-.nbtn{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);color:#fff;padding:6px 14px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;transition:.15s}
-.nbtn:hover{background:rgba(255,255,255,.28)}
-.nbtn.danger{background:rgba(239,68,68,.1);border-color:rgba(239,68,68,.3);color:#fca5a5}
-.nbtn.danger:hover{background:rgba(239,68,68,.2)}
+/* ── TOPNAV ── */
+.nav{display:flex;align-items:center;background:linear-gradient(135deg,#1e3a5f,#1e40af);padding:0 24px;height:58px;gap:10px;position:sticky;top:0;z-index:200;box-shadow:0 2px 10px rgba(0,0,0,.25)}
+.nav-brand{display:flex;align-items:center;gap:10px;margin-right:auto}
+.nav-logo{font-size:24px}
+.nav-title{font-size:15px;font-weight:800;color:#fff}
+.nav-sub{font-size:10px;color:#93c5fd;font-weight:600;margin-top:1px}
+.nbtn{display:inline-flex;align-items:center;gap:5px;padding:7px 13px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;border:1.5px solid rgba(255,255,255,.2);background:rgba(255,255,255,.08);color:rgba(255,255,255,.9);font-family:'Inter',sans-serif;white-space:nowrap;transition:all .15s}
+.nbtn:hover{background:rgba(255,255,255,.18);border-color:rgba(255,255,255,.4)}
+.nbtn.green{background:rgba(16,185,129,.2);border-color:rgba(16,185,129,.5);color:#6ee7b7}
+.nbtn.green:hover{background:rgba(16,185,129,.35)}
+.nbtn.violet{background:rgba(139,92,246,.35);border-color:rgba(139,92,246,.6);color:#c4b5fd}
+.nbtn.teal{background:rgba(6,182,212,.25);border-color:rgba(6,182,212,.5);color:#67e8f9}
+.nbtn.teal:hover{background:rgba(6,182,212,.4)}
 
-/* ─── Bench bar ──────────────────────────────────── */
-.bench-bar{background:#fff;border-bottom:1px solid var(--bdr);padding:8px 24px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;font-size:12px;font-weight:600;color:var(--fg);box-shadow:0 1px 3px rgba(0,0,0,.05)}
-.bench-lbl{font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.7px;color:var(--muted);margin-right:4px}
-.bp{background:#0e7490;color:#fff;padding:2px 8px;border-radius:6px;font-size:10.5px;font-weight:800}
-.bp.wpi-tag{background:#7c3aed;color:#fff}
+/* ── MAIN ── */
+.main{padding:22px 24px 80px;max-width:1500px;margin:0 auto}
 
-/* ─── Upload zone ────────────────────────────────── */
-.upload-wrap{padding:24px}
-.upload-zone{border:2px dashed #94c5d1;border-radius:16px;padding:44px 24px;text-align:center;cursor:pointer;background:#fff;transition:border-color .2s,background .2s}
-.upload-zone:hover,.upload-zone.drag{border-color:#0e7490;background:rgba(8,145,178,.04)}
-.upload-icon{font-size:44px;margin-bottom:14px}
-.upload-title{font-size:17px;font-weight:800;color:var(--fg);margin-bottom:6px}
-.upload-sub{font-size:13px;color:var(--muted);margin-bottom:16px}
-.upload-hint{font-size:11px;color:var(--muted);opacity:.7;margin-top:6px}
+/* ── OVERVIEW ── */
+.ov-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:22px}
+.ov{background:var(--card);border-radius:14px;border:1px solid var(--bdr);padding:16px 20px;position:relative;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.04)}
+.ov::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--a),var(--b))}
+.ov-lbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);margin-bottom:6px}
+.ov-val{font-size:26px;font-weight:900;letter-spacing:-1px;font-family:'Space Mono',monospace}
+.ov-sub{font-size:11px;color:var(--muted);margin-top:5px}
 
-/* ─── Main content ───────────────────────────────── */
-.main{padding:20px 24px 48px}
+/* ── CHART ── */
+.chart-card{background:var(--card);border-radius:16px;border:1px solid var(--bdr);padding:22px 24px;margin-bottom:20px;box-shadow:0 1px 4px rgba(0,0,0,.04)}
+.chart-hdr{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:20px}
+.chart-lbl{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--muted)}
+.chart-total{font-size:22px;font-weight:900;color:var(--txt);margin-top:3px;font-family:'Space Mono',monospace}
+.bars-area{display:flex;align-items:flex-end;gap:8px;height:180px;padding-left:44px;position:relative}
+.glines{position:absolute;inset:0;left:44px;pointer-events:none}
+.gl{position:absolute;left:0;right:0;border-top:1px dashed #f3f4f6}
+.gl-lbl{font-size:9.5px;color:#d1d5db;position:absolute;left:-42px;transform:translateY(-50%);white-space:nowrap}
+.bar-col{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;cursor:pointer}
+.bar-col:hover .bar-rect{filter:brightness(.88)}
+.bar-col.sel .bar-rect{background:linear-gradient(180deg,#1d4ed8,#1e3a5f)!important}
+.bar-top{font-size:11px;font-weight:800;color:var(--txt);margin-bottom:4px;font-family:'Space Mono',monospace}
+.bar-rect{width:75%;max-width:56px;border-radius:6px 6px 0 0;background:linear-gradient(180deg,#60a5fa,#2563eb);transition:all .18s;min-height:3px}
+.bar-btm{margin-top:8px;text-align:center}
+.bar-lbl{font-size:10px;font-weight:700;color:var(--muted);line-height:1.35}
+.bar-elig{font-size:9px;color:var(--muted2);margin-top:1px}
 
-/* Week pills */
-.pills-row{display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap}
-.wpill{background:var(--card);border:1px solid var(--bdr);border-radius:10px;padding:8px 14px;cursor:pointer;transition:border-color .15s,box-shadow .15s;min-width:90px;box-shadow:0 1px 3px rgba(0,0,0,.04)}
-.wpill.sel{border-color:#0e7490;background:rgba(8,145,178,.06);box-shadow:0 0 0 1px #0e7490}
-.wpill:hover:not(.sel){border-color:#94c5d1}
-.wpill-label{font-size:12px;font-weight:800;color:var(--fg)}
-.wpill-ct{font-size:10px;color:var(--muted);margin-top:2px}
-.wpill-conf{font-size:9px;color:var(--accent)}
+/* ── PILLS ── */
+.pills-row{display:flex;gap:8px;overflow-x:auto;margin-bottom:22px;padding-bottom:2px;scrollbar-width:thin}
+.wpill{flex-shrink:0;min-width:130px;background:var(--card);border:1.5px solid var(--bdr);border-radius:12px;padding:10px 14px;cursor:pointer;transition:all .15s}
+.wpill:hover{border-color:#3b82f6;background:#eff6ff}
+.wpill.active{border-color:var(--pr);background:#eff6ff;box-shadow:0 0 0 3px rgba(37,99,235,.1)}
+.wpill-lbl{font-size:10.5px;font-weight:700;color:var(--txt);white-space:nowrap}
+.wpill-pay{font-size:17px;font-weight:900;color:var(--ok);margin:3px 0;font-family:'Space Mono',monospace}
+.wpill-ct{font-size:10px;color:var(--muted);font-weight:500}
 
-/* Week header */
-.wk-hd{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:16px;flex-wrap:wrap;gap:8px}
-.wk-title{font-size:17px;font-weight:800;color:var(--fg)}
-.wk-meta{font-size:13px;color:#0e7490;font-weight:700}
+/* ── SECTION ── */
+.sec-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.sec-title{font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:var(--muted)}
 
-/* Bonus banner */
-.bb{background:linear-gradient(135deg,#0f2b36,#134e5e);border-radius:16px;padding:16px 20px;margin-bottom:20px;box-shadow:0 4px 16px rgba(0,0,0,.12)}
-.bb-head{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.8px;color:#7dd3fc;margin-bottom:12px}
-.bb-people{display:flex;gap:10px;flex-wrap:wrap}
-.bb-card{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);border-radius:10px;padding:10px 14px;min-width:150px}
-.bb-name{font-size:13px;font-weight:800;color:#fff;margin-bottom:2px}
-.bb-info{font-size:11px;color:rgba(255,255,255,.65)}
-.bb-badges{display:flex;align-items:center;gap:6px;margin-top:6px}
-.bb-tier{font-size:10px;font-weight:800;padding:2px 8px;border-radius:12px}
-.bb-tier.qe{background:#78350f;color:#fbbf24}
-.bb-tier.qh{background:#1e1b4b;color:#a5b4fc}
-.bb-tier.qb{background:#064e3b;color:#6ee7b7}
-.bb-pay{font-size:15px;font-weight:900;color:#34d399}
-.bb-none{font-size:13px;color:rgba(255,255,255,.6);font-style:italic;padding:8px}
-.bb-total{font-size:13px;font-weight:700;color:#7dd3fc;margin-top:10px;padding-top:10px;border-top:1px solid rgba(255,255,255,.12)}
+/* ── BONUS BANNER ── */
+.bonus-banner{background:linear-gradient(135deg,#1e293b,#0f172a);border-radius:16px;padding:18px 22px;border:2px solid #334155;margin-bottom:20px}
+.bb-title{font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted2);margin-bottom:12px}
+.bb-grid{display:flex;gap:10px;flex-wrap:wrap}
+.bb-person{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.05);border:1.5px solid rgba(255,255,255,.1);border-radius:12px;padding:8px 14px;min-width:180px;flex:1}
+.bb-name{font-weight:900;font-size:13px;color:#f8fafc;flex:1}
+.bb-meta{font-size:10px;color:var(--muted2);margin-top:1px}
+.bb-badge{padding:2px 9px;border-radius:20px;font-size:9.5px;font-weight:900;text-transform:uppercase}
+.bb-e{background:#fef9c3;color:#854d0e;border:1.5px solid #fde047}
+.bb-h{background:#dbeafe;color:#1e40af;border:1.5px solid #93c5fd}
+.bb-b{background:#f0fdf4;color:#166534;border:1.5px solid #86efac}
+.bb-pay{font-size:14px;font-weight:900;color:#34d399;font-family:'Space Mono',monospace}
+.bb-none{color:var(--muted2);font-size:13px;text-align:center;padding:16px 0}
 
-/* Cards grid */
-#cards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px}
-@media(max-width:600px){#cards-grid{grid-template-columns:1fr}}
+/* ── BENCH BAR ── */
+.bench-bar{background:var(--card);padding:10px 18px;border-radius:12px;display:flex;justify-content:center;flex-wrap:wrap;gap:18px;font-size:11.5px;font-weight:700;border:1px solid var(--bdr);margin-bottom:20px;color:var(--muted)}
+.bp{color:#fff;background:var(--pr);padding:2px 9px;border-radius:7px;margin-left:5px;font-family:'Space Mono',monospace;font-size:11px}
 
-/* Empty */
-.empty{grid-column:1/-1;text-align:center;padding:56px 20px;color:var(--muted);font-size:15px;font-weight:600;background:var(--card);border-radius:16px;border:2px dashed var(--bdr)}
+/* ── CARDS ── */
+.cards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(400px,1fr));gap:12px}
+.acard{background:var(--card);border-radius:14px;padding:16px;border:2px solid var(--bdr);position:relative;cursor:pointer;transition:all .18s;box-shadow:0 1px 4px rgba(0,0,0,.04)}
+.acard:hover,.acard.pin{border-color:var(--pr);transform:translateY(-2px);box-shadow:0 8px 20px rgba(37,99,235,.1);z-index:50}
+.acard.pin{border-color:var(--ok)}
+.acard.qual{background:#f0f7ff;border-color:rgba(37,99,235,.3)}
+.ac-name{font-size:13px;font-weight:800;display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+.ac-role{font-size:9px;font-weight:700;text-transform:uppercase;color:var(--pr);background:#dbeafe;padding:2px 6px;border-radius:20px;border:1px solid #93c5fd}
+.tb{display:inline-flex;align-items:center;gap:3px;padding:2px 8px;border-radius:20px;font-size:9.5px;font-weight:800;text-transform:uppercase;margin:4px 0 8px}
+.tb-e{background:#fef9c3;color:#854d0e;border:1.5px solid #fde047}
+.tb-h{background:#dbeafe;color:#1e40af;border:1.5px solid #93c5fd}
+.tb-b{background:#f0fdf4;color:#166534;border:1.5px solid #86efac}
+.pr-row{display:flex;justify-content:space-between;margin-top:6px;font-size:12px;font-weight:600;color:var(--muted);align-items:center}
+.pr-pct{font-family:'Space Mono',monospace;font-size:12px;font-weight:800;padding:1px 6px;border-radius:5px;background:var(--inner);border:1px solid var(--bdr)}
+.ph{color:var(--ok)!important}.pw{color:var(--warn)!important}.pl{color:var(--bad)!important}
+.avg-row{margin-top:8px;padding-top:6px;border-top:1px dashed var(--bdr);display:flex;justify-content:space-between;font-size:12px;font-weight:800;color:var(--muted)}
+.it-blk{margin-top:10px;padding-top:8px;border-top:1px dashed var(--bdr)}
+.it-hd{display:flex;justify-content:space-between;font-size:10px;font-weight:700;color:var(--muted);margin-bottom:4px}
+.it-pct-lbl{font-family:'Space Mono',monospace;color:var(--pr);font-weight:900}
+.it-trk{height:8px;background:var(--bdr);border-radius:50px;overflow:hidden;display:flex}
+.s-it{height:100%;background:linear-gradient(90deg,#3b82f6,#1d4ed8)}
+.s-ni{height:100%;background:linear-gradient(90deg,#fb923c,#ea580c)}
+.s-it.only{border-radius:50px}.s-it.wn{border-radius:50px 0 0 50px}.s-ni.lst{border-radius:0 50px 50px 0}
+.it-trk.done .s-it{background:linear-gradient(90deg,#10b981,#059669)}
+.it-trk.done .s-ni{background:linear-gradient(90deg,#34d399,#059669)}
+.it-sub{font-size:10px;color:var(--muted);font-family:'Space Mono',monospace;margin-top:4px;display:flex;justify-content:space-between}
+.ni-lbl{color:#ea580c;font-weight:700}
 
-/* ─── Modal ──────────────────────────────────────── */
-#dm{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.82);z-index:99999;overflow-y:auto;padding:20px}
-#dp{background:#fff;border-radius:20px;max-width:580px;margin:auto;padding:26px;position:relative;box-shadow:0 20px 60px rgba(0,0,0,.3)}
-#dm-close{position:absolute;top:14px;right:14px;background:#f1f5f9;border:none;color:#334155;font-size:16px;width:30px;height:30px;border-radius:8px;cursor:pointer;line-height:30px}
-#dm-close:hover{background:#e2e8f0}
+/* ── TOOLTIP ── */
+.tt{display:none;position:absolute;bottom:105%;left:50%;transform:translateX(-50%);width:370px;background:#1e293b;color:#fff;padding:18px;border-radius:14px;box-shadow:0 20px 40px rgba(0,0,0,.45);border:3px solid var(--pr);z-index:999}
+.acard:hover .tt,.acard.pin .tt{display:block;animation:fi .15s ease-out}
+.acard.pin .tt{border-color:var(--ok)}
+.tt::after{content:'';position:absolute;top:100%;left:50%;margin-left:-9px;border:9px solid transparent;border-top-color:var(--pr)}
+.acard.pin .tt::after{border-top-color:var(--ok)}
+@keyframes fi{from{opacity:0;transform:translate(-50%,8px)}to{opacity:1;transform:translate(-50%,0)}}
+.tt-name{font-size:15px;font-weight:900;margin-bottom:9px;text-align:center}
+.tt-meta{display:flex;flex-direction:column;gap:4px;font-size:11px;color:#cbd5e1;background:rgba(255,255,255,.05);padding:9px;border-radius:8px;margin-bottom:12px}
+.tt-meta .r{display:flex;justify-content:space-between}
+.tt-meta .r span:last-child{color:#fff;font-weight:700}
+.tt-pr{display:flex;justify-content:space-between;font-size:12px;color:#f8fafc;margin-bottom:6px;align-items:center;border-bottom:1px dashed rgba(255,255,255,.12);padding-bottom:4px;font-weight:600}
+.tt-pr .v{font-weight:800;font-family:'Space Mono',monospace}
+.tt-pr-sub{font-size:9.5px;color:#94a3b8;margin:-4px 0 6px;font-family:'Space Mono',monospace}
+.tt-avg{display:flex;justify-content:space-between;font-size:13px;font-weight:900;color:#f8fafc;padding:5px 0 10px;border-top:2px dashed rgba(255,255,255,.15);margin-top:2px}
+.tt-box{margin-top:10px;padding:9px 11px;border-radius:9px;border:1.5px solid rgba(255,255,255,.12);background:rgba(255,255,255,.06)}
+.tt-box-title{font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:#94a3b8;margin-bottom:5px}
+.tt-bc{display:flex;justify-content:space-between;font-size:10px;padding:2px 0;font-weight:700}
+.tt-bc.ok{color:#34d399}.tt-bc.fail{color:#f87171}
+.tt-qual{color:#34d399;font-size:11px;font-weight:800;margin-top:5px;text-align:center;padding:4px;background:rgba(52,211,153,.12);border-radius:6px}
+.tt-no{color:#f87171;font-size:10px;font-weight:700;margin-top:5px;text-align:center}
+.tt-it{margin-top:10px;padding-top:8px;border-top:2px dashed rgba(255,255,255,.12)}
+.tt-it-row{display:flex;justify-content:space-between;font-size:10px;color:#94a3b8;margin-bottom:4px;font-weight:600}
+.tt-it-trk{height:7px;background:rgba(255,255,255,.1);border-radius:50px;overflow:hidden;display:flex}
+.ts-it{height:100%;background:linear-gradient(90deg,#3b82f6,#1d4ed8)}
+.ts-ni{height:100%;background:linear-gradient(90deg,#fb923c,#ea580c)}
+.ts-it.only{border-radius:50px}.ts-it.wn{border-radius:50px 0 0 50px}.ts-ni.lst{border-radius:0 50px 50px 0}
+.tt-it-trk.done .ts-it{background:linear-gradient(90deg,#10b981,#059669)}
+.tt-it-sub{font-size:9.5px;color:#94a3b8;margin-top:3px;font-family:'Space Mono',monospace;display:flex;justify-content:space-between}
 
-/* ─── Suggestions section ────────────────────────── */
-.sug-wrap{margin-top:32px;background:#fff;border:1px solid var(--bdr);border-radius:16px;padding:22px 24px;box-shadow:0 1px 4px rgba(0,0,0,.05)}
-.sug-hd{font-size:14px;font-weight:800;color:var(--fg);margin-bottom:4px}
-.sug-sub{font-size:12px;color:var(--muted);margin-bottom:16px}
-.sug-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px}
-.sug-item{background:#f8fafc;border-radius:10px;border:1px solid var(--bdr);padding:14px;display:flex;gap:10px}
-.sug-ic{font-size:20px;flex-shrink:0}
-.sug-name{font-size:12px;font-weight:800;color:var(--fg);margin-bottom:3px}
-.sug-desc{font-size:11px;color:var(--muted);line-height:1.5}
+/* ── LEADERBOARD ── */
+.lb-wrap{background:var(--card);border-radius:14px;border:1px solid var(--bdr);overflow:hidden;margin-bottom:20px}
+.lb-hdr{display:grid;grid-template-columns:36px 1fr 90px 80px 80px 80px;gap:0;padding:9px 16px;background:#f9fafb;border-bottom:2px solid var(--bdr);font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--muted)}
+.lb-row{display:grid;grid-template-columns:36px 1fr 90px 80px 80px 80px;gap:0;padding:11px 16px;border-bottom:1px solid #f9fafb;align-items:center;transition:background .1s}
+.lb-row:hover{background:#f0f7ff}
+.lb-row:last-child{border-bottom:none}
+.lb-rank{font-size:13px;font-weight:800;color:#d1d5db;text-align:center}
+.lb-rank.g{color:#f59e0b}.lb-rank.s{color:#94a3b8}.lb-rank.br{color:#b45309}
+.lb-name{font-size:13px;font-weight:800;color:var(--txt)}
+.lb-role{font-size:10px;color:var(--muted);margin-top:1px}
+.lb-wks{font-size:12px;font-weight:700;color:var(--txt);font-family:'Space Mono',monospace;text-align:center}
+.lb-tc{display:flex;gap:3px;flex-wrap:wrap;justify-content:center}
+.ltc{padding:1px 5px;border-radius:8px;font-size:9px;font-weight:800}
+.ltce{background:#fef9c3;color:#854d0e;border:1px solid #fde047}
+.ltch{background:#dbeafe;color:#1e40af;border:1px solid #93c5fd}
+.ltcb{background:#f0fdf4;color:#166534;border:1px solid #86efac}
+.lb-avg{font-size:12px;font-weight:700;font-family:'Space Mono',monospace;text-align:right;color:var(--txt)}
+.lb-total{font-size:13px;font-weight:900;color:var(--ok);font-family:'Space Mono',monospace;text-align:right}
+.lb-bar-wrap{padding:0 4px}
+.lb-bar-bg{height:4px;background:#f3f4f6;border-radius:50px;overflow:hidden}
+.lb-bar-fill{height:100%;background:linear-gradient(90deg,var(--pr),#60a5fa);border-radius:50px}
+.lb-footer{display:grid;grid-template-columns:36px 1fr 90px 80px 80px 80px;gap:0;padding:9px 16px;background:#eff6ff;border-top:2px solid #bfdbfe;font-size:11px;font-weight:800;color:var(--pr)}
 
-/* ─── Process status bar (modal) ─────────────────── */
-.proc-bar-track{height:7px;background:#e2e8f0;border-radius:4px;overflow:hidden;margin:5px 0 7px}
-.proc-bar-fill{height:100%;border-radius:4px}
-.ph-fill{background:linear-gradient(90deg,#059669,#34d399)}
-.pw-fill{background:linear-gradient(90deg,#d97706,#fbbf24)}
-.pl-fill{background:linear-gradient(90deg,#dc2626,#f87171)}
+/* ── MODAL ── */
+.moverlay{display:none;position:fixed;inset:0;background:rgba(15,23,42,.55);z-index:300;align-items:center;justify-content:center;padding:20px}
+.moverlay.show{display:flex}
+.modal{background:var(--card);border-radius:18px;padding:28px;width:100%;max-width:520px;box-shadow:0 24px 80px rgba(0,0,0,.2)}
+.m-title{font-size:16px;font-weight:900;margin-bottom:3px}
+.m-sub{font-size:12px;color:var(--muted);margin-bottom:16px;line-height:1.55}
+.m-hint{background:#f0f9ff;border:1px solid #bae6fd;border-radius:10px;padding:10px 13px;font-size:11px;color:#0369a1;font-weight:600;margin-bottom:14px;line-height:1.75}
+.m-hint code{background:#e0f2fe;padding:1px 5px;border-radius:4px;font-family:'Space Mono',monospace;font-size:10px}
+.m-row{display:flex;gap:10px;margin-bottom:10px}
+.m-field{flex:1}
+.m-field label{display:block;font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.4px;margin-bottom:4px}
+.m-field input{width:100%;padding:8px 11px;border:1.5px solid var(--bdr);border-radius:8px;font-size:13px;font-family:'Space Mono',monospace;color:var(--txt)}
+.m-field input:focus{outline:none;border-color:var(--pr)}
+.dz{border:2px dashed #d1d5db;border-radius:10px;padding:24px 20px;text-align:center;cursor:pointer;background:var(--inner);transition:all .2s;position:relative;margin-bottom:10px}
+.dz:hover,.dz.hover{border-color:var(--pr);background:#eff6ff}
+.dz input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+.dz.ok{border-color:var(--ok);background:#f0fdf4}
+.dz-icon{font-size:26px;margin-bottom:5px}
+.dz-lbl{font-size:13px;font-weight:700;color:var(--pr)}
+.dz.ok .dz-lbl{color:var(--ok)}
+.dz-sub{font-size:11px;color:var(--muted);margin-top:3px}
+.dz-fn{font-size:11px;color:var(--ok);font-weight:700;margin-top:4px;font-family:'Space Mono',monospace}
+.merr{background:#fef2f2;border-left:4px solid var(--bad);border-radius:6px;padding:8px 12px;font-size:12px;color:#991b1b;font-weight:700;margin-bottom:8px;display:none}
+.merr.show{display:block}
+.m-btns{display:flex;justify-content:flex-end;gap:8px;margin-top:6px}
+.m-cancel{padding:8px 16px;border:1.5px solid var(--bdr);border-radius:8px;background:var(--card);font-size:12px;font-weight:700;cursor:pointer;color:var(--txt);font-family:'Inter',sans-serif}
+.m-cancel:hover{background:var(--inner)}
+.m-add{padding:8px 18px;border:none;border-radius:8px;background:var(--pr);color:#fff;font-size:12px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif}
+.m-add:hover:not(:disabled){background:var(--pr-d)}
+.m-add:disabled{background:#bfdbfe;cursor:not-allowed}
+
+@media(max-width:900px){.ov-grid{grid-template-columns:repeat(2,1fr)}}
+@media print{.nav,.nbtn,.pills-row{display:none!important}.main{padding:0}}
+
+/* Shared-file overrides */
+body{background:var(--bg)}
+.share-nav{display:flex;align-items:center;background:linear-gradient(135deg,#1e3a5f,#1e40af);padding:0 24px;height:58px;gap:12px;position:sticky;top:0;z-index:200;box-shadow:0 2px 10px rgba(0,0,0,.25)}
+.share-nav-brand{display:flex;align-items:center;gap:10px;margin-right:auto}
+.share-nav-logo{font-size:24px}
+.share-nav-title{font-size:15px;font-weight:800;color:#fff}
+.share-nav-sub{font-size:10px;color:#93c5fd;font-weight:600;margin-top:1px}
+.share-nbtn{display:inline-flex;align-items:center;gap:5px;padding:7px 13px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;border:1.5px solid rgba(255,255,255,.2);background:rgba(255,255,255,.08);color:rgba(255,255,255,.9);font-family:'Inter',sans-serif;white-space:nowrap;transition:all .15s}
+.share-nbtn:hover{background:rgba(255,255,255,.18)}
+.share-nbtn.green{background:rgba(16,185,129,.2);border-color:rgba(16,185,129,.5);color:#6ee7b7}
+.share-nbtn.teal{background:rgba(6,182,212,.25);border-color:rgba(6,182,212,.5);color:#67e8f9}
+.share-nbtn.teal:hover{background:rgba(6,182,212,.4)}
 </style>
 </head>
 <body>
-
-<!-- ─── Nav ──────────────────────────────────────── -->
-<nav class="nav">
-  <div class="nav-brand">
-    <span class="nav-icon">📦</span>
+<div class="share-nav">
+  <div class="share-nav-brand">
+    <span class="share-nav-logo">🏭</span>
     <div>
-      <div class="nav-title">Returns Team — Weekly Bonus Hub</div>
-      <div class="nav-sub">Mississauga · Weekly Performance · 9 Weeks Loaded</div>
+      <div class="share-nav-title">Mississauga Fulfilment — Weekly Bonus Hub</div>
+      <div class="share-nav-sub">Weekly Performance · Shared View</div>
     </div>
   </div>
-  <div class="nav-btns">
-    <label class="nbtn" style="cursor:pointer">
-      📤 Upload CSV
-      <input type="file" id="csv-file" accept=".csv" style="display:none" onchange="handleFile(this.files[0])">
-    </label>
-    <button class="nbtn" onclick="downloadHTML()">⬇ Download Hub</button>
-    <button class="nbtn danger" onclick="clearWeeks()" id="clear-btn" style="display:none">🗑 Clear All</button>
-  </div>
-</nav>
-
-<!-- ─── Benchmark bar ─────────────────────────────── -->
-<div class="bench-bar">
-  <span class="bench-lbl">Returns Benchmarks (units / IT hr):</span>
-  <span>Customer Return <span class="bp">12/hr</span></span>
-  <span>Move Cancelled Items <span class="bp wpi-tag">35/hr</span></span>
-  <span>Move Extra Items <span class="bp wpi-tag">35/hr</span></span>
-  <span>Move Sortly Item <span class="bp">120/hr</span></span>
-  <span>Sortly Create Skids <span class="bp">80/hr</span></span>
-  <span style="color:rgba(255,255,255,.25)">|</span>
-  <span>IT Goal <span class="bp">6.5h/day</span></span>
-  <span style="color:rgba(255,255,255,.25)">|</span>
-  <span style="font-size:10.5px;color:var(--muted)"><span style="background:#7c3aed;color:#fff;padding:1px 5px;border-radius:4px;font-weight:700">WPI</span> P1 CR+SCS 50% · P2 MSI 30% · P3 MCI+MEI 20%</span>
-  <span style="color:rgba(255,255,255,.25)">|</span>
-  <span style="font-size:10.5px;color:var(--muted)"><b>Bonus gate:</b> 4d→24h · 5d→30h (IT+NonIT) + WPI≥100%</span>
-  <span style="color:rgba(0,0,0,.15)">|</span>
-  <span style="font-size:10.5px;color:var(--muted)">⭐ Elite ≥130% → <b style="color:#d97706">$125</b></span>
-  <span style="font-size:10.5px;color:var(--muted)">💠 High 110–130% → <b style="color:#a5b4fc">$95</b></span>
-  <span style="font-size:10.5px;color:var(--muted)">✅ Base 100–110% → <b style="color:#6ee7b7">$50</b></span>
+  <button class="share-nbtn teal" onclick="exportBonusCSV()">⬇ Export Bonus CSV</button>
+  <button class="share-nbtn" onclick="window.print()">⎙ Print</button>
 </div>
 
-<!-- ─── Upload zone (shown when no data) ──────────── -->
-<div class="upload-wrap" id="upload-wrap">
-  <div class="upload-zone" id="upload-zone"
-    ondragover="event.preventDefault();this.classList.add('drag')"
-    ondragleave="this.classList.remove('drag')"
-    ondrop="event.preventDefault();this.classList.remove('drag');handleFile(event.dataTransfer.files[0])">
-    <div class="upload-icon">📊</div>
-    <div class="upload-title">Add More Weeks</div>
-    <div class="upload-sub">9 weeks (27 Apr – 28 Jun 2026) are already loaded below. Drop a new CSV here to add more weeks.</div>
-    <div style="font-size:12px;color:var(--accent);margin-top:12px">Accepted: WH_Reporting_-_Report_-_[date].csv</div>
-    <div class="upload-hint">Processes scored: Customer Return · Move Cancelled Items · Move Extra Items · Move Sortly Item · Sortly Create Skids</div>
-  </div>
-</div>
-
-<!-- ─── Main dashboard (shown when data present) ──── -->
-<div class="main" id="main-dash" style="display:none">
-
-  <!-- Week pills -->
+<div class="main" id="main-wrap">
+  <div class="ov-grid" id="ov-grid"></div>
+  <div class="chart-card" id="chart-card"></div>
   <div class="pills-row" id="pills-row"></div>
-
-  <!-- Week header + bonus banner -->
-  <div class="wk-hd">
-    <div class="wk-title" id="wk-title">—</div>
-    <div class="wk-meta" id="wk-meta"></div>
+  <div id="week-detail">
+    <div class="sec-hdr">
+      <div class="sec-title" id="wk-title">Loading…</div>
+      <div style="font-size:13px;font-weight:800;color:var(--ok);font-family:'Space Mono',monospace" id="wk-pay"></div>
+    </div>
+    <div class="bench-bar">
+      <div>Picking <span class="bp">140/hr</span></div>
+      <div>Stowing <span class="bp">65/hr</span></div>
+      <div>Pack S <span class="bp">35/hr (WPI)</span></div>
+      <div>Pack M <span class="bp">25/hr (WPI)</span></div>
+      <div>Pack L <span class="bp">15/hr</span></div>
+      <div>Docking <span class="bp">80/hr</span></div>
+      <div>IT Goal <span class="bp">6.5h/day</span></div>
+      <div>⭐ Elite ≥130% <span class="bp" style="background:#854d0e">$125</span></div>
+      <div>💎 High ≥110% <span class="bp" style="background:#1e40af">$95</span></div>
+      <div>✅ Base ≥100% <span class="bp" style="background:#166634">$50</span></div>
+    </div>
+    <div id="bonus-banner"></div>
+    <div class="sec-hdr"><div class="sec-title">Associates This Week</div></div>
+    <div class="cards-grid" id="cards-grid"></div>
   </div>
-  <div class="bb" id="bonus-banner"></div>
-
-  <!-- Grand total -->
-  <div style="background:rgba(6,182,212,.08);border:1px solid rgba(6,182,212,.2);border-radius:12px;padding:14px 18px;margin-bottom:18px">
-    <table width="100%" cellpadding="0" cellspacing="0"><tr>
-      <td><div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:#0e7490;margin-bottom:4px">Grand Total · 27 Apr – 28 Jun 2026</div>
-          <div style="font-size:26px;font-weight:900;color:var(--fg)">$1,270</div>
-          <div style="font-size:12px;color:var(--muted);margin-top:2px">across 9 weeks · tiered WPI · WPI≥100% + 24h/30h gate</div></td>
-      <td align="right" valign="middle" style="white-space:nowrap">
-        <div style="font-size:11px;color:var(--muted)">Hemant Gupta <b style="color:#059669">$375</b> (3 wks)</div>
-        <div style="font-size:11px;color:var(--muted);margin-top:2px">Pritpal Singh <b style="color:#059669">$895</b> (8 wks)</div>
-      </td>
-    </tr></table>
-  </div>
-
-
-  <!-- Qualifier cards -->
-  <div id="cards-grid"></div>
-
-</div>
-
-<!-- ─── Popup Modal ───────────────────────────────── -->
-<div id="dm" onclick="if(event.target===this)closeDet()">
-  <div id="dp">
-    <button id="dm-close" onclick="closeDet()">✕</button>
-    <!-- populated by openDet() -->
+  <div style="margin-top:28px">
+    <div class="sec-hdr">
+      <div class="sec-title">All-Time Leaderboard</div>
+      <div style="display:flex;gap:6px" id="lb-sort-btns"></div>
+    </div>
+    <div class="lb-wrap" id="lb-wrap"></div>
   </div>
 </div>
 
 <script>
-// ═══════════════════════════════════════════════════
-// CONFIG
-// ═══════════════════════════════════════════════════
+// ── BAKED DATA (all weeks embedded — no server or localStorage needed) ──
+const BAKED_WEEKS = [{"id":1719700000000,"label":"27 Apr – 3 May","dateFrom":"2026-04-27","dateTo":"2026-05-03","savedAt":"2026-06-30T00:00:00.000Z","csvText":"Name,Shift,Role ,Process,Productivity,Productivity %,Productivity Benchmark,IT Hours,Non IT Hours,Total IT Hours,Date of Joining\nAdian Francis,M,Docker,Packing (M),5,117%,4,00:16:00,05:17:00,17:34:00,\"March 23, 2026\"\nDilsher Singh,M,Stower,Packing (S),3,103%,3,00:07:00,00:00:00,02:54:00,\"April 08, 2026\"\n,,,Packing (M),122,132%,92,05:46:00,,,\n,,,Packing (L),32,138%,23,02:35:00,,,\n,,,Picking,350,48%,733,07:20:00,,,\n,,,Stowing,907,68%,1332,11:06:00,,,\nHemant Gupta,M,Returns,Stowing,102,24%,416,03:28:00,24:00:00,01:19:00,\"May 13, 2024\"\nJermaine Stewart,M,Packer,Packing (S),18,50%,36,01:26:00,,17:38:00,\"March 24, 2026\"\n,,,Packing (M),201,78%,259,16:13:00,,,\nJoshua William,M,Picker,Picking,565,35%,1618,16:11:00,00:00:00,21:45:00,\"April 20, 2026\"\nNamrah,M,Supervisor,Picking,72,105%,68,00:41:00,00:00:00,07:40:00,\"June 01, 2022\"\n,,,Stowing,207,31%,674,05:37:00,,,\nNazma Khatoon,M,Stower,Picking,298,68%,442,04:25:00,00:01:00,19:46:00,\"March 04, 2026\"\n,,,Stowing,1377,90%,1522,12:41:00,,,\nPooja Sharma,M,Packer,Packing (S),65,120%,54,02:10:00,00:00:00,06:59:00,\"April 10, 2026\"\n,,,Packing (M),391,121%,323,20:13:00,,,\n,,,Picking,98,53%,185,01:51:00,,,\n,,,Stowing,117,41%,286,02:23:00,,,\nPritpal Singh,M,Returns,Stowing,6,3%,206,01:43:00,28:05:00,22:15:00,\"July 23, 2024\"\nSahilpreet Singh,M,Returns,Picking,72,32%,227,02:16:00,,06:12:00,\"March 16, 2026\"\n,,,Stowing,121,30%,408,03:24:00,,,\nTryston Bennett,M,Packer,Packing (S),14,99%,14,00:34:00,00:00:00,15:30:00,\"April 28, 2026\"\n,,,Packing (M),246,161%,153,09:32:00,,,\n,,,Picking,258,53%,483,04:50:00,,,\nAnil Rajput,E,Stower,Stowing,2371,70%,3386,04:13:00,01:21:00,05:22:00,\"April 13, 2026\"\nBohdana Tkhorovska,E,Packer,Packing (S),135,182%,74,02:58:00,14:57:00,16:16:00,\"August 22, 2024\"\n,,,Packing (M),280,201%,139,08:42:00,,,\n,,,Stowing,170,43%,392,03:16:00,,,\nHenrietta Obomagbaeghian,E,Stower,Packing (M),17,52%,33,02:02:00,00:23:00,08:53:00,\"April 09, 2026\"\n,,,Stowing,1899,51%,3702,06:51:00,,,\nJacob Cabraja,E,Packer,Packing (S),468,154%,305,12:11:00,,22:51:00,\"June 13, 2024\"\n,,,Packing (M),256,153%,167,10:27:00,,,\n,,,Stowing,14,54%,26,00:13:00,,,\nJasjeet Kaur,E,Picker,Packing (M),17,88%,19,01:12:00,00:00:00,21:08:00,\"March 23, 2026\"\n,,,Picking,2271,58%,3888,14:53:00,,,\n,,,Stowing,201,56%,358,02:59:00,,,\nJaskaran Singh,E,Packer,Packing (S),74,127%,58,02:20:00,00:55:00,21:13:00,\"September 25, 2025\"\n,,,Packing (M),410,136%,302,18:53:00,,,\nJonnoy White,E,Large Packer,Packing (S),20,107%,19,00:45:00,00:02:00,03:18:00,\"March 03, 2024\"\n,,,Packing (M),40,167%,24,01:30:00,,,\n,,,Packing (L),317,141%,225,01:03:00,,,\nKulwinder Bajwa,E,PS,Picking,167,45%,372,03:43:00,,04:39:00,\"April 13, 2026\"\n,,,Stowing,1,1%,112,00:56:00,,,\nParamjeet Singh,E,Stower,Packing (L),5,69%,7,00:48:00,02:04:00,06:06:00,\"June 27, 2025\"\n,,,Stowing,2669,80%,3334,03:47:00,,,\nRenjith Raj,E,Large Packer,Packing (S),3,80%,4,00:09:00,,03:49:00,\"April 25, 2026\"\n,,,Packing (M),35,87%,40,02:31:00,,,\n,,,Packing (L),16,155%,10,01:09:00,,,\nRupinder Kaur,E,Supervisor,Packing (S),1,60%,2,00:04:00,00:00:00,16:59:00,\"April 21, 2025\"\n,,,Packing (M),5,89%,6,00:21:00,,,\n,,,Packing (L),57,89%,64,07:07:00,,,\n,,,Picking,62,44%,142,01:25:00,,,\n,,,Stowing,186,44%,422,03:31:00,,,\nSanthosh Joseph,E,Supervisor/Driver,Stowing,1,2%,52,00:26:00,00:59:00,03:58:00,\"April 11, 2026\"\nTanveer Kaur,E,Stower,Stowing,2560,71%,3598,05:59:00,03:53:00,06:13:00,\"March 23, 2026\"\nTarick Arjun,E,Picker,Picking,311,74%,422,04:13:00,14:08:00,14:17:00,\"July 17, 2025\"\n,,,Stowing,530,45%,1182,09:51:00,,,\nAasif Amin,N,Packer,Picking,280,64%,440,04:24:00,00:02:00,14:27:00,\"March 09, 2026\"\n,,,Stowing,446,38%,1164,09:42:00,,,\nBenjo Marco Tua,N,Packer,Packing (S),13,48%,27,01:05:00,00:00:00,07:28:00,\"April 09, 2026\"\n,,,Packing (M),34,78%,44,02:44:00,,,\n,,,Packing (L),254,119%,213,23:41:00,,,\n,,,Picking,180,46%,392,03:55:00,,,\nFroilan Allan Oyco,N,Picker,Picking,1381,41%,3335,09:21:00,00:09:00,09:21:00,\"March 23, 2026\"\nGursewak Singh,N,Picker,Picking,1526,64%,2390,23:54:00,00:01:00,23:54:00,\"April 14, 2026\"\nHamed Kohi,N,Packer,Packing (S),57,62%,91,03:39:00,00:00:00,08:56:00,\"April 22, 2026\"\n,,,Packing (M),431,92%,469,05:17:00,,,\nHarpreet Kaur,N,Packer,Packing (S),441,124%,355,14:12:00,00:00:00,18:36:00,\"March 02, 2026\"\n,,,Packing (M),647,142%,454,04:24:00,,,\nHarwinder Singh,N,Packer/Picker,Packing (S),26,111%,23,00:56:00,16:21:00,19:39:00,\"September 03, 2025\"\n,,,Packing (M),130,160%,81,05:05:00,,,\n,,,Picking,359,90%,400,04:00:00,,,\n,,,Stowing,960,85%,1134,09:27:00,,,\nPuja Mandla,N,Packer,Packing (S),15,164%,9,00:22:00,,05:57:00,\"April 14, 2026\"\n,,,Packing (M),610,129%,473,05:35:00,,,\nRomanvir Singh,N,Packer,Packing (L),88,106%,83,09:15:00,00:00:00,13:57:00,\"April 27, 2026\"\n,,,Picking,125,27%,470,04:42:00,,,\nVandna Saini,N,Packer,Packing (S),39,170%,23,00:55:00,00:00:00,16:34:00,\"April 11, 2025\"\n,,,Packing (M),1345,212%,634,15:39:00,,,\n"},{"id":1719700000001,"label":"4 May – 10 May","dateFrom":"2026-05-04","dateTo":"2026-05-10","savedAt":"2026-06-30T00:00:00.000Z","csvText":"Name,Shift,Role ,Process,Productivity count,Productivity %,Productivity Benchmark,IT Hours,Non IT Hours,Move Items,Total IT Hours,Working days,Date of Joining\nCharanjeet Singh,M,Picker,Stowing,464,58%,806,12:24:00,,,13:15:00,2,26-Apr-26\nDilsher Singh,M,Stower,Packing (S),8,69%,11.7,00:28:00,00:03:00,,25:13:00,4,08-Apr-26\n,,,Packing (M),46,128%,36,02:15:00,,,,,\n,,,Packing (L),8,114%,7,00:47:00,,,,,\n,,,Stowing,1201,94%,1284.8,19:46:00,,,,,\nHemant Gupta,M,Returns,Stowing,9,18%,50.9,00:47:00,15:05:00,,25:48:00,7,13-May-24\nJermaine Stewart,M,Packer,Packing (S),283,80%,351.7,14:04:00,,,28:59:00,5,24-Mar-26\n,,,Packing (M),202,85%,238.7,14:55:00,,,,,\nJoshua William,M,Picker,Picking,358,29%,1246,10:23:00,01:08:00,,10:23:00,3,20-Apr-26\nNamrah,M,Supervisor,Stowing,296,74%,399.8,06:09:00,00:00:00,,07:23:00,5,01-Jun-22\nNazma Khatoon,M,Stower,Packing (S),9,120%,7.5,00:18:00,00:02:00,,25:48:00,5,04-Mar-26\n,,,Packing (M),33,132%,25.1,01:34:00,,,,,\n,,,Picking,74,59%,126,01:03:00,,,,,\n,,,Stowing,1687,118%,1426.8,21:57:00,,,,,\nPooja Sharma,M,Packer,Picking,302,61%,492,04:06:00,00:01:00,,32:35:00,6,10-Apr-26\n,,,Stowing,1175,70%,1667.2,01:39:00,,,,,\nRavneet Kaur,M,-,Packing (S),58,88%,65.8,02:38:00,00:00:00,,18:17:00,2,27-Apr-26\n,,,Packing (M),123,92%,134.1,08:23:00,,,,,\n,,,Stowing,239,51%,468,07:12:00,,,,,\nRupinder Kaur,M,Supervisor,Picking,80,56%,142,01:11:00,00:01:00,,29:42:00,5,21-Apr-25\n,,,Stowing,1157,82%,1410.5,21:42:00,,,,,\nBohdana Tkhorovska,E,Packer,Packing (S),277,188%,147.1,05:53:00,32:30:00,,24:00:00,6,22-Aug-24\n,,,Packing (M),424,229%,185.3,11:35:00,,,,,\n,,,Picking,110,106%,104,00:52:00,,,,,\n,,,Stowing,267,111%,240.5,03:42:00,,,,,\nCarlos Harrera,E,Packer,Packing (S),92,69%,134.2,05:22:00,00:00:00,,15:41:00,3,06-May-26\n,,,Packing (M),108,65%,165.1,10:19:00,,,,,\nHenrietta Obomagbaeghian,E,Stower,Stowing,1300,58%,2252.2,10:39:00,00:13:00,,34:39:00,5,09-Apr-26\nJasjeet Kaur,E,Picker,Picking,2176,58%,3726,07:03:00,02:58:00,,32:09:00,5,23-Mar-26\n,,,Stowing,102,143%,71.5,01:06:00,,,,,\nJaskaran Singh,E,Packer,Packing (S),113,91%,124.6,04:59:00,00:00:00,,22:20:00,5,25-Sep-25\n,,,Packing (M),369,140%,263.2,16:27:00,,,,,\n,,,Picking,56,52%,108,00:54:00,,,,,\nJonnoy White,E,Large Packer,Packing (S),7,120%,5.8,00:14:00,00:00:00,,12:56:00,3,03-Mar-24\n,,,Packing (M),26,125%,20.8,01:18:00,,,,,\n,,,Packing (L),136,133%,102.6,11:24:00,,,,,\nKulwinder Bajwa,E,PS,Picking,790,42%,1882,15:41:00,,,22:42:00,5,13-Apr-26\n,,,Stowing,214,57%,377,05:48:00,,,,,\nParamjeet Singh,E,Stower,Stowing,1991,96%,2063.8,07:45:00,03:14:00,,31:51:00,6,27-Jun-25\nRenjith Raj,E,Large Packer,Packing (S),8,64%,12.5,00:30:00,,,07:55:00,,25-Apr-26\n,,,Packing (M),52,130%,40,02:30:00,,,,,\n,,,Packing (L),46,145%,31.6,03:31:00,,,,,\n,,,Picking,61,36%,170,01:25:00,,,,,\nTanveer Kaur,E,Stower,Stowing,1264,75%,1693.2,02:03:00,00:04:00,,26:03:00,4,23-Mar-26\nTarick Arjun,E,Picker,Stowing,1230,82%,1505.8,23:10:00,09:44:00,,25:20:00,5,17-Jul-25\nAasif Amin,N,Packer,Packing (L),40,107%,37.4,04:09:00,00:00:00,,09:45:00,2,09-Mar-26\n,,,Picking,483,72%,672,05:36:00,,,,,\nBenjo Marco Tua,N,Packer,Packing (L),271,138%,196.1,21:47:00,00:00:00,,24:43:00,4,09-Apr-26\n,,,Picking,179,51%,354,02:57:00,,,,,\nFroilan Allan Oyco,N,Picker,Picking,1407,38%,3712,06:56:00,00:00:00,,30:55:00,6,23-Mar-26\nGursewak Singh,N,Picker,Picking,795,54%,1466,12:13:00,00:00:00,,12:12:00,2,14-Apr-26\nHamed Kohi,N,Packer,Packing (S),91,74%,122.1,04:53:00,00:00:00,,38:10:00,6,22-Apr-26\n,,,Packing (M),583,110%,532.5,09:17:00,,,,,\nHarpreet Kaur,N,Packer,Packing (S),378,120%,315,12:36:00,00:00:00,,34:39:00,5,02-Mar-26\n,,,Packing (M),567,161%,352.8,22:03:00,,,,,\nHarwinder Singh,N,Packer/Picker,Packing (S),104,131%,79.2,03:10:00,00:24:00,,33:38:00,6,03-Sep-25\n,,,Packing (M),121,180%,67.2,04:12:00,,,,,\n,,,Picking,1384,85%,1632,13:36:00,,,,,\n,,,Stowing,797,97%,822.2,12:39:00,,,,,\nPuja Mandla,N,Packer,Packing (S),64,84%,76.2,03:03:00,,,14:15:00,2,14-Apr-26\n,,,Packing (M),250,140%,179.2,11:12:00,,,,,\nRomanvir Singh,N,Packer,Packing (L),149,121%,123.3,13:42:00,00:00:00,,20:43:00,2,27-Apr-26\n,,,Picking,111,42%,262,02:11:00,,,,,\n,,,Stowing,218,70%,309.8,04:46:00,,,,,\nVandna Saini,N,Packer,Packing (S),19,138%,13.8,00:33:00,00:02:00,,36:04:00,6,11-Apr-25\n,,,Packing (M),1066,228%,466.9,05:11:00,,,,,\n,,,Stowing,564,137%,411.7,06:20:00,,,,,"},{"id":1719700000002,"label":"11 May – 17 May","dateFrom":"2026-05-11","dateTo":"2026-05-17","savedAt":"2026-06-30T00:00:00.000Z","csvText":"Name,Shift,Role ,Process,Productivity count,Productivity %,Productivity Benchmark,IT Hours,Non IT Hours,Move Items,Total IT Hours,Working days,Date of Joining\nCharanjeet Singh,M,Picker,Picking,383,55%,698,05:49:00,,,22:01:00,5,\"Apr 26, 2026\"\n,,,Stowing,689,68%,1020.5,15:42:00,,,,,\nDilsher Singh,M,Stower,Packing (L),11,167%,6.6,00:44:00,00:05:00,,16:08:00,3,\"Apr 08, 2026\"\n,,,Picking,201,72%,280,02:20:00,,,,,\n,,,Stowing,742,90%,823.3,12:40:00,,,,,\nJermaine Stewart,M,Packer,Packing (S),42,53%,79.2,03:10:00,,,06:47:00,2,\"Mar 24, 2026\"\n,,,Packing (M),50,86%,57.9,03:37:00,,,,,\nJoshua William,M,Picker,Packing (M),32,58%,54.7,03:25:00,02:02:00,,11:08:00,3,\"Apr 20, 2026\"\n,,,Picking,275,33%,828,06:54:00,,,,,\nNazma Khatoon,M,Stower,Packing (S),104,118%,88.3,03:32:00,00:05:00,,28:31:00,5,\"Mar 04, 2026\"\n,,,Packing (M),166,143%,116.3,07:16:00,,,,,\n,,,Picking,17,47%,36,00:18:00,,,,,\n,,,Stowing,1070,98%,1092,16:48:00,,,,,\nPooja Sharma,M,Stower,Picking,88,49%,180,01:30:00,00:02:00,,24:07:00,5,\"Apr 10, 2026\"\n,,,Stowing,1039,84%,1235,19:00:00,,,,,\nRavneet Kaur,M,Stower/Picker,Picking,271,58%,468,03:54:00,00:03:00,,28:24:00,5,\"Apr 27, 2026\"\n,,,Stowing,899,60%,1495,23:00:00,,,,,\nRenjith Raj,M,Stower/Picker,Packing (S),11,66%,16.7,00:40:00,,,28:03:00,5,\"Apr 25, 2026\"\n,,,Packing (M),7,39%,18.1,01:08:00,,,,,\n,,,Packing (L),128,162%,79,08:47:00,,,,,\n,,,Picking,33,42%,78,00:39:00,,,,,\n,,,Stowing,532,65%,813.6,12:31:00,,,,,\nTryston Bennett,M,Packer,Packing (S),198,157%,125.8,05:02:00,01:33:00,,31:14:00,6,\"Apr 28, 2026\"\n,,,Packing (M),551,184%,299.5,18:43:00,,,,,\n,,,Picking,264,59%,450,03:45:00,,,,,\nAnil Rajput,E,Stower,Stowing,345,47%,729.1,11:13:00,00:06:00,,13:09:00,2,\"Apr 13, 2026\"\nBohdana Tkhorovska,E,Packer,Packing (S),133,198%,67.1,02:41:00,26:51:00,,18:24:00,5,\"Aug 22, 2024\"\n,,,Packing (M),377,227%,166.4,10:24:00,,,,,\n,,,Stowing,216,72%,300.1,04:37:00,,,,,\nCarlos Harrera,E,Packer,Packing (S),159,83%,192.5,07:42:00,00:05:00,,39:41:00,6,\"May 06, 2026\"\n,,,Packing (M),444,92%,485.1,30:19:00,,,,,\nHenrietta Obomagbaeghian,E,Stower,Packing (S),48,71%,67.9,02:43:00,00:07:00,,34:46:00,5,\"Apr 09, 2026\"\n,,,Packing (M),10,48%,21.1,01:19:00,,,,,\n,,,Stowing,1354,68%,1997.7,30:44:00,,,,,\nJasjeet Kaur,E,Picker,Packing (M),1,47%,2.1,00:08:00,01:44:00,,32:25:00,5,\"Mar 23, 2026\"\n,,,Picking,2561,68%,3760,31:20:00,,,,,\n,,,Stowing,28,52%,54.2,00:50:00,,,,,\nJaskaran Singh,E,Packer,Packing (S),378,130%,290,11:36:00,00:00:00,,21:47:00,4,\"Sep 25, 2025\"\n,,,Packing (M),217,133%,162.9,10:11:00,,,,,\nJonnoy White,E,Large Packer,Packing (S),19,84%,22.5,00:54:00,00:02:00,,26:20:00,6,\"Mar 03, 2024\"\n,,,Packing (M),24,138%,17.3,01:05:00,,,,,\n,,,Packing (L),358,165%,216.6,24:04:00,,,,,\n,,,Picking,26,76%,34,00:17:00,,,,,\nParamjeet Singh,E,Stower,Stowing,1244,79%,1569.8,24:09:00,04:05:00,,26:48:00,5,\"Jun 27, 2025\"\nRupinder Kaur,E,Large Packer,Packing (S),50,77%,65,02:36:00,00:00:00,,31:35:00,6,\"Apr 21, 2025\"\n,,,Packing (M),88,117%,75.2,04:42:00,,,,,\n,,,Packing (L),29,114%,25.5,02:50:00,,,,,\n,,,Stowing,948,69%,1369.3,21:04:00,,,,,\nSanjot Singh,E,Stower/Picker,Picking,161,50%,320,02:40:00,,,24:13:00,5,\"Apr 25, 2026\"\n,,,Stowing,718,59%,1218.8,18:45:00,,,,,\nTanveer Kaur,E,Stower,Stowing,1061,64%,1670.5,25:42:00,00:39:00,,27:17:00,4,\"Mar 23, 2026\"\nTarick Arjun,E,Picker,Picking,200,70%,284,02:22:00,04:56:00,,25:08:00,4,\"Jul 17, 2025\"\n,,,Stowing,821,61%,1342.2,20:39:00,,,,,\nBenjo Marco Tua,N,Packer,Packing (M),180,136%,132.8,08:18:00,00:27:00,,26:05:00,5,\"Apr 09, 2026\"\n,,,Packing (L),218,139%,156.9,17:26:00,,,,,\n,,,Picking,20,48%,42,00:21:00,,,,,\nFroilan Allan Oyco,N,Picker,Picking,1240,50%,2496,20:48:00,00:00:00,,20:48:00,5,\"Mar 23, 2026\"\nGursewak Singh,N,Picker,Picking,416,83%,500,04:10:00,00:00:00,,04:10:00,1,\"Apr 14, 2026\"\nHamed Kohi,N,Packer,Packing (S),19,72%,26.2,01:03:00,00:00:00,,30:38:00,5,\"Apr 22, 2026\"\n,,,Packing (M),486,103%,473.3,29:35:00,,,,,\nHarpreet Kaur,N,Packer,Packing (S),43,86%,50,02:00:00,02:30:00,,34:23:00,5,\"Mar 02, 2026\"\n,,,Packing (M),870,168%,518.1,32:23:00,,,,,\nHarwinder Singh,N,Packer/Picker,Picking,2822,112%,2526,21:03:00,00:05:00,,29:24:00,6,\"Sep 03, 2025\"\n,,,Stowing,543,102%,531.9,08:11:00,,,,,\nJuan Caceres,N,-,Packing (S),7,56%,12.5,00:30:00,00:00:00,,14:19:00,1,\"Aug 25, 2025\"\n,,,Packing (M),343,155%,221.1,13:49:00,,,,,\nMohit Nagi,N,Packer,Picking,955,102%,932,07:46:00,00:38:00,,21:27:00,5,\"Jun 25, 2025\"\n,,,Stowing,692,78%,889.4,13:41:00,,,,,\nRohith Poongavalappil,N,Packer/Picker,Packing (S),436,210%,207.5,08:18:00,10:02:00,,23:17:00,6,\"Apr 21, 2025\"\n,,,Packing (M),527,220%,239.7,14:59:00,,,,,\nRomanvir Singh,N,Packer,Packing (L),147,117%,125.8,13:59:00,00:00:00,,23:04:00,4,\"Apr 27, 2026\"\n,,,Picking,346,56%,614,05:07:00,,,,,\n,,,Stowing,117,55%,211.2,03:15:00,,,,,\nVandna Saini,N,Packer,Packing (S),69,212%,32.5,01:18:00,00:00:00,,08:48:00,2,\"Apr 11, 2025\"\n,,,Packing (M),207,200%,103.5,06:28:00,,,,,\n,,,Picking,24,40%,60,00:30:00,,,,,\n,,,Stowing,20,58%,34.7,00:32:00,,,,,"},{"id":1719700000003,"label":"18 May – 24 May","dateFrom":"2026-05-18","dateTo":"2026-05-24","savedAt":"2026-06-30T00:00:00.000Z","csvText":"Name,Shift,Role ,Process,Productivity count,Productivity %,Productivity Benchmark,IT Hours,Non IT Hours,Move Items,Total IT Hours,Working days,Date of Joining\nAdian Francis,M,Docker,Packing (M),29,44%,65.5,02:11:00,02:50:00,,10:32:00,4,23-Mar-26\nCharanjeet Singh,M,Picker,Picking,136,51%,268,01:55:00,,,31:55:00,5,26-Apr-26\n,,,Stowing,1189,73%,1625,25:00:00,,,,,\nJermaine Stewart,M,Packer,Packing (S),3,35%,8.5,00:17:00,,,14:30:00,4,24-Mar-26\n,,,Packing (M),150,41%,363,12:06:00,,,,,\nJoshua William,M,Picker,Picking,320,26%,1241,08:52:00,03:46:00,,12:04:00,4,20-Apr-26\nNazma Khatoon,M,Stower,Packing (S),67,99%,67.5,02:15:00,00:00:00,,23:14:00,3,04-Mar-26\n,,,Stowing,823,96%,858,13:12:00,,,,,\nPooja Sharma,M,Stower,Packing (S),11,76%,14.5,00:29:00,00:02:00,,22:07:00,3,10-Apr-26\n,,,Packing (M),14,78%,18,00:36:00,,,,,\n,,,Stowing,661,80%,830,12:46:00,,,,,\nRavneet Kaur,M,Stower/Picker,Picking,54,37%,145,01:02:00,00:01:00,,20:27:00,4,27-Apr-26\n,,,Stowing,352,59%,593,09:07:00,,,,,\nRenjith Raj,M,Picker,Packing (S),134,72%,186,06:12:00,,,21:20:00,4,25-Apr-26\n,,,Packing (M),81,68%,120,04:00:00,,,,,\n,,,Packing (L),83,99%,84,08:21:00,,,,,\n,,,Stowing,100,55%,181,02:47:00,,,,,\nTryston Bennett,M,Packer,Packing (S),125,128%,98,03:16:00,00:00:00,,19:11:00,4,28-Apr-26\n,,,Packing (M),280,100%,280.5,09:21:00,,,,,\n,,,Packing (L),15,107%,14,01:21:00,,,,,\nVarinder Khan,M,-,Stowing,58,32%,184,02:50:00,00:00:00,,05:10:00,1,25-Apr-26\nBohdana Tkhorovska,E,Packer,Packing (S),110,193%,57,01:54:00,27:47:00,,07:48:00,4,22-Aug-24\n,,,Packing (M),57,134%,42.5,01:25:00,,,,,\n,,,Picking,15,58%,26,00:11:00,,,,,\n,,,Stowing,179,76%,235,03:37:00,,,,,\nCarlos Harrera,E,Packer,Packing (S),121,66%,182.5,06:05:00,00:00:00,,22:04:00,4,06-May-26\n,,,Packing (M),261,59%,442,14:44:00,,,,,\n,,,Packing (L),8,62%,13,01:15:00,,,,,\nHenrietta Obomagbaeghian,E,Stower,Packing (S),81,77%,105.5,03:31:00,00:01:00,,27:06:00,4,09-Apr-26\n,,,Packing (M),221,45%,493,16:26:00,,,,,\n,,,Stowing,344,74%,465,07:09:00,,,,,\nJasjeet Kaur,E,Picker,Packing (M),3,43%,7,00:14:00,06:14:00,,28:49:00,5,23-Mar-26\n,,,Picking,1864,58%,3215,22:58:00,,,,,\n,,,Stowing,177,55%,323,04:58:00,,,,,\nJaskaran Singh,E,Packer,Packing (S),458,108%,426,14:12:00,00:00:00,,22:14:00,4,25-Sep-25\n,,,Packing (M),168,70%,241,08:02:00,,,,,\nJonnoy White,E,Large Packer,Packing (S),9,78%,11.5,00:23:00,00:00:00,,15:44:00,3,03-Mar-24\n,,,Packing (L),195,127%,154,15:21:00,,,,,\nKulwinder Bajwa,E,Floater/Problem Solver,Picking,833,50%,1678,11:59:00,,,11:59:00,4,13-Apr-26\nParamjeet Singh,E,Stower,Packing (L),26,236%,11,01:05:00,05:35:00,,27:22:00,5,27-Jun-25\n,,,Picking,33,40%,82,00:35:00,,,,,\n,,,Stowing,1177,75%,1578,24:17:00,,,,,\nRupinder Kaur,E,Picker,Stowing,1504,86%,1743,26:49:00,00:00:00,,27:05:00,4,21-Apr-25\nSanjot Singh,E,Stower/Picker,Stowing,532,68%,777,11:57:00,,,11:57:00,5,25-Apr-26\nTanveer Kaur,E,Stower,Stowing,1165,74%,1578,24:17:00,06:18:00,,24:40:00,4,23-Mar-26\nTarick Arjun,E,Picker,Picking,183,34%,532,03:48:00,02:15:00,,29:36:00,4,17-Jul-25\n,,,Stowing,860,54%,1596,24:33:00,,,,,\nBenjo Marco Tua,N,Packer,Packing (S),1,100%,1,00:02:00,00:45:00,,15:58:00,2,09-Apr-26\n,,,Packing (M),27,90%,30,01:00:00,,,,,\n,,,Packing (L),193,138%,140,14:00:00,,,,,\n,,,Picking,86,66%,131,00:56:00,,,,,\nFroilan Allan Oyco,N,Picker,Picking,1187,44%,2700,19:17:00,00:00:00,,19:17:00,4,23-Mar-26\nHamed Kohi,N,Packer,Packing (S),34,72%,47,01:34:00,00:00:00,,12:35:00,2,22-Apr-26\n,,,Packing (M),169,51%,330.5,11:01:00,,,,,\nHarmanjit Kaur,N,Packer,Picking,165,50%,329,02:21:00,00:00:00,,10:39:00,2,11-May-26\n,,,Stowing,273,51%,540,08:18:00,,,,,\nHarpreet Kaur,N,Packer,Packing (S),26,80%,32.5,01:05:00,00:00:00,,28:41:00,4,02-Mar-26\n,,,Packing (M),632,76%,828,27:36:00,,,,,\nHarwinder Singh,N,Packer/Picker,Packing (S),3,120%,2.5,00:05:00,00:06:00,,30:04:00,4,03-Sep-25\n,,,Packing (M),69,105%,65.5,02:11:00,,,,,\n,,,Picking,2882,114%,2539,18:08:00,,,,,\n,,,Stowing,656,104%,628,09:40:00,,,,,\nJuan Caceres,N,-,Packing (S),78,88%,89,02:58:00,00:02:00,,24:47:00,4,25-Aug-25\n,,,Packing (M),517,79%,654.5,21:49:00,,,,,\nMohit Nagi,N,Packer,Packing (S),1,200%,0.5,00:01:00,00:01:00,,22:30:00,4,25-Jun-25\n,,,Packing (M),134,85%,157.5,05:15:00,,,,,\n,,,Packing (L),43,110%,39,03:53:00,,,,,\n,,,Picking,885,77%,1155,08:15:00,,,,,\n,,,Stowing,227,72%,317,04:53:00,,,,,\nRohith Poongavalappil,N,Packer/Picker,Packing (S),250,162%,154,05:08:00,08:19:00,,21:57:00,4,21-Apr-25\n,,,Packing (M),494,138%,357,11:54:00,,,,,\n,,,Picking,582,94%,616,04:24:00,,,,,\nRomanvir Singh,N,Packer,Packing (L),204,105%,194,19:26:00,00:07:00,,19:26:00,4,27-Apr-26\nVandna Saini,N,Packer,Packing (S),19,119%,16,00:32:00,00:00:00,,30:52:00,4,11-Apr-25\n,,,Packing (M),992,109%,910,30:20:00,,,,,"},{"id":1719700000004,"label":"25 May – 31 May","dateFrom":"2026-05-25","dateTo":"2026-05-31","savedAt":"2026-06-30T00:00:00.000Z","csvText":"Name,Shift,Role ,Process,Productivity count,Productivity %,Productivity Benchmark,IT Hours,Non IT Hours,Move Items,Total IT Hours,Working days,Date of Joining\nNamrah,M,Supervisor,Packing (M),6,83%,7.2,00:18:00,00:05:00,00:00:00,02:42:00,4,01-Jun-22\n,,,Stowing,50,45%,111.6,01:43:00,,,,,\n,,,Fulfilment,6,210%,2.9,00:05:00,,,,,\n,,,Scanning,50,69%,72,00:36:00,,,,,\nRenjith Raj,M,Picker,Packing (S),98,79%,124,03:06:00,,00:00:00,22:17:00,5,25-Apr-26\n,,,Packing (M),129,86%,150.4,06:16:00,,,,,\n,,,Packing (L),162,133%,121.8,12:11:00,,,,,\n,,,Picking,44,43%,102.7,00:44:00,,,,,\nSewe Loaknauth,M,Scanning,Customer Return,536,234%,229.2,15:55:00,,00:00:00,15:55:00,2,28-Oct-25\nNazma Khatoon,M,Stower,Packing (S),3,45%,6.7,00:10:00,00:00:00,03:42:00,18:57:00,3,04-Mar-26\n,,,Packing (M),111,85%,130,05:25:00,,,,1,\n,,,Stowing,627,100%,628.3,09:40:00,,,,,\n,,,Fulfilment,86,68%,126.9,03:42:00,,,,,\nPritpal Singh,M,Returns,Fulfilment,3,15%,20.6,00:36:00,10:28:00,00:36:00,36:58:00,6,23-Jul-24\n,,,Customer Return,572,154%,370.9,36:22:00,,,,,\nHemant Gupta,M,Returns,Customer Return,377,141%,268.3,26:18:00,15:20:00,00:00:00,26:18:00,6,13-May-24\nJermaine Stewart,M,Packer,Packing (S),21,37%,57.3,01:26:00,,00:00:00,12:45:00,3,24-Mar-26\n,,,Packing (M),119,44%,271.6,11:19:00,,,,,\nAdian Francis,M,Docker,Docking,240,50%,481.3,06:01:00,05:35:00,00:00:00,06:01:00,4,23-Mar-26\nPooja Sharma,M,Stower,Packing (S),19,51%,37.3,00:56:00,00:00:00,03:25:00,27:24:00,5,10-Apr-26\n,,,Packing (M),71,91%,78.4,03:16:00,,,,,\n,,,Picking,156,56%,280,02:00:00,,,,,\n,,,Stowing,860,74%,1155.9,17:47:00,,,,,\n,,,Fulfilment,134,114%,117.2,03:25:00,,,,,\nBraeden Pinkerton,M,CS Pick up,Customer Return,898,236%,380.2,26:24:00,00:00:00,00:00:00,26:24:00,4,09-Apr-26\nUjjwal Agnihotri,MS,-,Fulfilment,0,0%,12.6,00:22:00,00:14:00,00:22:00,00:22:00,6,18-Apr-26\nJoshua William,M,Picker,Picking,0,0%,70,00:30:00,07:04:00,00:00:00,04:59:00,3,20-Apr-26\n,,,Docking,162,45%,358.7,04:29:00,,,,,\nSumeet Kumar,M,-,Packing (S),99,45%,221.3,05:32:00,00:01:00,00:00:00,23:00:00,4,25-Apr-26\n,,,Packing (M),80,58%,137.2,05:43:00,,,,,\n,,,Picking,618,38%,1645,11:45:00,,,,,\nVarinder Khan,M,-,Docking,83,50%,166.7,02:05:00,00:14:00,00:00:00,02:05:00,1,25-Apr-26\nKulwinder Kumar,M,-,Packing (S),9,64%,14,00:21:00,,00:00:00,07:24:00,0,25-Apr-26\n,,,Packing (M),37,77%,48,02:00:00,,,,,\n,,,Packing (L),50,107%,46.8,04:41:00,,,,,\n,,,Stowing,0,0%,23.8,00:22:00,,,,,\nRavneet Kaur,M,Stower/Picker,Packing (S),52,48%,107.3,02:41:00,00:00:00,00:48:00,24:24:00,5,27-Apr-26\n,,,Packing (M),95,59%,160,06:40:00,,,,,\n,,,Picking,43,43%,100.3,00:43:00,,,,,\n,,,Stowing,509,58%,878.6,13:31:00,,,,,\n,,,Fulfilment,38,136%,28,00:49:00,,,,,\nTryston Bennett,M,Packer,Packing (S),30,94%,32,00:48:00,01:31:00,00:00:00,15:20:00,5,28-Apr-26\n,,,Packing (M),209,120%,174.4,07:16:00,,,,,\n,,,Picking,203,54%,373.3,02:40:00,,,,,\n,,,Docking,172,47%,368,04:36:00,,,,,\nPresila Anthony,M,Packer,Fulfilment,1,87%,1.1,00:02:00,,00:02:00,02:07:00,5,07-May-26\n,,,Customer Return,26,122%,21.3,02:05:00,,,,,\nCharanjeet Singh,M,Picker,Picking,9,21%,42,00:18:00,,00:00:00,15:06:00,5,26-Apr-26\n,,,Stowing,731,81%,906.8,13:57:00,,,,,\n,,,Scanning,126,124%,102,00:51:00,,,,,\nAndres Valdes,M,Packer,Packing (M),16,70%,22.8,00:57:00,00:00:00,00:00:00,00:57:00,1,26-Apr-26\nRajat Bhardwaj,M,Packer,Picking,470,52%,898.3,06:25:00,,01:30:00,24:15:00,5,14-May-26\n,,,Stowing,537,51%,1044.3,16:04:00,,,,,\n,,,Fulfilment,71,117%,60.6,01:46:00,,,,,\nSanjot Singh,E,Stower/Picker,Stowing,658,74%,890.5,13:42:00,,00:00:00,13:43:00,4,25-Apr-26\n,,,Scanning,1,50%,2,00:01:00,,,,,\nJaskaran Singh,E,Packer,Packing (S),125,84%,148,03:42:00,00:00:00,00:00:00,22:47:00,4,25-Sep-25\n,,,Packing (M),430,94%,458,19:05:00,,,,,\nRupinder Kaur,E,Large Packer,Picking,641,67%,954.3,06:49:00,02:05:00,00:00:00,34:04:00,5,21-Apr-25\n,,,Stowing,1327,80%,1649.9,25:23:00,,,,,\n,,,Fulfilment,3,37%,8,00:14:00,,,,,\n,,,Customer Return,55,234%,23.5,01:38:00,,,,,\nParamjeet Singh,E,Stower,Stowing,1968,96%,2047.5,31:30:00,00:25:00,00:00:00,31:30:00,5,27-Jun-25\nJonnoy White,E,Large Packer,Packing (S),24,44%,54.7,01:22:00,00:00:00,00:00:00,20:41:00,5,03-Mar-24\n,,,Packing (L),320,166%,193.2,19:19:00,,,,,\nSuresh Singh,E,Stower,Packing (S),1,75%,1.3,00:02:00,02:17:00,00:00:00,02:25:00,1,01-Apr-21\n,,,Picking,37,57%,65.3,00:28:00,,,,,\n,,,Stowing,21,72%,29.3,00:27:00,,,,,\n,,,Scanning,16,160%,10,00:05:00,,,,,\n,,,Customer Return,37,186%,19.9,01:23:00,,,,,\nTarick Arjun,E,Picker,Picking,764,81%,940.3,06:43:00,02:37:00,00:00:00,24:42:00,4,17-Jul-25\n,,,Stowing,753,67%,1125.6,17:19:00,,,,,\n,,,Fulfilment,81,354%,22.9,00:40:00,,,,,\nTanveer Kaur,E,Stower,Stowing,1263,73%,1734.4,26:41:00,00:00:00,00:00:00,26:42:00,4,23-Mar-26\n,,,Fulfilment,3,525%,0.6,00:01:00,,,,,\nJasjeet Kaur,E,Picker,Picking,3456,73%,4720.3,33:43:00,01:21:00,00:00:00,34:33:00,5,23-Mar-26\n,,,Stowing,54,100%,54.2,00:50:00,,,,,\nHenrietta Obomagbaeghian,E,Stower,Packing (S),91,55%,166,04:09:00,00:00:00,00:00:00,14:10:00,2,09-Apr-26\n,,,Packing (M),110,69%,160,06:40:00,,,,,\n,,,Stowing,111,51%,217.8,03:21:00,,,,,\nKulwinder Bajwa,E,Floater/Problem Solver,Picking,1263,66%,1918,13:42:00,,00:00:00,14:27:00,5,13-Apr-26\n,,,Stowing,42,86%,48.8,00:45:00,,,,,\nBohdana Tkhorovska,E,Packer,Packing (S),399,140%,284.7,07:07:00,25:14:00,00:00:00,17:36:00,5,22-Aug-24\n,,,Packing (M),216,138%,156,06:30:00,,,,,\n,,,Stowing,210,98%,214.5,03:18:00,,,,,\n,,,Fulfilment,2,350%,0.6,00:01:00,,,,,\n,,,Scanning,168,210%,80,00:40:00,,,,,\nCarlos Harrera,E,Packer,Packing (S),109,45%,242,06:03:00,00:00:00,00:00:00,38:31:00,6,06-May-26\n,,,Packing (M),567,73%,779.2,32:28:00,,,,,\nSanthosh Joseph,ES,Supervisor/Driver,Stowing,542,50%,1086.6,16:43:00,02:37:00,,19:09:00,6,11-Apr-26\n,,,Fulfilment,115,168%,68.6,02:00:00,,,,,\n,,,Scanning,1,2%,52,00:26:00,,,,,\nSana Shariff,NS,Supervisor,Picking,108,83%,130.7,00:56:00,,,08:33:00,5,02-May-24\n,,,Stowing,5,4%,119.2,01:50:00,,,,,\n,,,Scanning,41,6%,694,05:47:00,,,,,\nMohit Nagi,N,Packer,Packing (S),3,64%,4.7,00:07:00,05:26:00,,24:41:00,5,25-Jun-25\n,,,Packing (M),10,139%,7.2,00:18:00,,,,,\n,,,Packing (L),32,246%,13,01:18:00,,,,,\n,,,Picking,846,97%,868,06:12:00,,,,,\n,,,Stowing,793,73%,1089.8,16:46:00,,,,,\nRohith Poongavalappil,N,Packer/Picker,Packing (S),464,118%,392.7,09:49:00,07:10:00,,31:21:00,6,21-Apr-25\n,,,Packing (M),710,160%,444.8,18:32:00,,,,,\n,,,Stowing,209,107%,195,03:00:00,,,,,\nJuan Caceres,N,-,Packing (S),43,58%,74,01:51:00,05:31:00,,30:45:00,5,25-Aug-25\n,,,Packing (M),623,95%,659.2,27:28:00,,,,,\n,,,Fulfilment,40,81%,49.2,01:26:00,,,,,\nHarpreet Kaur,N,Packer,Packing (S),26,87%,30,00:45:00,05:30:00,,35:03:00,5,02-Mar-26\n,,,Packing (M),728,97%,747.2,31:08:00,,,,,\n,,,Fulfilment,106,98%,108.6,03:10:00,,,,,\nFroilan Allan Oyco,N,Picker,Picking,1696,49%,3434.7,24:32:00,01:05:00,,24:32:00,5,23-Mar-26\nBenjo Marco Tua,N,Packer,Packing (L),216,136%,158.3,15:50:00,00:00:00,,23:47:00,4,09-Apr-26\n,,,Picking,774,70%,1113,07:57:00,,,,,\nHamed Kohi,N,Packer,Packing (S),23,77%,30,00:45:00,05:30:00,,28:45:00,5,22-Apr-26\n,,,Packing (M),459,76%,603.6,25:09:00,,,,,\n,,,Fulfilment,77,79%,97.8,02:51:00,,,,,\nRomanvir Singh,N,Packer,Packing (L),80,121%,66.2,06:37:00,00:03:00,,13:08:00,3,27-Apr-26\n,,,Picking,356,39%,907.7,06:29:00,,,,,\n,,,Stowing,0,0%,2.2,00:02:00,,,,,\nHarmanjit Kaur,N,Packer,Stowing,969,68%,1431.1,22:01:00,00:01:00,,22:01:00,3,11-May-26\nHarwinder Singh,N,Packer/Picker,Packing (M),147,162%,90.8,03:47:00,06:45:00,,31:25:00,6,03-Sep-25\n,,,Packing (L),9,135%,6.7,00:40:00,,,,,\n,,,Picking,2088,111%,1880.7,13:26:00,,,,,\n,,,Stowing,1113,127%,879.7,13:32:00,,,,,\nnewhire1@partsavatar.ca,M,Trial,Packing (S),8,43%,18.7,00:28:00,,,28:12:00,0,\n,,,Packing (M),35,70%,50,02:05:00,,,,,\n,,,Picking,395,47%,833,05:57:00,,,,,\n,,,Stowing,608,52%,1176.5,18:06:00,,,,,\n,,,Fulfilment,9,16%,54.9,01:36:00,,,,,\nnewhire2@partsavatar.ca,M,Trial,Packing (S),39,66%,58.7,01:28:00,,,18:22:00,2,\n,,,Packing (M),90,71%,127.2,05:18:00,,,,,\n,,,Picking,98,22%,438.7,03:08:00,,,,,\n,,,Stowing,213,41%,523.3,08:03:00,,,,,\n,,,Fulfilment,19,133%,14.3,00:25:00,,,,,\nnewhire4@partsavatar.ca,M,Trial,Picking,377,34%,1094.3,07:49:00,,,10:26:00,0,\n,,,Stowing,1,8%,11.9,00:11:00,,,,,\n,,,Fulfilment,178,213%,83.5,02:26:00,,,,,\nnewhire5@partsavatar.ca,M,Trial,Picking,0,0%,86.3,00:37:00,,,12:10:00,0,\n,,,Stowing,273,36%,750.8,11:33:00,,,,,\nnewhire6@partsavatar.ca,M,Trial,Packing (S),21,41%,50.7,01:16:00,,,06:55:00,0,\n,,,Packing (M),50,53%,94.8,03:57:00,,,,,\n,,,Stowing,60,54%,110.5,01:42:00,,,,,\nnewhire11@partsavatar.ca,E,Trial,Stowing,366,57%,644.6,09:55:00,,,10:20:00,1,\n,,,Customer Return,1,17%,6,00:25:00,,,,,\nnewhire12@partsavatar.ca,E,Trial,Stowing,164,55%,297.9,04:35:00,,,,1,\nnewhire13@partsavatar.ca,E,Trial,Docking,2875,123%,2344,29:18:00,,,,0,\nnewhire14@partsavatar.ca,E,Trial,Packing (S),2,43%,4.7,00:07:00,,,,1,\n,,,Packing (M),106,45%,235.6,09:49:00,,,,,\nnewhire15@partsavatar.ca,E,Trial,Stowing,764,53%,1446.3,22:15:00,,,,0,\n,,,Fulfilment,6,175%,3.4,00:06:00,,,,,\nnewhire16@partsavatar.ca,E,Trial,Stowing,1993,90%,2215.4,34:05:00,,,,0,\n,,,Fulfilment,12,123%,9.7,00:17:00,,,,,\nnewhire17@partsavatar.ca,E,Trial,Packing (S),119,58%,204,05:06:00,,,,0,\n,,,Packing (M),306,71%,428,17:50:00,,,,,\n,,,Stowing,482,66%,728,11:12:00,,,,,\nnewhire18@partsavatar.ca,E,Trial,Stowing,1329,56%,2370.3,36:28:00,,,,0,\n,,,Fulfilment,2,350%,0.6,00:01:00,,,,,\nnewhire19@partsavatar.ca,E,Trial,Stowing,200,48%,414.9,06:23:00,,,,0,\n,,,Docking,0,0%,41.3,00:31:00,,,,,\n,,,Fulfilment,16,61%,26.3,00:46:00,,,,,\nnewhire21@partsavatar.ca,N,Trial,Stowing,690,38%,1811.3,27:52:00,,,,0,\nnewhire22@partsavatar.ca,N,Trial,Picking,344,41%,830.7,05:56:00,,,,1,\n,,,Stowing,1163,41%,2839.4,43:41:00,,,,,\nnewhire23@partsavatar.ca,N,Trial,Packing (M),20,53%,37.6,01:34:00,,,,0,\n,,,Picking,4,14%,28,00:12:00,,,,,\n,,,Stowing,555,41%,1363.9,20:59:00,,,,,\nnewhire24@partsavatar.ca,N,Trial,Docking,3752,94%,3981.3,49:46:00,,,,0,\nnewhire25@partsavatar.ca,N,Trial,Picking,1290,70%,1843.3,13:10:00,,,,1,\n,,,Docking,1482,79%,1885.3,23:34:00,,,,,\nnewhire27@partsavatar.ca,N,Trial,Picking,214,65%,331.3,02:22:00,,,,0,\n,,,Stowing,116,54%,216.7,03:20:00,,,,,\nnewhire30@partsavatar.ca,N,Trial,Docking,948,92%,1030.7,12:53:00,,,,0,"},{"id":1719700000005,"label":"1 Jun – 7 Jun","dateFrom":"2026-06-01","dateTo":"2026-06-07","savedAt":"2026-06-30T00:00:00.000Z","csvText":"Name,Shift,Role ,Process,Productivity,Productivity %,Productivity Benchmark,IT Hours,Non IT Hours,Total IT Hours,Working days,Date of Joining\nNamrah,M,Supervisor,Packing (S),7,150%,4.7,00:07:00,00:03:00,03:50:00,5,01-Jun-22\n,,,Picking,60,129%,46.7,00:20:00,,,,\n,,,Stowing,64,35%,183.1,02:49:00,,,,\n,,,Fulfilment,41,552%,7.4,00:13:00,,,,\n,,,Scanning,21,50%,42,00:21:00,,,,\nRenjith Raj,M,Picker,Packing (S),54,66%,81.3,02:02:00,00:29:00,27:04:00,5,25-Apr-26\n,,,Packing (M),115,69%,166,06:55:00,,,,\n,,,Packing (L),235,94%,249.8,16:39:00,,,,\n,,,Picking,74,54%,137.7,00:59:00,,,,\n,,,Fulfilment,25,151%,16.6,00:29:00,,,,\nNazma Khatoon,M,Stower,Packing (S),71,71%,100.7,02:31:00,01:08:00,31:22:00,5,04-Mar-26\n,,,Packing (M),209,100%,208.4,08:41:00,,,,\n,,,Stowing,1288,104%,1240.4,19:05:00,,,,\n,,,Fulfilment,14,38%,37.2,01:05:00,,,,\nPritpal Singh,M,Returns,Customer Return,481,135%,355.4,29:37:00,,29:37:00,5,23-Jul-24\nHemant Gupta,M,Returns,Customer Return,243,111%,218.8,18:14:00,,18:14:00,6,13-May-24\nJermaine Stewart,M,Packer,Packing (S),10,54%,18.7,00:28:00,01:56:00,11:30:00,5,24-Mar-26\n,,,Packing (M),151,57%,264.8,11:02:00,,,,\nAdian Francis,M,Docker,Docking,144,49%,292,03:39:00,,03:39:00,4,23-Mar-26\nPooja Sharma,M,Stower,Packing (M),44,106%,41.6,01:44:00,01:42:00,21:13:00,5,10-Apr-26\n,,,Picking,756,76%,994,07:06:00,,,,\n,,,Stowing,671,96%,697.7,10:44:00,,,,\n,,,Fulfilment,28,49%,56.6,01:39:00,,,,\nJoshua William,M,Picker,Picking,588,34%,1719.7,12:17:00,03:05:00,34:12:00,5,20-Apr-26\n,,,Stowing,79,56%,140.8,02:10:00,,,,\n,,,Docking,1102,70%,1580,19:45:00,,,,\nSumeet Kumar,M,-,Packing (M),13,52%,24.8,01:02:00,00:06:00,09:37:00,3,25-Apr-26\n,,,Packing (L),9,61%,14.7,00:59:00,,,,\n,,,Picking,375,45%,826,05:54:00,,,,\n,,,Stowing,46,42%,110.5,01:42:00,,,,\nVarinder Khan,M,-,Stowing,50,30%,169,02:36:00,00:16:00,03:58:00,1,25-Apr-26\n,,,Docking,100,91%,109.3,01:22:00,,,,\nKulwinder Kumar,M,-,Packing (M),29,68%,42.8,01:47:00,00:06:00,04:23:00,1,25-Apr-26\n,,,Stowing,83,49%,169,02:36:00,,,,\nRavneet Kaur,M,Stower/Picker,Packing (S),7,40%,17.3,00:26:00,01:53:00,32:48:00,5,27-Apr-26\n,,,Packing (M),83,65%,126.8,05:17:00,,,,\n,,,Picking,370,59%,627.7,04:29:00,,,,\n,,,Stowing,1012,75%,1353.1,20:49:00,,,,\n,,,Fulfilment,39,64%,61.2,01:47:00,,,,\nTryston Bennett,M,Packer,Packing (S),47,114%,41.3,01:02:00,04:30:00,19:04:00,6,28-Apr-26\n,,,Packing (M),335,131%,255.6,10:39:00,,,,\n,,,Picking,408,70%,585.7,04:11:00,,,,\n,,,Docking,127,50%,256,03:12:00,,,,\nPresila Anthony,M,Packer,Customer Return,274,148%,185.6,15:28:00,,15:28:00,5,07-May-26\nCharanjeet Singh,M,Picker,Picking,519,62%,842.3,06:01:00,02:26:00,20:40:00,5,26-Apr-26\n,,,Stowing,744,88%,846.1,13:01:00,,,,\n,,,Docking,74,96%,77.3,00:58:00,,,,\n,,,Scanning,108,135%,80,00:40:00,,,,\nAndres Valdes,M,Packer,Packing (M),0,0%,3.6,00:09:00,,00:31:00,1,26-Apr-26\n,,,Docking,35,119%,29.3,00:22:00,,,,\nRajat Bhardwaj,M,Packer,Picking,623,58%,1071,07:39:00,00:43:00,25:39:00,5,14-May-26\n,,,Stowing,807,71%,1134.3,17:27:00,,,,\n,,,Fulfilment,19,101%,18.9,00:33:00,,,,\nSanjot Singh,E,Stower/Picker,Picking,700,47%,1505,10:45:00,,22:39:00,6,25-Apr-26\n,,,Stowing,260,69%,379.2,05:50:00,,,,\n,,,Fulfilment,10,70%,14.3,00:25:00,,,,\n,,,Customer Return,74,109%,67.8,05:39:00,,,,\nJaskaran Singh,E,Packer,Packing (S),129,66%,196,04:54:00,,23:31:00,5,25-Sep-25\n,,,Packing (M),434,97%,446.8,18:37:00,,,,\nRupinder Kaur,E,Large Packer,Picking,188,82%,228.7,01:38:00,07:12:00,18:47:00,4,21-Apr-25\n,,,Stowing,834,83%,1002.1,15:25:00,,,,\n,,,Fulfilment,5,8%,59.5,01:44:00,,,,\nParamjeet Singh,E,Stower,Stowing,1395,84%,1665.1,25:37:00,01:27:00,26:44:00,5,27-Jun-25\n,,,Fulfilment,129,337%,38.3,01:07:00,,,,\nJonnoy White,E,Large Packer,Packing (M),2,250%,0.8,00:02:00,,20:57:00,5,03-Mar-24\n,,,Packing (L),336,107%,313.8,20:55:00,,,,\nSuresh Singh,E,Stower,Packing (M),0,0%,1.6,00:04:00,,01:29:00,2,01-Apr-21\n,,,Picking,30,40%,74.7,00:32:00,,,,\n,,,Stowing,14,25%,55.3,00:51:00,,,,\n,,,Scanning,1,25%,4,00:02:00,,,,\nTarick Arjun,E,Picker,Picking,448,72%,625.3,04:28:00,02:29:00,29:56:00,5,17-Jul-25\n,,,Stowing,965,60%,1616.3,24:52:00,,,,\n,,,Fulfilment,84,408%,20.6,00:36:00,,,,\nTanveer Kaur,E,Stower,Stowing,1461,75%,1944.6,29:55:00,,31:26:00,5,23-Mar-26\n,,,Fulfilment,66,127%,52,01:31:00,,,,\nJasjeet Kaur,E,Picker,Picking,3033,65%,4631.7,33:05:00,,33:49:00,5,23-Mar-26\n,,,Stowing,23,48%,47.7,00:44:00,,,,\nHenrietta Obomagbaeghian,E,Stower,Packing (S),246,65%,379.3,09:29:00,00:06:00,33:15:00,5,09-Apr-26\n,,,Packing (M),399,70%,570.4,23:46:00,,,,\nKulwinder Bajwa,E,Floater/Problem Solver,Picking,716,50%,1444.3,10:19:00,06:36:00,10:19:00,5,13-Apr-26\nBohdana Tkhorovska,E,Packer,Packing (S),250,106%,236.7,05:55:00,22:49:00,16:14:00,6,22-Aug-24\n,,,Packing (M),211,140%,151.2,06:18:00,,,,\n,,,Stowing,162,78%,208,03:12:00,,,,\n,,,Scanning,144,147%,98,00:49:00,,,,\nCarlos Harrera,E,Packer,Packing (S),139,67%,207.3,05:11:00,,30:50:00,5,06-May-26\n,,,Packing (M),539,88%,615.6,25:39:00,,,,\nSanthosh Joseph,ES,Supervisor/Driver,Stowing,2,7%,28.2,00:26:00,,01:46:00,6,11-Apr-26\n,,,Fulfilment,42,92%,45.7,01:20:00,,,,\nRoshon Charles,E,Packer,Stowing,171,34%,507,07:48:00,,07:48:00,5,01-Jun-26\nUpekha Manamendra,E,Packer,Stowing,270,53%,508.1,07:49:00,,08:21:00,5,01-Jun-26\n,,,Fulfilment,17,93%,18.3,00:32:00,,,,\nSana Shariff,NS,Supervisor,Packing (M),0,0%,7.2,00:18:00,,09:45:00,5,02-May-24\n,,,Stowing,7,5%,135.4,02:05:00,,,,\n,,,Fulfilment,4,58%,6.9,00:12:00,,,,\n,,,Scanning,120,14%,860,07:10:00,,,,\nMohit Nagi,N,Packer,Packing (S),39,90%,43.3,01:05:00,02:12:00,26:18:00,6,25-Jun-25\n,,,Packing (M),89,103%,86,03:35:00,,,,\n,,,Packing (L),5,57%,8.8,00:35:00,,,,\n,,,Picking,678,80%,844.7,06:02:00,,,,\n,,,Stowing,689,72%,952.3,14:39:00,,,,\n,,,Fulfilment,9,72%,12.6,00:22:00,,,,\nRohith Poongavalappil,N,Packer/Picker,Packing (S),406,95%,427.3,10:41:00,03:40:00,28:21:00,5,21-Apr-25\n,,,Packing (M),677,170%,397.6,16:34:00,,,,\n,,,Picking,137,147%,93.3,00:40:00,,,,\n,,,Stowing,52,185%,28.2,00:26:00,,,,\nJuan Caceres,N,-,Packing (S),56,82%,68,01:42:00,00:22:00,27:19:00,5,25-Aug-25\n,,,Packing (M),533,97%,551.2,22:58:00,,,,\n,,,Fulfilment,97,107%,90.9,02:39:00,,,,\nAasif Amin,N,Packer,Picking,359,43%,828.3,05:55:00,,05:55:00,0,09-Mar-26\nHarpreet Kaur,N,Packer,Packing (S),15,54%,28,00:42:00,,32:57:00,5,02-Mar-26\n,,,Packing (M),540,95%,566.4,23:36:00,,,,\n,,,Stowing,172,57%,300.1,04:37:00,,,,\n,,,Fulfilment,118,85%,138.3,04:02:00,,,,\nFroilan Allan Oyco,N,Picker,Picking,1078,43%,2517.7,17:59:00,00:01:00,18:00:00,5,23-Mar-26\n,,,Fulfilment,3,525%,0.6,00:01:00,,,,\nBenjo Marco Tua,N,Packer,Packing (S),1,50%,2,00:03:00,02:10:00,22:49:00,5,09-Apr-26\n,,,Packing (M),32,103%,31.2,01:18:00,,,,\n,,,Packing (L),237,104%,227.8,15:11:00,,,,\n,,,Picking,404,65%,618.3,04:25:00,,,,\n,,,Stowing,62,66%,94.3,01:27:00,,,,\n,,,Fulfilment,0,0%,14.3,00:25:00,,,,\nHamed Kohi,N,Packer,Packing (S),23,49%,47.3,01:11:00,,27:59:00,5,22-Apr-26\n,,,Packing (M),428,77%,553.6,23:04:00,,,,\n,,,Fulfilment,119,93%,128.1,03:44:00,,,,\nRomanvir Singh,N,Packer,Packing (L),79,72%,109.3,07:17:00,00:39:00,09:29:00,3,27-Apr-26\n,,,Docking,141,80%,176,02:12:00,,,,\nHarmanjit Kaur,N,Packer,Stowing,1308,94%,1389.9,21:23:00,00:40:00,21:23:00,3,11-May-26\nHarwinder Singh,N,Packer/Picker,Packing (L),5,100%,5,00:20:00,02:16:00,28:55:00,6,03-Sep-25\n,,,Picking,3130,113%,2781.3,19:52:00,,,,\n,,,Stowing,730,129%,566.6,08:43:00,,,,\nJude Joseph,N,Packer,Docking,345,135%,256,03:12:00,,03:12:00,4,02-Jun-26\nDaniela Silva,N,Packer,Picking,392,30%,1290.3,09:13:00,,10:41:00,3,02-Jun-26\n,,,Stowing,32,34%,95.3,01:28:00,,,,\n"},{"id":1719700000006,"label":"8 Jun – 14 Jun","dateFrom":"2026-06-08","dateTo":"2026-06-14","savedAt":"2026-06-30T00:00:00.000Z","csvText":"Name,Shift,Role ,Process,Productivity,Productivity %,Productivity Benchmark,IT Hours,Non IT Hours,Total IT Hours,Working days,Date of Joining\nNamrah,M,Supervisor,Packing (S),67,156%,43,01:26:00,,06:26:00,5,01-Jun-22\n,,,Packing (M),15,167%,9,00:18:00,,,,\n,,,Picking,84,150%,56,00:24:00,,,,\n,,,Stowing,162,66%,244.8,03:46:00,,,,\n,,,Fulfilment,7,0%,0,00:01:00,,,,\n,,,Scanning,45,73%,62,00:31:00,,,,\nNazma Khatoon,M,Stower,Packing (S),3,86%,3.5,00:07:00,13:01:00,30:42:00,5,04-Mar-26\n,,,Packing (M),214,118%,181,06:02:00,,,,\n,,,Stowing,1229,123%,997.8,15:21:00,,,,\n,,,Fulfilment,271,0%,0,09:12:00,,,,\nJermaine Stewart,M,Packer,Packing (S),14,53%,26.5,00:53:00,00:56:00,03:35:00,2,24-Mar-26\n,,,Packing (M),42,52%,81,02:42:00,,,,\nPooja Sharma,M,Stower,Packing (M),4,47%,8.5,00:17:00,13:15:00,21:03:00,4,10-Apr-26\n,,,Picking,412,83%,499.3,03:34:00,,,,\n,,,Stowing,870,99%,876.4,13:29:00,,,,\n,,,Fulfilment,116,0%,0,03:43:00,,,,\nSumeet Kumar,M,-,Packing (S),32,81%,39.5,01:19:00,,04:54:00,1,25-Apr-26\n,,,Packing (M),17,77%,22,00:44:00,,,,\n,,,Stowing,83,45%,185.3,02:51:00,,,,\nVarinder Khan,M,-,Stowing,104,42%,244.8,03:46:00,,04:54:00,1,25-Apr-26\n,,,Docking,51,56%,90.7,01:08:00,,,,\nKulwinder Kumar,M,-,Packing (M),57,69%,82.5,02:45:00,,06:59:00,1,25-Apr-26\n,,,Stowing,197,72%,275.2,04:14:00,,,,\nRavneet Kaur,M,Stower/Picker,Packing (S),10,63%,16,00:32:00,09:43:00,28:26:00,5,27-Apr-26\n,,,Packing (M),137,57%,239.5,07:59:00,,,,\n,,,Picking,78,74%,105,00:45:00,,,,\n,,,Stowing,721,79%,913.3,14:03:00,,,,\n,,,Fulfilment,136,0%,0,05:07:00,,,,\nTryston Bennett,M,Packer,Docking,214,42%,510.7,06:23:00,18:17:00,06:23:00,4,28-Apr-26\nCharanjeet Singh,M,Picker,Stowing,199,80%,249.2,03:50:00,19:40:00,12:09:00,4,26-Apr-26\n,,,Docking,61,59%,102.7,01:17:00,,,,\n,,,Scanning,29,161%,18,00:09:00,,,,\n,,,Customer Return,91,110%,82.6,06:53:00,,,,\nRajat Bhardwaj,M,Packer,Picking,164,47%,347.7,02:29:00,15:19:00,21:38:00,5,14-May-26\n,,,Stowing,520,76%,686.8,10:34:00,,,,\n,,,Docking,206,64%,324,04:03:00,,,,\n,,,Fulfilment,88,0%,0,04:32:00,,,,\nAndres Valdes,E,Packer,Packing (S),3,55%,5.5,00:11:00,00:24:00,00:11:00,2,26-Apr-26\nSanjot Singh,E,Stower/Picker,Picking,89,57%,156.3,01:07:00,,21:17:00,6,25-Apr-26\n,,,Stowing,772,89%,867.8,13:21:00,,,,\n,,,Customer Return,101,123%,81.8,06:49:00,,,,\nJaskaran Singh,E,Packer,Packing (S),148,157%,94,03:08:00,01:55:00,23:34:00,4,25-Sep-25\n,,,Packing (M),583,97%,599.5,19:59:00,,,,\n,,,Stowing,16,55%,29.3,00:27:00,,,,\nRupinder Kaur,E,Stower/Picker,Picking,44,38%,114.3,00:49:00,,33:51:00,5,21-Apr-25\n,,,Stowing,1557,76%,2045.3,31:28:00,,,,\n,,,Fulfilment,13,0%,0,01:34:00,,,,\nParamjeet Singh,E,Stower,Packing (S),83,114%,73,02:26:00,00:38:00,31:55:00,5,27-Jun-25\n,,,Stowing,1651,90%,1843.8,28:22:00,,,,\n,,,Fulfilment,82,0%,0,01:07:00,,,,\nJonnoy White,E,Large Packer,Packing (S),21,98%,21.5,00:43:00,,18:19:00,4,03-Mar-24\n,,,Packing (L),283,107%,264,17:36:00,,,,\nTarick Arjun,E,Picker,Picking,455,71%,639.3,04:34:00,02:15:00,30:17:00,5,17-Jul-25\n,,,Stowing,801,50%,1612,24:48:00,,,,\n,,,Fulfilment,74,0%,0,00:55:00,,,,\nTanveer Kaur,E,Stower,Stowing,1117,68%,1633.7,25:08:00,01:08:00,25:30:00,4,23-Mar-26\n,,,Fulfilment,0,0%,0,00:22:00,,,,\nJasjeet Kaur,E,Picker,Picking,2948,67%,4372.7,31:14:00,03:30:00,31:57:00,5,23-Mar-26\n,,,Stowing,48,103%,46.6,00:43:00,,,,\nHenrietta Obomagbaeghian,E,Packer,Packing (S),452,112%,405,13:30:00,01:30:00,30:04:00,5,09-Apr-26\n,,,Packing (M),328,66%,497,16:34:00,,,,\nKulwinder Bajwa,E,Floater/Problem Solver,Picking,1051,62%,1691.7,12:05:00,13:10:00,16:25:00,5,13-Apr-26\n,,,Stowing,183,65%,281.7,04:20:00,,,,\nBohdana Tkhorovska,E,Packer,Packing (S),449,162%,277,09:14:00,16:17:00,17:46:00,4,22-Aug-24\n,,,Packing (M),177,120%,148,04:56:00,,,,\n,,,Stowing,164,82%,200.4,03:05:00,,,,\n,,,Scanning,150,242%,62,00:31:00,,,,\nKevin Cudjoe,E,Packer,Docking,179,64%,278.7,03:29:00,,03:29:00,2,11-Jun-26\nSanthosh Joseph,ES,Supervisor/Driver,Stowing,1,2%,40.1,00:37:00,02:47:00,00:55:00,6,11-Apr-26\n,,,Scanning,50,139%,36,00:18:00,,,,\nRoshon Charles,E,Stower,Stowing,1003,45%,2229.5,34:18:00,01:20:00,34:18:00,5,01-Jun-26\nGreg Robinson,E,Packer,Docking,856,78%,1098.7,13:44:00,00:07:00,13:44:00,4,01-Jun-26\nCarlos Harrera,E,Packer,Packing (S),69,73%,94.5,03:09:00,,27:02:00,5,06-May-26\n,,,Packing (M),484,68%,716.5,23:53:00,,,,\nUpekha Manamendra,E,Stower,Stowing,1261,66%,1924,29:36:00,,29:36:00,4,01-Jun-26\nSana Shariff,NS,Supervisor,Picking,48,82%,58.3,00:25:00,,10:47:00,5,02-May-24\n,,,Stowing,3,3%,89.9,01:23:00,,,,\n,,,Fulfilment,0,0%,0,01:13:00,,,,\n,,,Scanning,66,7%,932,07:46:00,,,,\nMohit Nagi,N,Packer,Packing (M),160,98%,164,05:28:00,07:38:00,24:38:00,5,25-Jun-25\n,,,Packing (L),183,120%,152,10:08:00,,,,\n,,,Stowing,399,68%,587.2,09:02:00,,,,\nRohith Poongavalappil,N,Packer/Picker,Packing (S),550,148%,370.5,12:21:00,14:23:00,32:34:00,6,21-Apr-25\n,,,Packing (M),774,138%,562,18:44:00,,,,\n,,,Packing (L),26,117%,22.3,01:29:00,,,,\nJuan Caceres,N,-,Packing (S),17,53%,32,01:04:00,02:00:00,28:59:00,5,25-Aug-25\n,,,Packing (M),578,72%,803,26:46:00,,,,\n,,,Packing (L),12,70%,17.3,01:09:00,,,,\nHarpreet Kaur,N,Packer,Packing (S),16,59%,27,00:54:00,04:05:00,30:51:00,5,02-Mar-26\n,,,Packing (M),617,76%,812.5,27:05:00,,,,\n,,,Stowing,99,53%,186.3,02:52:00,,,,\nFroilan Allan Oyco,N,Picker,Picking,1739,52%,3369.3,24:04:00,01:30:00,24:04:00,5,23-Mar-26\nBenjo Marco Tua,N,Packer,Packing (L),197,95%,208,13:52:00,00:25:00,17:32:00,3,09-Apr-26\n,,,Picking,375,73%,513.3,03:40:00,,,,\nHamed Kohi,N,Packer,Packing (S),34,61%,55.5,01:51:00,02:45:00,24:09:00,5,22-Apr-26\n,,,Packing (M),386,58%,669,22:18:00,,,,\nRomanvir Singh,N,Packer,Packing (L),96,70%,136.8,09:07:00,,09:07:00,3,27-Apr-26\nHarmanjit Kaur,N,Packer,Picking,57,52%,109.7,00:47:00,01:40:00,21:01:00,3,11-May-26\n,,,Stowing,1144,87%,1315.2,20:14:00,,,,\nHarwinder Singh,N,Packer/Picker,Picking,3412,116%,2930.7,20:56:00,17:11:00,32:16:00,6,03-Sep-25\n,,,Stowing,815,111%,736.7,11:20:00,,,,\nJude Joseph,N,Docker,Docking,2864,129%,2225.3,27:49:00,01:53:00,27:49:00,5,02-Jun-26\nDaniela Silva,N,Packer,Picking,930,37%,2496.7,17:50:00,02:26:00,24:53:00,5,02-Jun-26\n,,,Stowing,328,72%,458.3,07:03:00,,,,\n"},{"id":1719700000007,"label":"15 Jun – 21 Jun","dateFrom":"2026-06-15","dateTo":"2026-06-21","savedAt":"2026-06-30T00:00:00.000Z","csvText":"Name,Shift,Role ,Process,Productivity,Productivity %,Productivity Benchmark,IT Hours,Non IT Hours,Total IT Hours,Working days,Date of Joining\nNamrah,M,Supervisor,Packing (S),20,174%,11.5,00:23:00,,07:38:00,5,01-Jun-22\n,,,Packing (M),50,125%,40,01:20:00,,,,\n,,,Picking,62,133%,46.7,00:20:00,,,,\n,,,Stowing,176,60%,292.5,04:30:00,,,,\n,,,Fulfilment,8,0%,0,00:48:00,,,,\n,,,Scanning,24,71%,34,00:17:00,,,,\nNazma Khatoon,M,Stower,Packing (S),115,113%,101.5,03:23:00,08:10:00,24:21:00,4,04-Mar-26\n,,,Packing (M),229,92%,249.5,08:19:00,,,,\n,,,Picking,29,104%,28,00:12:00,,,,\n,,,Stowing,805,127%,635.9,09:47:00,,,,\n,,,Fulfilment,52,0%,0,02:40:00,,,,\nPooja Sharma,M,Stower,Picking,535,84%,634.7,04:32:00,08:25:00,23:33:00,4,10-Apr-26\n,,,Stowing,1123,117%,962,14:48:00,,,,\n,,,Fulfilment,39,0%,0,02:56:00,,,,\n,,,Scanning,25,74%,34,00:17:00,,,,\nJoshua William,E,Picker,Picking,60,18%,338.3,02:25:00,00:03:00,06:31:00,2,20-Apr-26\n,,,Stowing,80,30%,266.5,04:06:00,,,,\nSumeet Kumar,M,-,Packing (S),14,48%,29,00:58:00,,16:12:00,4,25-Apr-26\n,,,Packing (M),6,80%,7.5,00:15:00,,,,\n,,,Packing (L),47,69%,67.8,04:31:00,,,,\n,,,Picking,0,0%,37.3,00:16:00,,,,\n,,,Stowing,347,55%,634.8,09:46:00,,,,\n,,,Fulfilment,0,0%,0,00:26:00,,,,\nRavneet Kaur,M,Stower/Picker,Packing (S),9,67%,13.5,00:27:00,09:54:00,29:12:00,5,27-Apr-26\n,,,Packing (M),155,63%,248,08:16:00,,,,\n,,,Picking,143,65%,221.7,01:35:00,,,,\n,,,Stowing,793,83%,950.1,14:37:00,,,,\n,,,Fulfilment,158,0%,0,04:17:00,,,,\nTryston Bennett,M,Packer,Docking,394,77%,509.3,06:22:00,03:02:00,06:22:00,5,28-Apr-26\nCharanjeet Singh,M,Picker,Picking,461,84%,546,03:54:00,19:50:00,19:25:00,5,26-Apr-26\n,,,Stowing,228,91%,250.3,03:51:00,,,,\n,,,Docking,270,78%,348,04:21:00,,,,\n,,,Fulfilment,0,0%,0,00:26:00,,,,\n,,,Scanning,19,190%,10,00:05:00,,,,\n,,,Customer Return,107,131%,81.6,06:48:00,,,,\nRajat Bhardwaj,M,Packer,Stowing,674,72%,940.3,14:28:00,08:26:00,18:39:00,4,14-May-26\n,,,Docking,20,37%,54.7,00:41:00,,,,\n,,,Fulfilment,32,0%,0,01:24:00,,,,\nSanjot Singh,E,Stower/Picker,Stowing,653,79%,824.4,12:41:00,,18:39:00,4,25-Apr-26\n,,,Customer Return,127,177%,71.6,05:58:00,,,,\nJaskaran Singh,E,Packer,Packing (S),321,163%,196.5,06:33:00,05:57:00,27:14:00,5,25-Sep-25\n,,,Packing (M),603,102%,592.5,19:45:00,,,,\nRupinder Kaur,E,Stower/Picker,Stowing,1404,76%,1842.8,28:21:00,02:42:00,30:45:00,5,21-Apr-25\n,,,Fulfilment,4,0%,0,02:24:00,,,,\nParamjeet Singh,E,Stower,Stowing,1344,88%,1534,23:36:00,06:00:00,23:36:00,4,27-Jun-25\nJonnoy White,E,Large Packer,Packing (S),8,84%,9.5,00:19:00,,17:47:00,4,03-Mar-24\n,,,Packing (L),210,80%,262,17:28:00,,,,\nTarick Arjun,E,Picker,Picking,507,92%,548.3,03:55:00,05:00:00,32:49:00,5,17-Jul-25\n,,,Stowing,1070,59%,1818.9,27:59:00,,,,\n,,,Fulfilment,185,0%,0,00:55:00,,,,\nTanveer Kaur,E,Stower,Stowing,1288,65%,1967.3,30:16:00,03:10:00,32:27:00,5,23-Mar-26\n,,,Fulfilment,45,0%,0,02:11:00,,,,\nJasjeet Kaur,E,Picker,Picking,2870,71%,4067,29:03:00,07:14:00,30:13:00,5,23-Mar-26\n,,,Stowing,61,92%,66.1,01:01:00,,,,\n,,,Fulfilment,8,0%,0,00:09:00,,,,\nHenrietta Obomagbaeghian,E,Packer,Packing (S),280,105%,266.5,08:53:00,,35:05:00,5,09-Apr-26\n,,,Packing (M),518,66%,786,26:12:00,,,,\nKulwinder Bajwa,E,Floater/Problem Solver,Picking,696,60%,1164.3,08:19:00,18:24:00,12:24:00,4,13-Apr-26\n,,,Stowing,172,65%,265.4,04:05:00,,,,\nBohdana Tkhorovska,E,Packer,Packing (S),450,197%,228,07:36:00,18:48:00,21:09:00,5,22-Aug-24\n,,,Packing (M),292,113%,259,08:38:00,,,,\n,,,Stowing,250,90%,276.3,04:15:00,,,,\n,,,Scanning,149,186%,80,00:40:00,,,,\nSanthosh Joseph,ES,Supervisor/Driver,Stowing,9,26%,34.7,00:32:00,03:03:00,00:32:00,7,11-Apr-26\nRoshon Charles,E,Stower,Stowing,1229,54%,2290.2,35:14:00,00:04:00,35:14:00,5,01-Jun-26\nGreg Robinson,E,Packer,Docking,2196,84%,2628,32:51:00,00:10:00,32:51:00,5,01-Jun-26\nCarlos Harrera,E,Packer,Packing (S),146,83%,176.5,05:53:00,,31:25:00,5,06-May-26\n,,,Packing (M),483,63%,766,25:32:00,,,,\nUpekha Manamendra,E,Stower,Stowing,1528,70%,2193.8,33:45:00,,33:45:00,5,01-Jun-26\nSana Shariff,NS,Supervisor,Packing (L),92,119%,77,05:08:00,,21:37:00,6,02-May-24\n,,,Picking,224,125%,179.7,01:17:00,,,,\n,,,Stowing,15,4%,358.6,05:31:00,,,,\n,,,Fulfilment,0,0%,0,02:07:00,,,,\n,,,Scanning,93,10%,908,07:34:00,,,,\nMohit Nagi,N,Packer,Packing (L),204,92%,220.8,14:43:00,16:56:00,24:25:00,6,25-Jun-25\n,,,Picking,49,131%,37.3,00:16:00,,,,\n,,,Stowing,640,109%,589.3,09:04:00,,,,\nRohith Poongavalappil,N,Packer/Picker,Packing (S),578,183%,315.5,10:31:00,20:07:00,33:59:00,6,21-Apr-25\n,,,Packing (M),1017,145%,702.5,23:25:00,,,,\n,,,Picking,10,143%,7,00:03:00,,,,\nJuan Caceres,N,Packer,Packing (S),13,81%,16,00:32:00,06:32:00,20:55:00,5,25-Aug-25\n,,,Packing (M),355,64%,551,18:22:00,,,,\n,,,Packing (L),6,86%,7,00:28:00,,,,\n,,,Fulfilment,18,0%,0,01:33:00,,,,\nHarpreet Kaur,N,Packer,Packing (S),3,55%,5.5,00:11:00,03:45:00,22:22:00,5,02-Mar-26\n,,,Packing (M),490,81%,607,20:14:00,,,,\n,,,Fulfilment,55,0%,0,01:57:00,,,,\nFroilan Allan Oyco,N,Picker,Picking,1097,51%,2158.3,15:25:00,12:27:00,15:25:00,5,23-Mar-26\nHamed Kohi,N,Packer,Packing (S),5,56%,9,00:18:00,,12:28:00,4,22-Apr-26\n,,,Packing (M),172,61%,281.5,09:23:00,,,,\n,,,Fulfilment,111,0%,0,02:47:00,,,,\nRomanvir Singh,N,Packer,Packing (L),145,102%,141.8,09:27:00,00:05:00,09:27:00,3,27-Apr-26\nHarmanjit Kaur,N,Packer,Packing (S),2,50%,4,00:08:00,,16:11:00,3,11-May-26\n,,,Packing (M),46,44%,105,03:30:00,,,,\n,,,Picking,108,70%,154,01:06:00,,,,\n,,,Stowing,683,92%,744.3,11:27:00,,,,\nHarwinder Singh,N,Packer/Picker,Packing (S),1,200%,0.5,00:01:00,20:20:00,32:53:00,6,03-Sep-25\n,,,Packing (M),263,134%,196.5,06:33:00,,,,\n,,,Picking,3193,122%,2622.7,18:44:00,,,,\n,,,Stowing,555,123%,451.8,06:57:00,,,,\n,,,Fulfilment,43,0%,0,00:38:00,,,,\nJude Joseph,N,Docker,Docking,1682,87%,1930.7,24:08:00,02:06:00,24:08:00,5,02-Jun-26\nDaniela Silva,N,Packer,Picking,320,58%,555.3,03:58:00,06:45:00,13:26:00,5,02-Jun-26\n,,,Stowing,348,57%,615.3,09:28:00,,,,\n"},{"id":1719700000008,"label":"22 Jun – 28 Jun","dateFrom":"2026-06-22","dateTo":"2026-06-28","savedAt":"2026-06-30T00:00:00.000Z","csvText":"Name,Shift,Role ,Process,Productivity,Productivity %,Productivity Benchmark,IT Hours,NON IT Hours,Total IT Hours,Working days,Date of Joining\nNamrah,M,Supervisor,Packing (M),1,120%,0.8,00:02:00,00:06:00,05:26:00,5,01-Jun-22\n,,,Picking,41,146%,28,00:12:00,,,,\n,,,Stowing,177,56%,315.3,04:51:00,,,,\n,,,Scanning,19,45%,42,00:21:00,,,,\n,,,Move Cancelled Items,0,0%,2.3,00:04:00,,,,\n,,,Move Extra Items,0,0%,2.3,00:04:00,,,,\nRenjith Raj,M,Picker,Packing (S),101,63%,160.4,04:35:00,00:00:00,22:09:00,5,25-Apr-26\n,,,Packing (M),29,98%,29.6,01:11:00,,,,\n,,,Packing (L),167,89%,187.3,12:29:00,,,,\n,,,Stowing,152,60%,253.5,03:54:00,,,,\nNazma Khatoon,M,Stower,Packing (S),118,142%,82.8,02:22:00,09:11:00,25:44:00,5,04-Mar-26\n,,,Packing (M),161,115%,140,05:36:00,,,,\n,,,Picking,74,96%,77,00:33:00,,,,\n,,,Stowing,1498,134%,1119.1,17:13:00,,,,\n,,,Move Cancelled Items,57,40%,141.8,04:03:00,,,,\n,,,Move Extra Items,8,24%,33.8,00:58:00,,,,\nJermaine Stewart,M,Packer,Docking,309,99%,310.7,03:53:00,00:25:00,03:53:00,1,24-Mar-26\nPooja Sharma,M,Stower,Picking,364,106%,343,02:27:00,09:29:00,18:40:00,4,10-Apr-26\n,,,Stowing,1266,120%,1054.1,16:13:00,,,,\n,,,Move Cancelled Items,64,64%,99.8,02:51:00,,,,\n,,,Move Extra Items,21,36%,58.9,01:41:00,,,,\nRavneet Kaur,M,Stower/Picker,Packing (S),50,85%,58.9,01:41:00,08:28:00,26:59:00,5,27-Apr-26\n,,,Packing (M),69,64%,107.9,04:19:00,,,,\n,,,Picking,229,63%,366.3,02:37:00,,,,\n,,,Stowing,961,80%,1193.8,18:22:00,,,,\n,,,Move Cancelled Items,47,44%,107.9,03:05:00,,,,\n,,,Move Extra Items,17,36%,47.8,01:22:00,,,,\nTryston Bennett,M,Packer,Docking,368,63%,584,07:18:00,13:45:00,07:18:00,5,28-Apr-26\nDanishveer Mangat,M,Packer,Sortly Create Skids,19,19%,100,01:15:00,00:00:00,00:00:00,1,18-May-26\nRajat Bhardwaj,M,Packer,Picking,59,56%,105,00:45:00,18:39:00,13:52:00,4,14-May-26\n,,,Stowing,527,83%,634.8,09:46:00,,,,\n,,,Docking,148,55%,268,03:21:00,,,,\nSumeet Kumar,M,-,Packing (S),34,94%,36.2,01:02:00,00:00:00,04:03:00,1,25-Apr-26\n,,,Packing (M),11,94%,11.7,00:28:00,,,,\n,,,Stowing,132,80%,165.8,02:33:00,,,,\nSanjot Singh,E,Stower/Picker,Picking,225,70%,319.7,02:17:00,01:26:00,18:01:00,5,25-Apr-26\n,,,Stowing,574,90%,637,09:48:00,,,,\n,,,Customer Return,120,169%,71.2,05:56:00,,,,\nJoshua William,E,Picker,Picking,54,29%,189,01:21:00,00:03:00,12:27:00,2,20-Apr-26\n,,,Stowing,252,35%,721.5,11:06:00,,,,\nJaskaran Singh,E,Packer,Packing (S),218,121%,180.8,05:10:00,00:49:00,25:38:00,4,25-Sep-25\n,,,Packing (M),564,110%,511.7,20:28:00,,,,\nRupinder Kaur,E,Stower/Picker,Picking,28,38%,74.7,00:32:00,05:43:00,31:43:00,5,21-Apr-25\n,,,Stowing,1511,75%,2026.9,31:11:00,,,,\nParamjeet Singh,E,Stower,Stowing,2138,72%,2951,45:24:00,05:49:00,45:24:00,5,27-Jun-25\nJonnoy White,E,Large Packer,Packing (S),6,24%,24.5,00:42:00,00:02:00,24:12:00,5,03-Mar-24\n,,,Packing (L),321,96%,334.3,22:17:00,,,,\n,,,Picking,100,59%,170.3,01:13:00,,,,\nTarick Arjun,E,Picker,Picking,661,87%,756,05:24:00,04:24:00,22:35:00,4,17-Jul-25\n,,,Stowing,552,49%,1116.9,17:11:00,,,,\nTanveer Kaur,E,Stower,Stowing,1462,93%,1568.7,24:08:00,05:37:00,24:08:00,5,23-Mar-26\nJasjeet Kaur,E,Picker,Picking,3140,77%,4092.7,29:14:00,05:25:00,30:45:00,5,23-Mar-26\n,,,Stowing,74,75%,98.6,01:31:00,,,,\nHenrietta Obomagbaeghian,E,Packer,Packing (S),376,93%,402.5,11:30:00,00:00:00,35:54:00,5,09-Apr-26\n,,,Packing (M),548,90%,610,24:24:00,,,,\nKulwinder Bajwa,E,Floater/Problem Solver,Picking,806,70%,1143.3,08:10:00,13:45:00,20:17:00,5,13-Apr-26\n,,,Stowing,519,66%,787.6,12:07:00,,,,\n,,,Move Extra Items,22,53%,41.4,01:11:00,,,,\nBohdana Tkhorovska,E,Packer,Packing (S),635,150%,422.3,12:04:00,08:41:00,29:01:00,5,22-Aug-24\n,,,Packing (M),490,144%,340.4,13:37:00,,,,\n,,,Stowing,149,84%,176.6,02:43:00,,,,\n,,,Scanning,110,149%,74,00:37:00,,,,\nRoshon Charles,E,Stower,Stowing,1002,52%,1928.3,29:40:00,04:16:00,29:40:00,5,01-Jun-26\nGreg Robinson,E,Packer,Docking,1992,81%,2470.7,30:53:00,00:08:00,30:53:00,5,01-Jun-26\nUpekha Manamendra,E,Stower,Stowing,1573,83%,1892.6,29:07:00,04:06:00,29:07:00,5,01-Jun-26\nCarlos Harrera,E,Packer,Packing (S),106,66%,161.6,04:37:00,00:00:00,34:00:00,5,06-May-26\n,,,Packing (M),607,83%,734.6,29:23:00,,,,\nKevin Cudjoe,E,Packer,Docking,981,94%,1045.3,13:04:00,11:46:00,13:04:00,5,11-Jun-26\nSanthosh Joseph,ES,Supervisor/Driver,Stowing,2,3%,60.7,00:56:00,03:14:00,00:56:00,5,11-Apr-26\nSana Shariff,NS,Supervisor,Packing (M),1,80%,1.3,00:03:00,00:00:00,46:14:00,5,02-May-24\n,,,Stowing,11,1%,1501.5,23:06:00,,,,\n,,,Scanning,82,3%,2770,23:05:00,,,,\n,,,Move Cancelled Items,0,0%,13.4,00:23:00,,,,\n,,,Move Extra Items,0,0%,14.6,00:25:00,,,,\nMohit Nagi,N,Packer,Packing (L),219,106%,207,13:48:00,18:45:00,16:45:00,5,25-Jun-25\n,,,Picking,66,113%,58.3,00:25:00,,,,\n,,,Stowing,167,109%,153.8,02:22:00,,,,\nRohith Poongavalappil,N,Packer/Picker,Packing (S),159,160%,99.2,02:50:00,17:43:00,23:48:00,5,21-Apr-25\n,,,Packing (M),793,153%,517.9,20:43:00,,,,\n,,,Stowing,24,148%,16.3,00:15:00,,,,\nJuan Caceres,N,Packer,Packing (S),19,86%,22.2,00:38:00,01:42:00,20:03:00,4,25-Aug-25\n,,,Packing (M),458,94%,485.4,19:25:00,,,,\n,,,Move Cancelled Items,100,80%,124.3,03:33:00,,,,\nHarpreet Kaur,N,Packer,Packing (S),13,106%,12.3,00:21:00,10:20:00,27:03:00,5,02-Mar-26\n,,,Packing (M),650,106%,610.8,24:26:00,,,,\n,,,Stowing,0,0%,147.3,02:16:00,,,,\n,,,Move Cancelled Items,175,126%,138.8,03:58:00,,,,\nFroilan Allan Oyco,N,Picker,Picking,1629,78%,2090.7,14:56:00,07:56:00,14:56:00,5,23-Mar-26\nHarmanjit Kaur,N,Packer,Packing (S),9,91%,9.9,00:17:00,04:27:00,14:24:00,3,11-May-26\n,,,Packing (M),140,72%,194.6,07:47:00,,,,\n,,,Packing (L),0,0%,2,00:08:00,,,,\n,,,Picking,16,40%,39.7,00:17:00,,,,\n,,,Stowing,342,89%,384.6,05:55:00,,,,\n,,,Move Cancelled Items,151,135%,112,03:12:00,,,,\nDaniela Silva,N,Packer,Picking,642,69%,935.7,06:41:00,03:54:00,12:11:00,4,02-Jun-26\n,,,Stowing,278,78%,357.5,05:30:00,,,,\n,,,Move Cancelled Items,0,0%,15.8,00:27:00,,,,\nJude Joseph,N,Docker,Docking,1899,110%,1721.3,21:31:00,03:04:00,21:31:00,5,02-Jun-26\nHarwinder Singh,N,Packer/Picker,Picking,3501,135%,2599.3,18:34:00,18:45:00,21:09:00,5,03-Sep-25\n,,,Stowing,247,147%,167.9,02:35:00,,,,\n,,,Move Cancelled Items,1,4%,22.8,00:39:00,,,,\nVarinder Khan,M,-,Stowing,102,38%,266.5,04:06:00,00:36:00,04:54:00,1,25-Apr-26\n,,,Docking,73,114%,64,00:48:00,,,,\nKulwinder Kumar,M,-,Packing (M),53,90%,58.8,02:21:00,00:00:00,06:35:00,1,25-Apr-26\n,,,Stowing,213,77%,275.2,04:14:00,,,,\nCharanjeet Singh,M,Picker,Picking,130,70%,186.7,01:20:00,24:43:00,14:43:00,5,26-Apr-26\n,,,Stowing,250,88%,282.8,04:21:00,,,,\n,,,Docking,108,121%,89.3,01:07:00,,,,\n,,,Scanning,51,142%,36,00:18:00,,,,\n,,,Customer Return,128,140%,91.4,07:37:00,,,,\n"}];
+
+
+// ════════════════════════════════════════════════════════
+// CONFIG — Mississauga
+// ════════════════════════════════════════════════════════
 const BENCH = {
-  'Customer Return':      12,
-  'Move Cancelled Items': 35,
-  'Move Extra Items':     35,
-  'Move Sortly Item':     120,
-  'Sortly Create Skids':  80,
+  'Picking':       140,
+  'Stowing':        65,
+  'Packing (S)':    35,   // WPI rate
+  'Packing (M)':    25,   // WPI rate
+  'Packing (L)':    15,
+  'Docking':          80,
 };
+const PACK_SM  = new Set(['Packing (S)','Packing (M)']);
+// Processes scored toward avg productivity
+const SCORED   = new Set(Object.keys(BENCH));
+// Processes to skip entirely
+const SKIP     = new Set(['fulfilment','customer return','scanning','move items',
+                           'customer handing','returns','cs pick up',
+                           'move sortly item','move cancelled items','sortly create skids','move extra items']);
 
-// WPI pair: Move Cancelled Items + Move Extra Items
-// Both are "move" operations at 35/hr — combined with volume weighting
-// WPI = achMCI × (MCI_qty/total) + achMEI × (MEI_qty/total)
-const WPI_A = 'Move Cancelled Items';
-const WPI_B = 'Move Extra Items';
-const WPI_LABEL = 'Move (MCI+MEI)';
+const IT_DAY   = 6.5;
+const BONUS_TIERS = [{tier:'Elite',min:130,pay:125},{tier:'High',min:110,pay:95},{tier:'Base',min:100,pay:50}];
 
-// Processes to skip (not scored)
-const SKIP = new Set([
-  'picking','stowing','packing (s)','packing (m)','packing (l)','docking','scanning',
-  'fulfilment','customer handing','cs pick up','returns','move items',
-  'sortly scan items',
-]);
+// Screenshot-confirmed payout records — these override computed results for
+// historical weeks (wks 3–8) to match actual paid bonuses exactly.
+// From 22 Jun 2026 (updated benchmarks), bonuses are computed from the CSV.
+const CONFIRMED_BONUSES = {
+  '2026-05-11': [
+    {name:'Rohith Poongavalappil',avg:138,tier:'Elite',pay:125},
+    {name:'Bohdana Tkhorovska',avg:101,tier:'Base',pay:50},
+    {name:'Jonnoy White',avg:118,tier:'High',pay:95},
+    {name:'Harwinder Singh',avg:107,tier:'Base',pay:50},
+    {name:'Benjo Marco Tua',avg:105,tier:'Base',pay:50},
+  ],
+  '2026-05-18': [
+    {name:'Rohith Poongavalappil',avg:120,tier:'High',pay:95},
+    {name:'Vandna Saini',avg:109,tier:'Base',pay:50},
+    {name:'Harwinder Singh',avg:108,tier:'Base',pay:50},
+    {name:'Bohdana Tkhorovska',avg:113,tier:'High',pay:95},
+  ],
+  '2026-05-25': [
+    {name:'Mohit Nagi',avg:130,tier:'Elite',pay:125},
+    {name:'Harwinder Singh',avg:125,tier:'High',pay:95},
+    {name:'Bohdana Tkhorovska',avg:124,tier:'High',pay:95},
+    {name:'Rohith Poongavalappil',avg:123,tier:'High',pay:95},
+    {name:'Benjo Marco Tua',avg:103,tier:'Base',pay:50},
+  ],
+  '2026-06-01': [
+    {name:'Rohith Poongavalappil',avg:135,tier:'Elite',pay:125},
+    {name:'Harwinder Singh',avg:115,tier:'High',pay:95},
+    {name:'Bohdana Tkhorovska',avg:108,tier:'Base',pay:50},
+  ],
+  '2026-06-08': [
+    {name:'Bohdana Tkhorovska',avg:116,tier:'High',pay:95},
+    {name:'Rohith Poongavalappil',avg:133,tier:'Elite',pay:125},
+    {name:'Harwinder Singh',avg:120,tier:'High',pay:95},
+    {name:'Nazma Khatoon',avg:109,tier:'Base',pay:50},
+  ],
+  '2026-06-15': [
+    {name:'Nazma Khatoon',avg:110,tier:'High',pay:95},
+    {name:'Pooja Sharma',avg:101,tier:'Base',pay:50},
+    {name:'Jaskaran Singh',avg:117,tier:'High',pay:95},
+    {name:'Bohdana Tkhorovska',avg:121,tier:'High',pay:95},
+    {name:'Mohit Nagi',avg:111,tier:'High',pay:95},
+    {name:'Rohith Poongavalappil',avg:150,tier:'Elite',pay:125},
+    {name:'Harwinder Singh',avg:126,tier:'High',pay:95},
+  ],
+};
+const BBCLS    = {Elite:'bb-e',High:'bb-h',Base:'bb-b'};
+const TBCLS    = {Elite:'tb-e',High:'tb-h',Base:'tb-b'};
+const LTCCLS   = {Elite:'ltce',High:'ltch',Base:'ltcb'};
 
-const SCORED = new Set(Object.keys(BENCH).map(k => k.toLowerCase()));
+// ── Mississauga standard hours requirement ──
+function bonusItReq(name, days) {
+  const req = days >= 5 ? 30 : (days === 4 ? 24 : 0);
+  return {req, note:`${req}h (${days >= 5 ? '5+ days' : days === 4 ? '4 days' : '<4 days'})`};
+}
 
-const TIERS = [
-  {tier:'Elite', min:130, pay:125},
-  {tier:'High',  min:110, pay:95 },
-  {tier:'Base',  min:100, pay:50 },
-];
-
-const IT_DAY = 6.5;
-const MIN_DAYS = 4;
-const BANNED = new Set(['Suresh Singh','Andres Valdes','Sewe Loaknauth','Kulwinder Kumar','Sumeet Kumar']);
-
-// ── Baked weekly data (all 9 weeks pre-loaded) ────────────────────
-const BAKED_WEEKS = [{"dateFrom": "2026-04-27", "filename": "WH_Reporting_-_Returns__27apr-3may_.csv", "csvText": "Name,Shift,Role ,Process,Productivity,Productivity %,Productivity Benchmark,IT Hours,Total IT Hours,NON IT Hours,Working days,Date of Joining\nJeffery Morgan,M,Returns,Customer Return,160,100%,160.8,13:24:00,13:24:00,00:10:00,5,15-Dec-25\nHarsimran Singh,M,Returns,Move Cancelled Items,810,98%,829.5,23:42:00,00:00:00,37:10:00,5,10-Jun-24\nPritpal Singh,M,Returns,Stowing,6,5%,111.6,01:43:00,16:43:00,28:05:00,6,23-Jul-24\n,,,Customer Return,328,182%,180,15:00:00,,,,\nHemant Gupta,M,Returns,Stowing,102,45%,225.3,03:28:00,20:15:00,24:00:00,6,13-May-24\n,,,Scanning,1,12%,8,00:04:00,,,,\n,,,Customer Return,334,167%,200.6,16:43:00,,,,\n"}, {"dateFrom": "2026-05-04", "filename": "WH_Reporting_-_Returns__4thmay-_10thmay_.csv", "csvText": "Name,Shift,Role ,Process,Productivity,Productivity %,Productivity Benchmark,IT Hours,NON IT Hours,Total IT Hours,Working days,Date of Joining\nJeffery Morgan,M,Returns,Customer Return,79,72%,109,09:05:00,00:00:00,09:05:00,5,15-Dec-25\n,,,Move Cancelled Items,0,0%,16.3,00:28:00,,,,\n,,,Sortly Create Skids,0,0%,10.7,00:08:00,,,,\nHarsimran Singh,M,Returns,Customer Return,27,82%,33,02:45:00,29:53:00,02:45:00,5,10-Jun-24\n,,,Move Cancelled Items,396,148%,268.3,07:40:00,,,,\n,,,Move Sortly Item,938,59%,1600,13:20:00,,,,\nPritpal Singh,M,Returns,Customer Return,601,170%,354.2,29:31:00,10:04:00,29:31:00,7,23-Jul-24\nHemant Gupta,M,Returns,Stowing,9,18%,50.9,00:47:00,15:05:00,23:09:00,7,13-May-24\n,,,Customer Return,408,152%,268.4,22:22:00,,,,\n,,,Move Cancelled Items,88,117%,75.3,02:09:00,,,,\n"}, {"dateFrom": "2026-05-11", "filename": "WH_Reporting_-_Returns_11thmay-17thmay_.csv", "csvText": "Name,Shift,Role ,Process,Productivity,Productivity %,Productivity Benchmark,IT Hours,NON IT Hours,Total IT Hours,Working days,Date of Joining\n,,,Move Cancelled Items,0,0%,14,00:24:00,,,,\nJeffery Morgan,M,Returns,Customer Return,37,77%,48.2,04:01:00,00:00:00,04:01:00,6,15-Dec-25\n,,,Move Sortly Item,284,50%,564,04:42:00,,,,\n,,,Sortly Create Skids,72,23%,313.3,03:55:00,,,,\nHarsimran Singh,M,Returns,Move Sortly Item,700,44%,1598,13:19:00,32:27:00,00:00:00,6,10-Jun-24\n,,,Sortly Create Skids,409,67%,613.3,07:40:00,,,,\nPritpal Singh,M,Returns,Customer Return,228,154%,147.6,12:18:00,17:16:00,12:18:00,6,23-Jul-24\n,,,Move Cancelled Items,56,113%,49.6,01:25:00,,,,\n,,,Move Sortly Item,802,46%,1756,14:38:00,,,,\n,,,Sortly Create Skids,2,15%,13.3,00:10:00,,,,\nHemant Gupta,M,Returns,Customer Return,225,131%,171.8,14:19:00,12:05:00,14:19:00,6,13-May-24\n,,,Move Cancelled Items,47,110%,42.6,01:13:00,,,,\n,,,Move Sortly Item,98,64%,154,01:17:00,,,,\n,,,Sortly Create Skids,479,47%,1025.3,12:49:00,,,,\n"}, {"dateFrom": "2026-05-18", "filename": "WH_Reporting_-_Returns_18thmay-24thmay_.csv", "csvText": "Name,Shift,Role ,Process,Productivity,Productivity %,Productivity Benchmark,IT Hours,NON IT Hours,Total IT Hours,Working days,Date of Joining\nJeffery Morgan,M,Returns,Customer Return,22,239%,9.2,00:46:00,00:00:00,00:46:00,4,15-Dec-25\n,,,Sortly Create Skids,103,46%,224,02:48:00,,,,\nHarsimran Singh,M,Returns,Move Sortly Item,448,47%,946,07:53:00,38:52:00,00:00:00,5,10-Jun-24\n,,,Sortly Create Skids,208,68%,305.3,03:49:00,,,,\nPritpal Singh,M,Returns,Customer Return,557,167%,332.6,27:43:00,04:29:00,27:43:00,4,23-Jul-24\nHemant Gupta,M,Returns,Customer Return,802,170%,471,39:15:00,04:55:00,39:15:00,6,13-May-24\n"}, {"dateFrom": "2026-05-25", "filename": "WH_Reporting_-_Returns_25thmay-31stmay_.csv", "csvText": "Name,Shift,Role ,Process,Productivity,Productivity %,Productivity Benchmark,IT Hours,NON IT Hours,Total IT Hours,Working days,Date of Joining\nJeffery Morgan,M,Returns,Move Sortly Item,12,12%,98,00:49:00,00:57:00,00:00:00,4,15-Dec-25\n,,,Sortly Create Skids,41,35%,118.7,01:29:00,,,,\nHarsimran Singh,M,Returns,Move Sortly Item,240,46%,526,04:23:00,31:18:00,00:00:00,5,10-Jun-24\n,,,Sortly Create Skids,348,100%,346.7,04:20:00,,,,\nPritpal Singh,M,Returns,Customer Return,590,135%,436.4,36:22:00,10:28:00,36:22:00,6,23-Jul-24\n,,,Move Cancelled Items,3,14%,21,00:36:00,,,,\n,,,Move Sortly Item,0,0%,14,00:07:00,,,,\nHemant Gupta,M,Returns,Customer Return,390,124%,315.6,26:18:00,15:20:00,26:18:00,6,13-May-24\n,,,Move Sortly Item,38,34%,112,00:56:00,,,,\n,,,Sortly Create Skids,60,31%,190.7,02:23:00,,,,\n"}, {"dateFrom": "2026-06-01", "filename": "WH_Reporting_-_Returns_1jun-7jun_.csv", "csvText": "Name,Shift,Role ,Process,Productivity,Productivity %,Productivity Benchmark,IT Hours,NON IT Hours,Total IT Hours,Working days,Date of Joining\nJeffery Morgan,M,Returns,Sortly Create Skids,29,32%,92,01:09:00,00:00:00,00:00:00,5,15-Dec-25\n,,,Move Extra Items,0,0%,16.3,00:28:00,,,,\nHarsimran Singh,M,Returns,Move Sortly Item,134,28%,472,03:56:00,40:01:00,00:00:00,7,10-Jun-24\n,,,Sortly Create Skids,332,51%,657.3,08:13:00,,,,\nPritpal Singh,M,Returns,Customer Return,494,139%,355.4,29:37:00,10:31:00,29:37:00,5,23-Jul-24\nHemant Gupta,M,Returns,Customer Return,253,116%,218.8,18:14:00,12:50:00,18:14:00,6,13-May-24\n,,,Move Sortly Item,429,55%,782,06:31:00,,,,\n,,,Sortly Create Skids,37,19%,197.3,02:28:00,,,,\n"}, {"dateFrom": "2026-06-08", "filename": "WH_Reporting_-_Returns_8jun-14jun_.csv", "csvText": "Name,Shift,Role ,Process,Productivity,Productivity %,Productivity Benchmark,IT Hours,NON IT Hours,Total IT Hours,Working days,Date of Joining\nJeffery Morgan,M,Returns,Customer Return,163,113%,144.2,12:01:00,00:00:00,12:01:00,5,15-Dec-25\n,,,Move Cancelled Items,1,86%,1.2,00:02:00,,,,\n,,,Sortly Create Skids,425,85%,500,06:15:00,,,,\nHarsimran Singh,M,Returns,Customer Return,107,113%,94.6,07:53:00,27:02:00,07:53:00,6,10-Jun-24\n,,,Move Sortly Item,116,95%,122,01:01:00,,,,\n,,,Sortly Create Skids,321,56%,577.3,07:13:00,,,,\nPritpal Singh,M,Returns,Customer Return,437,149%,293.4,24:27:00,06:16:00,24:27:00,4,23-Jul-24\n,,,Sortly Create Skids,8,120%,6.7,00:05:00,,,,\nHemant Gupta,M,Returns,Scanning,2,100%,2,00:01:00,24:00:00,00:01:00,5,13-May-24\n,,,Move Sortly Item,3,6%,50,00:25:00,,,,\n,,,Sortly Create Skids,105,16%,677.3,08:28:00,,,,\n"}, {"dateFrom": "2026-06-15", "filename": "WH_Reporting_-_Returns_15jun-21jun_.csv", "csvText": "Name,Shift,Role ,Process,Productivity,Productivity %,Productivity Benchmark,IT Hours,NON IT Hours,Total IT Hours,Working days,Date of Joining\nJeffery Morgan,M,Returns,Customer Return,151,95%,159.4,13:17:00,00:00:00,13:17:00,5,15-Dec-25\n,,,Move Cancelled Items,3,129%,2.3,00:04:00,,,,\n,,,Move Sortly Item,44,31%,140,01:10:00,,,,\nHarsimran Singh,M,Returns,Customer Return,18,122%,14.8,01:14:00,36:14:00,01:14:00,5,10-Jun-24\n,,,Move Sortly Item,625,75%,832,06:56:00,,,,\n,,,Sortly Create Skids,487,70%,693.3,08:40:00,,,,\nPritpal Singh,M,Returns,Customer Return,349,144%,242,20:10:00,12:06:00,20:10:00,4,23-Jul-24\nHemant Gupta,M,Returns,Move Sortly Item,147,38%,382,03:11:00,08:00:00,00:00:00,5,13-May-24\n,,,Sortly Create Skids,65,15%,424,05:18:00,,,,\n"}, {"dateFrom": "2026-06-22", "filename": "WH_Reporting_-_Returns_22jun-28jun_.csv", "csvText": "Name,Shift,Role ,Process,Productivity,Productivity %,Productivity Benchmark,IT Hours,NON IT Hours,Total IT Hours,Working days,Date of Joining\nJeffery Morgan,M,Returns,Customer Return,170,109%,156.2,13:01:00,00:00:00,13:01:00,5,15-Dec-25\n,,,Move Cancelled Items,1,7%,14,00:24:00,,,,\n,,,Move Sortly Item,58,51%,114,00:57:00,,,,\nHarsimran Singh,M,Returns,Move Sortly Item,271,77%,350,02:55:00,46:20:00,00:00:00,6,10-Jun-24\n,,,Sortly Create Skids,514,80%,644,08:03:00,,,,\nPritpal Singh,M,Returns,Customer Return,226,157%,143.6,11:58:00,12:29:00,11:58:00,4,23-Jul-24\n,,,Move Cancelled Items,4,11%,36.2,01:02:00,,,,\nHemant Gupta,M,Returns,Customer Return,1,125%,0.8,00:04:00,00:00:00,00:04:00,5,13-May-24\n,,,Move Sortly Item,1,25%,4,00:02:00,,,,\n,,,Sortly Create Skids,86,17%,509.3,06:22:00,,,,\n,,,Move Extra Items,1,86%,1.2,00:02:00,,,,\nPresila Anthony,M,,Customer Return,346,148%,233,19:25:00,08:35:00,19:25:00,5,07-May-26\n,,,Sortly Create Skids,345,50%,685.3,08:34:00,,,,\n"}];
-
-// ═══════════════════════════════════════════════════
+// ════════════════════════════════════════════════════════
 // STATE
-// ═══════════════════════════════════════════════════
-let weeks = [], selIdx = 0;
-const LS_KEY = 'returns_hub_v1';
+// ════════════════════════════════════════════════════════
+let weeks = [], selIdx = 0, lbSort = 'total', pendingCSV = null;
 
-// ═══════════════════════════════════════════════════
+// ════════════════════════════════════════════════════════
 // HELPERS
-// ═══════════════════════════════════════════════════
-function hms(s) {
-  if (!s || !s.trim()) return 0;
-  const p = s.trim().split(':');
-  if (p.length === 3) return +p[0] + +p[1]/60 + +p[2]/3600;
-  if (p.length === 2) return +p[0] + +p[1]/60;
-  return parseFloat(s) || 0;
-}
+// ════════════════════════════════════════════════════════
+function hms(s){if(!s||!s.trim())return 0;const p=s.trim().split(':');if(p.length===3)return+p[0]+(+p[1])/60+(+p[2])/3600;if(p.length===2)return+p[0]+(+p[1])/60;return parseFloat(s)||0;}
+function fmtH(h){const hh=Math.floor(h),mm=Math.round((h-hh)*60);return hh+'h '+String(mm<60?mm:0).padStart(2,'0')+'m';}
+function rpct(q,t){return t>0?Math.round(q/t*100):0;}
+function clr(p){return p>=100?'ph':p>=80?'pw':'pl';}
+function fmtDate(s){try{return new Date(s+'T00:00:00').toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'});}catch{return s;}}
+function fmtShort(s){try{const d=new Date(s+'T00:00:00');return d.getDate()+' '+['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][d.getMonth()];}catch{return s;}}
+function splitLine(l){const c=[];let s='',q=false;for(const ch of l){if(ch==='"'){q=!q;}else if(ch===','&&!q){c.push(s.trim());s='';}else s+=ch;}c.push(s.trim());return c;}
+function weekLabel(w){return w.dateFrom&&w.dateTo?fmtShort(w.dateFrom)+' – '+fmtShort(w.dateTo)+' '+w.dateFrom.slice(0,4):w.label;}
 
-function splitLine(l) {
-  const c = []; let s = '', q = false;
-  for (const ch of l) {
-    if (ch === '"') { q = !q; }
-    else if (ch === ',' && !q) { c.push(s.trim()); s = ''; }
-    else s += ch;
-  }
-  c.push(s.trim()); return c;
-}
-
-function col(v) { return v >= 100 ? '#34d399' : v >= 80 ? '#fbbf24' : '#f87171'; }
-function colFill(v) { return v >= 100 ? 'ph-fill' : v >= 80 ? 'pw-fill' : 'pl-fill'; }
-function weekLabel(dateFrom) {
-  if (!dateFrom) return '—';
-  const d = new Date(dateFrom + 'T00:00:00');
-  const end = new Date(d); end.setDate(end.getDate() + 6);
-  const fmt = dt => dt.toLocaleDateString('en-GB', {day:'numeric', month:'short'});
-  return `${fmt(d)} – ${fmt(end)}`;
-}
-
-// ═══════════════════════════════════════════════════
-// CSV PARSING
-// ═══════════════════════════════════════════════════
-function parseCSV(txt) {
-  const lines = txt.trim().split(/[\r\n]+/).filter(x => x.trim());
-  const hdrs = splitLine(lines[0]);
-  const ci = (...ns) => {
-    for (const n of ns) {
-      const nk = n.toLowerCase().replace(/[\s_-]/g, '');
-      let i = hdrs.findIndex(h => h.trim().toLowerCase().replace(/[\s_-]/g, '') === nk);
-      if (i >= 0) return i;
-      i = hdrs.findIndex(h => {
-        const hk = h.trim().toLowerCase().replace(/[\s_-]/g, '');
-        return hk.includes(nk) && !hk.includes('benchmark') && !hk.includes('%');
-      });
-      if (i >= 0) return i;
-    }
-    return -1;
-  };
-  const iName = ci('name','associate');
-  const iShift = ci('shift');
-  const iRole = ci('role');
-  const iProc = ci('process','activity');
-  let iProd = hdrs.findIndex(h => /^productivity( count)?$/i.test(h.trim()));
-  if (iProd < 0) iProd = ci('productivitycount','productivity');
-  const iBench = hdrs.findIndex(h => /^productivity\s*benchmark$/i.test(h.trim()));
-  const iITH = ci('ithours','it hours');
-  const iNIT = ci('nonithours','non it hours','nonit');
-  const iTotIT = ci('totalithours','total it hours');
-  const iDays = ci('workingdays','working days');
-  const iJoin = ci('dateofjoining','date of joining');
-
-  const out = []; let cur = null;
-  for (let i = 1; i < lines.length; i++) {
-    if (!lines[i].trim()) continue;
-    const c = splitLine(lines[i]);
-    const name = iName >= 0 ? (c[iName] || '').trim() : '';
-    if (name) {
-      if (cur) out.push(cur);
-      cur = {
-        name, shift: iShift >= 0 ? (c[iShift]||'').trim() : '',
-        role: iRole >= 0 ? (c[iRole]||'').trim() : '',
-        joined: iJoin >= 0 ? (c[iJoin]||'—').trim() : '—',
-        days: iDays >= 0 ? (parseInt(c[iDays]) || 0) : 0,
-        daysColPresent: iDays >= 0,
-        totalit: hms(iTotIT >= 0 ? c[iTotIT] : ''),
-        nonit: hms(iNIT >= 0 ? c[iNIT] : ''),
-        procs: [],
-      };
-    }
-    if (cur) {
-      const proc = iProc >= 0 ? (c[iProc]||'').trim() : '';
-      const qty  = iProd >= 0 ? (parseInt(c[iProd]) || 0) : 0;
-      const bench = iBench >= 0 ? (parseFloat(c[iBench]) || 0) : 0;
-      const ith  = iITH >= 0 ? hms(c[iITH]) : 0;
-      if (proc) cur.procs.push({ proc, qty, bench, ith });
-    }
-  }
-  if (cur) out.push(cur);
-  return out;
-}
-
-// ═══════════════════════════════════════════════════
-// SCORING
-// ═══════════════════════════════════════════════════
-function isExcluded(name, role) {
-  if (!name || name.includes('@')) return true;
-  if (/^(newhire|calg trial|trial)\d*$/i.test(name.trim())) return true;
-  if (BANNED.has(name.trim())) return true;
-  if (/supervisor|driver/i.test(role)) return true;
+// ════════════════════════════════════════════════════════
+// EXCLUSION
+// ════════════════════════════════════════════════════════
+const BANNED = new Set(['Suresh Singh','Andres Valdes','Sewe Loaknauth','Kulwinder Kumar','Sumeet Kumar']);
+function isExcluded(name,role){
+  const r=(role||'').toLowerCase();
+  if(r.includes('supervisor')||r.includes('driver')) return true;
+  if(name.includes('@')) return true;
+  if(/^(newhire|calg trial|trial)\d*$/i.test(name.trim())) return true;
+  if(BANNED.has(name.trim())) return true;
   return false;
 }
 
-function scoreAssociate(raw) {
-  if (isExcluded(raw.name, raw.role)) return null;
-
-  // ── Priority tiers (WPI applied within AND across tiers) ──
-  //   P1 (weight 50%): Customer Return + Sortly Create Skids
-  //   P2 (weight 30%): Move Sortly Item
-  //   P3 (weight 20%): Move Cancelled Items + Move Extra Items
-  // Within a tier: volume-weighted WPI of member processes.
-  // Across tiers: fixed priority weights, renormalised over tiers actually worked.
-  const TIER_DEF = [
-    { key:'P1', label:'Customer Return + Sortly Create Skids', weight:0.5,
-      members:['Customer Return','Sortly Create Skids'] },
-    { key:'P2', label:'Move Sortly Item', weight:0.3,
-      members:['Move Sortly Item'] },
-    { key:'P3', label:'Move Cancelled + Move Extra', weight:0.2,
-      members:['Move Cancelled Items','Move Extra Items'] },
-  ];
-
-  // Accumulate per-process
-  const acc = {}; // proc → {qty,target,ith}
-  let hasAnyProc = false;
-  for (const p of raw.procs) {
-    const pk = p.proc.toLowerCase().trim();
-    if (SKIP.has(pk)) continue;
-    const matchedKey = Object.keys(BENCH).find(k => k.toLowerCase() === pk);
-    if (!matchedKey) continue;
-    hasAnyProc = true;
-    const rate = BENCH[matchedKey];
-    const target = p.bench > 0 ? Math.round(p.bench * 10) / 10 : Math.round(p.ith * rate * 10) / 10;
-    if (!acc[matchedKey]) acc[matchedKey] = { qty: 0, target: 0, ith: 0 };
-    acc[matchedKey].qty += p.qty;
-    acc[matchedKey].target += target;
-    acc[matchedKey].ith += p.ith;
-  }
-  if (!hasAnyProc) return null;
-
-  // Build tiers
-  const tiers = [];
-  for (const td of TIER_DEF) {
-    const procs = [];
-    for (const m of td.members) {
-      if (!acc[m]) continue;
-      const d = acc[m];
-      const target = Math.round(d.target * 10) / 10;
-      const pct = target > 0 ? Math.round(d.qty / d.target * 100) : 0;
-      procs.push({ proc: m, qty: d.qty, target, pct, ith: d.ith, ts: fmtH(d.ith), rate: BENCH[m] });
+// ════════════════════════════════════════════════════════
+// CSV PARSER
+// ════════════════════════════════════════════════════════
+function parseCSV(txt){
+  const lines=txt.trim().split(/[\r\n]+/);
+  if(!lines.length) return [];
+  const hdrs=splitLine(lines[0]);
+  const ci=(...ns)=>{for(const n of ns){let i=hdrs.findIndex(h=>h.trim().toLowerCase().replace(/[\s_-]/g,'')==n.toLowerCase().replace(/[\s_-]/g,''));if(i>=0)return i;i=hdrs.findIndex(h=>h.trim().toLowerCase().replace(/[\s_-]/g,'').includes(n.toLowerCase().replace(/[\s_-]/g,''))&&!h.toLowerCase().includes('benchmark')&&!h.toLowerCase().includes('%'));if(i>=0)return i;}return -1;};
+  const iName=ci('name','associate'),iShift=ci('shift'),iRole=ci('role'),iProc=ci('process','activity');
+  const iProd=hdrs.findIndex(h=>/^productivity( count)?$/i.test(h.trim()));
+  const iITH=ci('ithours','it hours'),iNIT=ci('nonithours','non it hours','nonit');
+  const iTotIT=ci('totalithours','total it hours'),iDays=ci('workingdays','working days');
+  const iJoin=ci('dateofjoining','date of joining');
+  // Productivity Benchmark — the per-row target as computed by the source system at the time.
+  // Read directly rather than recomputed, since the effective rate per process has changed
+  // across weeks (e.g. Picking 100→120→140, Packing(S) 25→40→30→35) — using a fixed rate
+  // table would silently misscore older weeks against today's rates.
+  const iBench=hdrs.findIndex(h=>/^productivity\s*benchmark$/i.test(h.trim()));
+  if(iName<0||iProc<0) throw new Error('Cannot find Name or Process column. Headers: '+hdrs.join(', '));
+  const out=[]; let cur=null;
+  for(let i=1;i<lines.length;i++){
+    if(!lines[i].trim()) continue;
+    const c=splitLine(lines[i]);
+    const name=iName>=0?(c[iName]||'').trim():'';
+    if(name){
+      if(cur) out.push(cur);
+      cur={name,shift:iShift>=0?(c[iShift]||'').trim():'M',role:iRole>=0?(c[iRole]||'').trim():'-',
+           nonit:hms(iNIT>=0?c[iNIT]:''),totalit:hms(iTotIT>=0?c[iTotIT]:''),
+           days:iDays>=0?parseInt(c[iDays])||0:0,daysColPresent:iDays>=0,
+           joined:iJoin>=0?(c[iJoin]||'-').trim():'-',procs:[]};
     }
-    if (!procs.length) continue;
-    // Tier % = volume-weighted WPI of members with qty>0 (single member → its own pct)
-    const active = procs.filter(p => p.qty > 0);
-    let tierPct = 0, volLabel = '';
-    if (active.length) {
-      const totQ = active.reduce((s, p) => s + p.qty, 0);
-      tierPct = Math.round(active.reduce((s, p) => s + p.pct * (p.qty / totQ), 0));
-      volLabel = active.map(p =>
-        shortName(p.proc) + ' ' + p.pct + '%\u00d7' + Math.round(p.qty / totQ * 100) + '%').join(' + ');
-    }
-    tiers.push({ key: td.key, label: td.label, weight: td.weight,
-                 procs, pct: tierPct, hasVolume: active.length > 0, volLabel });
+    if(cur){const proc=iProc>=0?(c[iProc]||'').trim():'';const qty=iProd>=0?parseInt(c[iProd])||0:0;const ith=hms(iITH>=0?c[iITH]:'');const bench=iBench>=0?(parseFloat(c[iBench])||0):0;if(proc)cur.procs.push({proc,qty,ith,bench});}
   }
-
-  // Overall WPI = Σ(tierPct × weight) over worked tiers, renormalised
-  const workedTiers = tiers.filter(t => t.hasVolume);
-  let wpi = 0, wpiFormula = '';
-  if (workedTiers.length) {
-    const wSum = workedTiers.reduce((s, t) => s + t.weight, 0);
-    wpi = Math.round(workedTiers.reduce((s, t) => s + t.pct * (t.weight / wSum), 0));
-    wpiFormula = workedTiers.map(t =>
-      t.key + ' ' + t.pct + '%\u00d7' + Math.round(t.weight / wSum * 100) + '%').join(' + ') + ' = ' + wpi + '%';
-  }
-  const avg = wpi; // bonus scoring uses the tiered WPI
-
-  // IT compliance
-  const it = Math.round(raw.totalit * 10) / 10;
-  const nonit = Math.round(raw.nonit * 10) / 10;
-  const total = Math.round((it + nonit) * 10) / 10;
-  let goalDays = raw.days;
-  if (goalDays === 0 && !raw.daysColPresent && total > 0) {
-    goalDays = Math.min(5, Math.max(1, Math.round(total / IT_DAY)));
-  }
-  const goal = Math.round(goalDays * IT_DAY * 10) / 10 || IT_DAY;
-  const itComp = goal > 0 ? Math.round(total / goal * 100) : 0;
-
-  // Eligibility: ≥4 days + WPI ≥ 100% + hours gate (4d→24h, 5d+→30h IT+NonIT)
-  const daysOk = raw.days >= MIN_DAYS;
-  const prodOk = avg >= 100;  // WPI of exactly 100% qualifies
-  const hrsReq = raw.days >= 5 ? 30 : (raw.days === 4 ? 24 : 0);
-  const hrsOk = hrsReq > 0 && total >= hrsReq;
-
-  let tier = null, pay = 0;
-  if (daysOk && prodOk && hrsOk) {
-    for (const t of TIERS) {
-      if (avg >= t.min) { tier = t.tier; pay = t.pay; break; }
-    }
-  }
-
-  return {
-    name: raw.name, shift: raw.shift, role: raw.role, joined: raw.joined,
-    days: raw.days, it, nonit, total, goal, itComp,
-    tiers, wpi, wpiFormula,
-    avg, tier, pay, hrsReq, hrsOk,
-    qualifies: !!tier, daysOk, prodOk,
-  };
+  if(cur) out.push(cur);
+  return out;
 }
 
-function shortName(proc) {
-  return { 'Customer Return':'CR', 'Sortly Create Skids':'SCS', 'Move Sortly Item':'MSI',
-           'Move Cancelled Items':'MCI', 'Move Extra Items':'MEI' }[proc] || proc;
-}
+// ════════════════════════════════════════════════════════
+// SCORING ENGINE
+// ════════════════════════════════════════════════════════
+function scoreAssociate(raw, useWPI, strictHoursGate){
+  // Pack S+M combined
+  let packQty=0, packTgt=0.0, packDetail=[];
+  // Other scored processes
+  const otherProcs={};
 
-function fmtH(h) {
-  const tot = Math.round(h * 60);
-  const hh = Math.floor(tot / 60), mm = tot % 60;
-  return `${hh}h ${mm.toString().padStart(2, '0')}m`;
-}
+  for(const p of raw.procs){
+    const key=p.proc.toLowerCase().trim();
+    if(SKIP.has(key)) continue;
 
-// ═══════════════════════════════════════════════════
-// WEEK MANAGEMENT
-// ═══════════════════════════════════════════════════
-function inferDateFrom(filename, csvText) {
-  // Try to parse date from filename: WH_Reporting_-_Report_-_June_1_-_June_7.csv
-  const m = filename.match(/(\d{1,2})[_\s]([A-Za-z]+)[_\s](\d{4})/);
-  if (m) {
-    const d = new Date(`${m[2]} ${m[1]} ${m[3]}`);
-    if (!isNaN(d)) return d.toISOString().slice(0, 10);
-  }
-  // fallback: look for a "Week starting" comment in CSV or today
-  return new Date().toISOString().slice(0, 10);
-}
+    // Match by exact process name
+    let matchedProc=null;
+    for(const sp of SCORED){if(sp.toLowerCase()===p.proc.toLowerCase().trim()){matchedProc=sp;break;}}
+    if(!matchedProc) continue;
 
-function addWeek(csvText, filename) {
-  const dateFrom = inferDateFrom(filename, csvText);
-  // Check if week already exists
-  if (weeks.find(w => w.dateFrom === dateFrom)) {
-    if (!confirm(`Week starting ${dateFrom} already loaded. Replace it?`)) return;
-    weeks = weeks.filter(w => w.dateFrom !== dateFrom);
-  }
-  const raw = parseCSV(csvText);
-  const allScored = raw.map(scoreAssociate).filter(Boolean);
-  const qualifiers = allScored.filter(a => a.qualifies);
-  const totalPay = qualifiers.reduce((s, a) => s + a.pay, 0);
-  const week = {
-    id: Date.now(), dateFrom, filename,
-    csvText, // keep for download
-    scored: allScored, qualifiers, totalPay,
-  };
-  weeks.push(week);
-  weeks.sort((a, b) => new Date(a.dateFrom) - new Date(b.dateFrom));
-  selIdx = weeks.findIndex(w => w.dateFrom === dateFrom);
-  saveToLS();
-  render();
-}
+    const rate=BENCH[matchedProc];
+    if(!rate) continue;
+    // Target = the source system's own per-row benchmark for that week (handles rate drift
+    // over time correctly). Fall back to IT-hours × canonical rate only if the CSV didn't
+    // provide a benchmark value for this row.
+    const target = p.bench>0 ? Math.round(p.bench*10)/10 : Math.round(p.ith*rate*10)/10;
+    const pct=target>0?Math.round(p.qty/target*100):0;
 
-function saveToLS() {
-  try { localStorage.setItem(LS_KEY, JSON.stringify(weeks)); } catch (e) {}
-}
-
-function loadFromLS() {
-  // Try localStorage first (user-added weeks)
-  let source = [];
-  try {
-    const d = JSON.parse(localStorage.getItem(LS_KEY) || '[]');
-    if (Array.isArray(d) && d.length) source = d;
-  } catch (e) {}
-
-  // Fall back to baked weeks if localStorage is empty
-  if (!source.length && typeof BAKED_WEEKS !== 'undefined' && BAKED_WEEKS.length) {
-    source = BAKED_WEEKS;
-  }
-
-  weeks = source.map(w => {
-    try {
-      const raw = parseCSV(w.csvText);
-      const allScored = raw.map(scoreAssociate).filter(Boolean);
-      const qualifiers = allScored.filter(a => a.qualifies);
-      return { ...w, scored: allScored, qualifiers,
-               totalPay: qualifiers.reduce((s, a) => s + a.pay, 0) };
-    } catch (e) { return null; }
-  }).filter(Boolean).sort((a, b) => new Date(a.dateFrom) - new Date(b.dateFrom));
-  selIdx = Math.max(0, weeks.length - 1);
-}
-
-function clearWeeks() {
-  if (!confirm('Clear all weeks? This cannot be undone.')) return;
-  weeks = []; selIdx = 0;
-  try { localStorage.removeItem(LS_KEY); } catch (e) {}
-  render();
-}
-
-// ═══════════════════════════════════════════════════
-// FILE HANDLING
-// ═══════════════════════════════════════════════════
-function handleFile(file) {
-  if (!file) return;
-  const r = new FileReader();
-  r.onload = e => addWeek(e.target.result, file.name);
-  r.readAsText(file);
-}
-
-// ═══════════════════════════════════════════════════
-// RENDERING
-// ═══════════════════════════════════════════════════
-function render() {
-  const hasData = weeks.length > 0;
-  document.getElementById('upload-wrap').style.display = hasData ? 'none' : 'block';
-  document.getElementById('main-dash').style.display = hasData ? 'block' : 'none';
-  document.getElementById('clear-btn').style.display = hasData ? 'inline-block' : 'none';
-  if (!hasData) return;
-  if (selIdx < 0 || selIdx >= weeks.length) selIdx = weeks.length - 1;
-  renderPills();
-  renderWeek();
-}
-
-function renderPills() {
-  document.getElementById('pills-row').innerHTML = weeks.map((w, i) =>
-    `<div class="wpill${i === selIdx ? ' sel' : ''}" onclick="selIdx=${i};renderWeek()">
-      <div class="wpill-label">${weekLabel(w.dateFrom)}</div>
-      <div class="wpill-ct">${w.qualifiers.length}/${w.scored.length} paid · $${w.totalPay}</div>
-    </div>`
-  ).join('');
-}
-
-function renderWeek() {
-  renderPills();
-  const w = weeks[selIdx];
-  if (!w) return;
-  document.getElementById('wk-title').textContent = weekLabel(w.dateFrom);
-  document.getElementById('wk-meta').textContent =
-    `$${w.totalPay} total · ${w.qualifiers.length} of ${w.scored.length} associates qualified`;
-  renderBanner(w);
-  renderCards(w.scored);
-}
-
-function renderBanner(w) {
-  const el = document.getElementById('bonus-banner');
-  if (!w.qualifiers.length) {
-    el.innerHTML = `<div class="bb-head">🏆 Weekly Bonus Qualifiers — ${weekLabel(w.dateFrom)}</div>
-      <div class="bb-none">No bonus qualifiers this week.</div>`;
-    return;
-  }
-  const sorted = [...w.qualifiers].sort((a, b) => b.pay - a.pay || b.avg - a.avg);
-  const TC = { Elite: 'qe', High: 'qh', Base: 'qb' };
-  el.innerHTML =
-    `<div class="bb-head">🏆 Weekly Bonus Qualifiers — ${weekLabel(w.dateFrom)} &nbsp;<span style="color:#34d399;font-size:12px">$${w.totalPay} paid</span></div>
-    <div class="bb-people">${sorted.map(a =>
-      `<div class="bb-card">
-        <div class="bb-name">${a.name}</div>
-        <div class="bb-info">${a.avg}% WPI · ${a.days}d · ${a.total}h</div>
-        <div class="bb-info" style="margin-top:1px">IT compliance ${a.itComp}%</div>
-        <div class="bb-badges">
-          <span class="bb-tier ${TC[a.tier]||'qb'}">◆ ${a.tier}</span>
-          <span class="bb-pay">$${a.pay}</span>
-        </div>
-      </div>`
-    ).join('')}</div>
-    <div class="bb-total">Total payout: <b>$${w.totalPay}</b> across ${w.qualifiers.length} associate${w.qualifiers.length !== 1 ? 's' : ''}</div>`;
-}
-
-// ─── Compact qualifier cards ───────────────────────
-window.__qd = [];
-function renderCards(allAssociates) {
-  const el = document.getElementById('cards-grid');
-  if (!allAssociates || !allAssociates.length) {
-    el.innerHTML = '<div class="empty">No associate data this week.</div>';
-    return;
-  }
-  // Qualifiers first (by pay desc), then non-qualifiers (by avg desc)
-  window.__qd = [...allAssociates].sort((a, b) =>
-    (b.qualifies ? 1 : 0) - (a.qualifies ? 1 : 0) || b.pay - a.pay || b.avg - a.avg);
-  const TBG = { qe: '#78350f', qh: '#1e1b4b', qb: '#064e3b' };
-  const TFG = { qe: '#fbbf24', qh: '#a5b4fc', qb: '#6ee7b7' };
-  const BDR = { qe: '#f59e0b', qh: '#6366f1', qb: '#10b981' };
-
-  el.innerHTML = window.__qd.map((a, i) => {
-    const tc = { Elite: 'qe', High: 'qh', Base: 'qb' }[a.tier] || 'qb';
-    const SN = { M: 'Morning', E: 'Evening', N: 'Night' };
-    const shift = SN[a.shift] || a.shift || '';
-    const meta = [shift, a.days ? a.days + 'd' : ''].filter(Boolean).join(' · ');
-    const ac = col(a.avg), ic = col(a.itComp);
-    const q = a.qualifies;
-    const bdr = q ? BDR[tc] : '#cbd5e1';
-    const tbg = TBG[tc], tfg = TFG[tc];
-
-    // Right-side badge: tier+$ for qualifiers, failure reason for others
-    let badgeHtml;
-    if (q) {
-      badgeHtml = '<span style="display:inline-block;font-size:10px;font-weight:800;padding:3px 9px;border-radius:20px;background:' + tbg + ';color:' + tfg + '">◆ ' + a.tier + '</span>'
-        + '<br><span style="font-size:22px;font-weight:900;color:var(--fg)">$' + a.pay + '</span>'
-        + '<span style="font-size:10px;color:var(--muted)">/wk</span>';
+    if(PACK_SM.has(matchedProc)){
+      packQty+=p.qty; packTgt+=target;
+      packDetail.push({type:matchedProc,qty:p.qty,ith:p.ith,target,pct,ts:fmtH(p.ith)});
     } else {
-      let why = [];
-      if (a.days < 4) why.push(a.days + 'd < 4d');
-      if (!a.hrsOk) why.push(a.total + 'h < ' + (a.hrsReq || 24) + 'h');
-      if (a.avg < 100) why.push('WPI <100%');
-      badgeHtml = '<span style="display:inline-block;font-size:10px;font-weight:800;padding:3px 9px;border-radius:20px;background:#f1f5f9;color:#94a3b8">— No bonus</span>'
-        + '<br><span style="font-size:10px;color:#dc2626;font-weight:600">' + why.join(' · ') + '</span>';
+      if(!otherProcs[matchedProc]) otherProcs[matchedProc]={qty:0,hrs:0,target:0,pct:0};
+      otherProcs[matchedProc].qty+=p.qty;
+      otherProcs[matchedProc].hrs+=p.ith;
+      otherProcs[matchedProc].target+=target;
     }
+  }
 
-    return '<div onclick="openDet(' + i + ')" '
-      + 'style="background:var(--card);border-radius:14px;border:2px solid ' + bdr + ';padding:18px;cursor:pointer' + (q ? '' : ';opacity:.82') + '" '
-      + 'onmouseenter="this.style.boxShadow=\'0 8px 24px rgba(0,0,0,.15)\'" '
-      + 'onmouseleave="this.style.boxShadow=\'\'">'
-      // Header: name left, tier+pay (or reason) right
-      + '<table width="100%" cellpadding="0" cellspacing="0"><tr>'
-      + '<td valign="top" style="padding-right:8px">'
-      + '<div style="font-size:15px;font-weight:800;color:var(--fg);line-height:1.3">' + a.name + '</div>'
-      + '<div style="font-size:11px;color:var(--muted);margin-top:3px">' + meta + '</div>'
-      + '</td>'
-      + '<td valign="top" align="right" style="white-space:nowrap;width:40%">'
-      + badgeHtml
-      + '</td>'
-      + '</tr></table>'
-      // Divider
-      + '<div style="border-top:1px solid rgba(255,255,255,.08);margin:12px 0 10px"></div>'
-      // Metrics: avg left, IT right
-      + '<table width="100%" cellpadding="0" cellspacing="0"><tr>'
-      + '<td align="center" style="padding:4px 0;border-right:1px solid rgba(255,255,255,.08)">'
-      + '<div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:#64748b;margin-bottom:3px">WPI Score</div>'
-      + '<div style="font-size:28px;font-weight:900;color:' + ac + '">' + a.avg + '%</div>'
-      + '</td>'
-      + '<td align="center" style="padding:4px 0">'
-      + '<div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:#64748b;margin-bottom:3px">IT Compliance</div>'
-      + '<div style="font-size:22px;font-weight:900;color:' + ic + '">' + a.itComp + '%</div>'
-      + '</td>'
-      + '</tr></table>'
-      // Footer hint
-      + '<div style="text-align:center;margin-top:10px;font-size:10px;color:#475569;border-top:1px solid rgba(255,255,255,.06);padding-top:8px">▸ tap for process breakdown</div>'
-      + '</div>';
+  // Skip associates with no productive process data (Picking/Stowing/Packing/Docking)
+  if(!packDetail.length && !Object.keys(otherProcs).length) return null;
+
+  // Finalise pack combined
+  const packTgtR=Math.round(packTgt*10)/10;
+  let packPct=packTgtR>0?Math.round(packQty/packTgtR*100):null;
+  let wpiMode=false, wpiLabel='';
+  if(useWPI && packTgtR>0){
+    const sD=packDetail.filter(d=>d.type==='Packing (S)');
+    const mD=packDetail.filter(d=>d.type==='Packing (M)');
+    const sQty=sD.reduce((s,d)=>s+d.qty,0), mQty=mD.reduce((s,d)=>s+d.qty,0);
+    const sTgt=sD.reduce((s,d)=>s+d.target,0), mTgt=mD.reduce((s,d)=>s+d.target,0);
+    const totQ=sQty+mQty;
+    const achS=sTgt>0?sQty/sTgt*100:0, achM=mTgt>0?mQty/mTgt*100:0;
+    if(sTgt>0&&mTgt>0&&totQ>0){
+      const volS=sQty/totQ, volM=mQty/totQ;
+      packPct=Math.round(achS*volS+achM*volM);
+      wpiLabel='WPI · S '+Math.round(achS)+'%×'+Math.round(volS*100)+'% + M '+Math.round(achM)+'%×'+Math.round(volM*100)+'%';
+    } else if(sTgt>0){ packPct=Math.round(achS); wpiLabel='WPI · S only '+Math.round(achS)+'%'; }
+    else if(mTgt>0){ packPct=Math.round(achM); wpiLabel='WPI · M only '+Math.round(achM)+'%'; }
+    wpiMode=true;
+  }
+
+  // Finalise other procs
+  for(const[,d]of Object.entries(otherProcs)){
+    d.target=Math.round(d.target*10)/10;
+    d.pct=d.target>0?Math.round(d.qty/d.target*100):0;
+    d.ts=fmtH(d.hrs);
+  }
+
+  // Avg productivity = simple mean of processes where qty>0 (0-unit processes excluded)
+  const allPcts=[];
+  if(packPct!==null && packQty>0) allPcts.push(packPct);
+  for(const[,d] of Object.entries(otherProcs)) if(d.qty>0) allPcts.push(d.pct);
+  const avg=allPcts.length?Math.round(allPcts.reduce((a,b)=>a+b,0)/allPcts.length):0;
+
+  // IT compliance = (Total IT + Non-IT) / (days × 6.5)
+  const it=Math.round(raw.totalit*10)/10;
+  const nonit=Math.round(raw.nonit*10)/10;
+  const total=Math.round((it+nonit)*10)/10;
+  // Per-associate daily IT goal rate
+  let itRate = IT_DAY;
+  if (raw.name.includes('Charanjeet Singh')) itRate = 5.0;
+  else if (raw.name.includes('Sanjot Singh')) itRate = 4.0;
+  else if (raw.name.includes('Froilan')) itRate = 5.0;
+  // IT Compliance % goal — when this week's CSV has no Working Days column at all,
+  // a flat single-day fallback would wildly inflate the % for anyone who logged
+  // many hours. Estimate days from total logged hours for DISPLAY purposes only.
+  // Bonus eligibility below still uses the raw CSV days value, unaffected.
+  let itGoalDays = raw.days;
+  if (itGoalDays === 0 && !raw.daysColPresent && total > 0) {
+    itGoalDays = Math.min(5, Math.max(1, Math.round(total / IT_DAY)));
+  }
+  const goal = Math.round(itGoalDays * itRate * 10) / 10 || itRate;
+  const itComp=goal>0?Math.round(total/goal*100):0;
+
+  // Bonus eligibility:
+  //  - Historical weeks (before 22 Jun 2026): ≥4 days + avg>100% only — cross-checked
+  //    against actual paid bonus history (the 30h/24h volume gate did not reflect how
+  //    bonuses were really determined; associates qualified despite being hours-short).
+  //  - From 22 Jun 2026 ("updated benchmarks"): adds the 30h(5d)/24h(4d) IT+NonIT
+  //    hour-volume requirement.
+  const daysOk = raw.days >= 4;
+  const {req:hrsReq, note:hrsNote}=bonusItReq(raw.name, raw.days);
+  const hrsOk = strictHoursGate ? (hrsReq>0 && total>=hrsReq) : true;
+  const prodOk=avg>100;
+
+  if(daysOk&&hrsOk&&prodOk){
+    let tier=null,pay=0;
+    for(const t of BONUS_TIERS){if(avg>=t.min){tier=t.tier;pay=t.pay;break;}}
+    return{name:raw.name,role:raw.role,joined:raw.joined,days:raw.days,
+           packQty,packTgtR,packPct,packDetail,otherProcs,avg,
+           it,nonit,total,goal,itComp,hrsReq,hrsNote,
+           daysOk,hrsOk,prodOk,tier,pay,qualifies:!!tier,wpiMode,wpiLabel};
+  }
+  return{name:raw.name,role:raw.role,joined:raw.joined,days:raw.days,
+         packQty,packTgtR,packPct,packDetail,otherProcs,avg,
+         it,nonit,total,goal,itComp,hrsReq,hrsNote,
+         daysOk,hrsOk,prodOk,tier:null,pay:0,qualifies:false,wpiMode,wpiLabel};
+}
+
+function scoreWeek(csvText, dateFrom){
+  const useWPI = true;  // Mississauga always uses WPI
+  const strictHoursGate = dateFrom && dateFrom >= '2026-06-22';
+  const raw = parseCSV(csvText);
+  let scored = raw.filter(r=>!isExcluded(r.name,r.role))
+                   .map(r=>scoreAssociate(r, useWPI, strictHoursGate))
+                   .filter(a=>a!==null);
+
+  // Apply screenshot-confirmed bonus overrides for historical weeks
+  if (CONFIRMED_BONUSES[dateFrom]) {
+    const conf = CONFIRMED_BONUSES[dateFrom];
+    scored = conf.map(c => {
+      const comp = scored.find(a => a.name === c.name);
+      if (comp) return {...comp, avg:c.avg, tier:c.tier, pay:c.pay, qualifies:true, confirmed:true};
+      // Fallback: associate not found in this CSV — placeholder row
+      return {name:c.name,role:'',joined:'',shift:'',days:0,avg:c.avg,tier:c.tier,
+              pay:c.pay,qualifies:true,confirmed:true,packPct:null,packQty:0,
+              packTgtR:0,packDetail:[],otherProcs:{},it:0,nonit:0,total:0,
+              goal:6.5,itComp:0,hrsReq:0,hrsNote:'',daysOk:true,hrsOk:true,
+              prodOk:true,wpiMode:true,wpiLabel:''};
+    });
+  }
+  return scored;
+}
+
+// ════════════════════════════════════════════════════════
+// INIT / SAVE
+// ════════════════════════════════════════════════════════
+function init(){
+  let raw;
+  try{const st=localStorage.getItem('wh-mississauga-hub');raw=st?JSON.parse(st):[];}
+  catch{raw=[];}
+  weeks=raw.map(w=>{
+    const allScored=scoreWeek(w.csvText, w.dateFrom);
+    const qualifiers=allScored.filter(a=>a.qualifies);
+    const scored=qualifiers; // show only qualifiers
+    return{...w,scored,qualifiers,totalPay:qualifiers.reduce((s,a)=>s+a.pay,0)};
+  }).sort((a,b)=>new Date(a.dateFrom)-new Date(b.dateFrom));
+  selIdx=Math.max(0,weeks.length-1);
+  render();
+}
+function save(){
+  const d=weeks.map(w=>({id:w.id,label:w.label,dateFrom:w.dateFrom,dateTo:w.dateTo,savedAt:w.savedAt,csvText:w.csvText}));
+  localStorage.setItem('wh-mississauga-hub',JSON.stringify(d));
+}
+
+// ════════════════════════════════════════════════════════
+// RENDER
+// ════════════════════════════════════════════════════════
+function render(){renderOverview();renderChart();renderPills();renderWeekDetail();renderLeaderboard();}
+
+function renderOverview(){
+  if(!weeks.length){
+    document.getElementById('ov-grid').innerHTML=`<div style="grid-column:1/-1;text-align:center;padding:40px 20px;color:var(--muted);font-size:14px;background:var(--card);border-radius:14px;border:2px dashed var(--bdr)">🏭 No weeks loaded yet — click <strong>+ Add Week from CSV</strong> to get started</div>`;
+    return;
+  }
+  const grand=weeks.reduce((s,w)=>s+w.totalPay,0);
+  const unique=new Set(weeks.flatMap(w=>w.qualifiers.map(a=>a.name))).size;
+  const totalQ=weeks.reduce((s,w)=>s+w.qualifiers.length,0);
+  const avgWk=weeks.length?Math.round(grand/weeks.length):0;
+  const vc=p=>p>=100?'var(--ok)':p>=80?'var(--warn)':'var(--bad)';
+  const cards=[
+    {lbl:'Total Paid Out',    val:'$'+grand,  sub:weeks.length+' week'+(weeks.length!==1?'s':'')+' tracked',  a:'#10b981',b:'#059669'},
+    {lbl:'Unique Recipients', val:unique,      sub:'associates earned bonus',                                   a:'#6366f1',b:'#4f46e5'},
+    {lbl:'Total Payouts',     val:totalQ,      sub:'bonus events recorded',                                    a:'#f59e0b',b:'#d97706'},
+    {lbl:'Avg / Week',        val:'$'+avgWk,   sub:'weekly payout average',                                    a:'#3b82f6',b:'#2563eb'},
+  ];
+  document.getElementById('ov-grid').innerHTML=cards.map(c=>`
+    <div class="ov" style="--a:${c.a};--b:${c.b}">
+      <div class="ov-lbl">${c.lbl}</div>
+      <div class="ov-val">${c.val}</div>
+      <div class="ov-sub">${c.sub}</div>
+    </div>`).join('');
+}
+
+function renderChart(){
+  if(!weeks.length){document.getElementById('chart-card').innerHTML='';return;}
+  const totals=weeks.map(w=>w.totalPay);
+  const maxPay=Math.max(...totals,1);
+  const grand=totals.reduce((a,b)=>a+b,0);
+  const gridVals=[...new Set([0,Math.round(maxPay*.33),Math.round(maxPay*.67),maxPay])];
+  const glHtml=gridVals.map(v=>`<div class="gl" style="bottom:${(v/maxPay)*100}%"><span class="gl-lbl">$${v}</span></div>`).join('');
+  const barsHtml=weeks.map((w,i)=>{
+    const h=maxPay>0?(w.totalPay/maxPay*100):0;
+    return`<div class="bar-col${i===selIdx?' sel':''}" onclick="selectWeek(${i})">
+      <div class="bar-top">$${w.totalPay}</div>
+      <div class="bar-rect" style="height:${Math.max(h,2)}%"></div>
+      <div class="bar-btm"><div class="bar-lbl">${weekLabel(w)}</div><div class="bar-elig">${w.qualifiers.length} elig</div></div>
+    </div>`;
+  }).join('');
+  document.getElementById('chart-card').innerHTML=`
+    <div class="chart-hdr">
+      <div><div class="chart-lbl">Weekly Bonus Payout Trend</div><div class="chart-total">$${grand} <span style="font-size:13px;color:var(--muted);font-weight:600">total</span></div></div>
+      <div style="font-size:12px;color:var(--muted);text-align:right"><b>${weeks.length}</b> week${weeks.length!==1?'s':''} tracked</div>
+    </div>
+    <div class="bars-area"><div class="glines">${glHtml}</div>${barsHtml}</div>`;
+}
+
+function renderPills(){
+  const sorted=[...weeks].map((w,i)=>({...w,origIdx:i})).sort((a,b)=>new Date(b.dateFrom)-new Date(a.dateFrom));
+  document.getElementById('pills-row').innerHTML=sorted.map(w=>`
+    <div class="wpill${w.origIdx===selIdx?' active':''}" onclick="selectWeek(${w.origIdx})">
+      <div class="wpill-lbl">${weekLabel(w)}</div>
+      <div class="wpill-pay">$${w.totalPay}</div>
+      <div class="wpill-ct">${w.qualifiers.length} paid${w.dateFrom&&CONFIRMED_BONUSES[w.dateFrom]?' · ✓':''}</div>
+    </div>`).join('');
+}
+
+function selectWeek(i){selIdx=i;renderChart();renderPills();renderWeekDetail();}
+
+function renderWeekDetail(){
+  if(!weeks.length) return;
+  const w=weeks[selIdx];
+  document.getElementById('wk-title').textContent=weekLabel(w);
+  document.getElementById('wk-pay').textContent=`$${w.totalPay} · ${w.qualifiers.length} qualifier${w.qualifiers.length!==1?'s':''}${w.dateFrom&&CONFIRMED_BONUSES[w.dateFrom]?' · ✓ Confirmed records':''}`;
+  renderBonusBanner(w);
+  renderCards(w.qualifiers);
+}
+
+function renderBonusBanner(w){
+  const quals=w.qualifiers;
+  const el=document.getElementById('bonus-banner');
+  if(!quals.length){el.innerHTML=`<div class="bonus-banner"><div class="bb-title">🏆 Weekly Bonus Qualifiers — Mississauga</div><div class="bb-none">No qualifiers this week</div></div>`;return;}
+  el.innerHTML=`<div class="bonus-banner">
+    <div class="bb-title">🏆 Weekly Bonus Qualifiers — ${weekLabel(w)} &nbsp;<span style="font-size:12px;font-weight:700;color:#34d399">&nbsp;$${w.totalPay} paid</span></div>
+    <div class="bb-grid">${quals.map(a=>`
+      <div class="bb-person">
+        <div><div class="bb-name">${a.name}</div><div class="bb-meta">${a.avg}% avg · ${a.days}d · ${a.total}h total</div></div>
+        <span class="bb-badge ${BBCLS[a.tier]}">${a.tier}</span>
+        <span class="bb-pay">$${a.pay}</span>
+      </div>`).join('')}
+    </div>
+  </div>`;
+}
+
+function renderCards(qualifiers){
+  var el=document.getElementById('cards-grid');
+  if(!qualifiers||!qualifiers.length){
+    el.innerHTML='<div style="grid-column:1/-1;text-align:center;padding:60px 20px;color:var(--muted);font-size:15px;font-weight:600;background:var(--card);border-radius:16px;border:2px dashed var(--bdr)">\U0001f3c6 No bonus qualifiers this week.</div>';return;
+  }
+  var sorted=[].concat(qualifiers).sort(function(a,b){return b.pay-a.pay||b.avg-a.avg;});
+  window.__qd=sorted;
+  var SN={M:'Morning',E:'Evening',N:'Night'};
+  var TBG={qe:'#78350f',qh:'#1e1b4b',qb:'#064e3b'};
+  var TFG={qe:'#fbbf24',qh:'#a5b4fc',qb:'#6ee7b7'};
+  var BDR={qe:'#f59e0b',qh:'#6366f1',qb:'#10b981'};
+  function col(v){return v>=100?'#34d399':v>=80?'#fbbf24':'#f87171';}
+  el.innerHTML=sorted.map(function(a,i){
+    var tc={Elite:'qe',High:'qh',Base:'qb'}[a.tier]||'qb';
+    var shift=SN[a.shift]||a.shift||'';
+    var meta=[shift,a.days?a.days+'d':''].filter(Boolean).join(' \u00b7 ');
+    var tbg=TBG[tc]||'#1e293b',tfg=TFG[tc]||'#fff',bdr=BDR[tc]||'#334155';
+    var ac=col(a.avg),ic=col(a.itComp);
+    return '<div onclick="openDet('+i+')" '
+      +'style="background:var(--card);border-radius:16px;border:2px solid '+bdr+';padding:18px;cursor:pointer;box-sizing:border-box" '
+      +'onmouseenter="this.style.transform=\'translateY(-3px)\';this.style.boxShadow=\'0 10px 28px rgba(0,0,0,.35)\'" '
+      +'onmouseleave="this.style.transform=\'\';this.style.boxShadow=\'\'">'
+      +'<table width="100%" cellpadding="0" cellspacing="0"><tr>'
+      +'<td valign="top" style="padding-right:8px">'
+      +'<div style="font-size:15px;font-weight:800;color:var(--fg);line-height:1.3">'+a.name+'</div>'
+      +'<div style="font-size:12px;color:var(--muted);margin-top:3px">'+meta+'</div>'
+      +'</td>'
+      +'<td valign="top" align="right" style="white-space:nowrap;width:36%">'
+      +'<span style="display:inline-block;font-size:10px;font-weight:800;padding:3px 9px;border-radius:20px;background:'+tbg+';color:'+tfg+'">&#9670; '+a.tier+'</span>'
+      +'<br><span style="font-size:22px;font-weight:900;color:var(--fg)">$'+a.pay+'</span>'
+      +'<span style="font-size:11px;color:var(--muted)">/wk</span>'
+      +'</td>'
+      +'</tr></table>'
+      +'<div style="border-top:1px solid rgba(255,255,255,.1);margin:12px 0 10px"></div>'
+      +'<table width="100%" cellpadding="0" cellspacing="0"><tr>'
+      +'<td align="center" style="padding:4px 0;border-right:1px solid rgba(255,255,255,.1)">'
+      +'<div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:#64748b;margin-bottom:3px">Avg Prod</div>'
+      +'<div style="font-size:28px;font-weight:900;color:'+ac+'">'+a.avg+'%</div>'
+      +'</td>'
+      +'<td align="center" style="padding:4px 0">'
+      +'<div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:#64748b;margin-bottom:3px">IT Compliance</div>'
+      +'<div style="font-size:22px;font-weight:900;color:'+ic+'">'+a.itComp+'%</div>'
+      +'</td>'
+      +'</tr></table>'
+      +'<div style="text-align:center;margin-top:10px;font-size:11px;color:#475569;border-top:1px solid rgba(255,255,255,.07);padding-top:8px">&#9654; tap for process breakdown</div>'
+      +'</div>';
   }).join('');
 }
 
-// ─── Popup modal ───────────────────────────────────
-function openDet(i) {
-  try {
-  const a = window.__qd[i]; if (!a) return;
-  const TBG = { qe: '#78350f', qh: '#1e1b4b', qb: '#064e3b' };
-  const TFG = { qe: '#fbbf24', qh: '#a5b4fc', qb: '#6ee7b7' };
-  const tc = { Elite: 'qe', High: 'qh', Base: 'qb' }[a.tier] || 'qb';
-  const tbg = TBG[tc], tfg = TFG[tc];
-  const SN = { M: 'Morning', E: 'Evening', N: 'Night' };
-  const shift = SN[a.shift] || a.shift || '';
-  const meta = [shift, a.days ? a.days + 'd' : ''].filter(Boolean).join(' · ');
-  const ac = col(a.avg), ic = col(a.itComp);
-  const itSub = a.nonit > 0 ? (a.it + 'h IT + ' + a.nonit + 'h Non-IT = ' + a.total + 'h') : (a.it + 'h IT');
-  const itGoal = a.days > 0 ? (' (' + a.days + 'd × ' + (a.goal / a.days).toFixed(1) + 'h)') : '';
-  const itBar = a.goal > 0 ? Math.min(a.total / a.goal * 100, 100) : 0;
+function openDet(i){
+  var a=window.__qd[i];if(!a)return;
+  var SN={M:'Morning',E:'Evening',N:'Night'};
+  var TBG={qe:'#78350f',qh:'#1e1b4b',qb:'#064e3b'};
+  var TFG={qe:'#fbbf24',qh:'#a5b4fc',qb:'#6ee7b7'};
+  function col(v){return v>=100?'#34d399':v>=80?'#fbbf24':'#f87171';}
+  var tc={Elite:'qe',High:'qh',Base:'qb'}[a.tier]||'qb';
+  var tbg=TBG[tc]||'#1e293b',tfg=TFG[tc]||'#fff';
+  var shift=SN[a.shift]||a.shift||'';
+  var meta=[shift,a.days?a.days+'d':''].filter(Boolean).join(' \u00b7 ');
+  var ac=col(a.avg),ic=col(a.itComp);
+  var itSub=a.nonit>0?(a.it+'h IT + '+a.nonit+'h Non-IT = '+a.total+'h'):(a.it+'h IT');
+  var itGoal=a.days>0?(' ('+a.days+'d \u00d7 '+(a.goal/a.days).toFixed(1)+'h)'):'';
+  var itBar=a.goal>0?Math.min(a.total/a.goal*100,100):0;
 
-  // Build process detail — tiered WPI layout
-  let procHtml = '';
-  const TIER_COL = { P1: '#0e7490', P2: '#7c3aed', P3: '#b45309' };
-  (a.tiers || []).forEach(t => {
-    const tcol = TIER_COL[t.key] || '#475569';
-    const bw = Math.min(t.pct / 2, 100);
-    // Per-process rows in the same short format as everything else:
-    //   NAME: qty ÷ target = pct% · time · rate/hr
-    const rows = t.procs.map(d => {
-      const tiny = d.qty <= 3 && d.qty > 0 && d.pct > 150 ? ' <b style="color:#d97706;font-size:10px">⚠ tiny vol</b>' : '';
-      const zn = d.qty === 0 ? ' <span style="color:#d97706;font-size:10px">(0 units — not in WPI)</span>' : '';
-      return '<div style="font-size:12px;color:var(--muted);padding:2px 0">'
-        + '<b style="color:var(--fg)">' + shortName(d.proc) + '</b> '
-        + d.qty + ' ÷ ' + d.target.toFixed(1) + ' = <b style="color:' + col(d.pct) + '">' + d.pct + '%</b>'
-        + ' · ' + d.ts + ' · ' + d.rate + '/hr' + tiny + zn
-        + '</div>';
-    }).join('');
-    // Tier WPI line (only when 2+ active processes — single process IS the tier %)
-    const activeN = t.procs.filter(p => p.qty > 0).length;
-    const tierWpiLine = activeN > 1
-      ? '<div style="font-size:11px;color:#0369a1;margin-top:3px;font-family:monospace;font-weight:700">'
-        + t.key + ' WPI · ' + t.volLabel + ' = <b style="color:' + col(t.pct) + '">' + t.pct + '%</b></div>'
-      : '';
-    procHtml += '<div style="margin-bottom:14px">'
-      + '<table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:5px"><tr>'
-      + '<td style="font-size:13px;font-weight:700;color:var(--fg)">'
-      + '<span style="font-size:9px;background:' + tcol + ';color:#fff;padding:2px 6px;border-radius:4px;font-weight:800;margin-right:6px">' + t.key + ' · ' + Math.round(t.weight * 100) + '%</span>'
-      + t.label + '</td>'
-      + '<td align="right" style="font-size:17px;font-weight:900;color:' + col(t.pct) + '">' + t.pct + '%</td>'
-      + '</tr></table>'
-      + '<div class="proc-bar-track"><div class="proc-bar-fill ' + colFill(t.pct) + '" style="width:' + bw.toFixed(1) + '%"></div></div>'
-      + rows
-      + tierWpiLine
-      + '</div>';
+  // Process detail HTML
+  var procHtml='';
+  if(!a.confirmed){
+    // Packing WPI block
+    if(a.packDetail&&a.packDetail.length){
+      var pct=a.packPct||0;
+      var bw=Math.min(pct/2,100);
+      var detRows=a.packDetail.map(function(d){
+        var volW=d.qty<=3&&d.qty>0&&d.pct>150?' <b style="color:#f59e0b;font-size:10px">\u26a0 tiny vol</b>':'';
+        return '<tr>'
+          +'<td style="font-size:12px;font-weight:800;color:var(--fg);padding:3px 0;width:52px">'+( d.type==='Packing (S)'?'Pack S':'Pack M')+'</td>'
+          +'<td style="font-size:11px;color:var(--muted);font-family:monospace;padding:3px 6px">'+d.qty+' \u00f7 '+d.target.toFixed(1)+'</td>'
+          +'<td style="font-size:13px;font-weight:900;color:'+col(d.pct)+';text-align:right;padding:3px 0">'+(d.pct)+'%'+volW+'</td>'
+          +'<td style="font-size:11px;color:#64748b;padding:3px 0 3px 6px">'+d.ts+'</td>'
+          +'</tr>';
+      }).join('');
+      var wpiF=a.wpiLabel?'<div style="font-size:11px;color:#93c5fd;margin-top:4px;font-family:monospace;font-weight:700">'+a.wpiLabel+' = <b style="color:'+col(pct)+'">'+pct+'%</b></div>':'';
+      procHtml+='<div style="margin-bottom:14px">'
+        +'<table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:6px"><tr>'
+        +'<td style="font-size:13px;font-weight:700;color:var(--fg)">Packing (S+M) <span style="font-size:9px;background:#7c3aed;color:#fff;padding:2px 5px;border-radius:4px;font-weight:800">WPI</span></td>'
+        +'<td align="right" style="font-size:17px;font-weight:900;color:'+col(pct)+'">'+pct+'%</td>'
+        +'</tr></table>'
+        +'<div style="height:7px;background:rgba(255,255,255,.1);border-radius:4px;overflow:hidden;margin-bottom:7px">'
+        +'<div style="height:100%;width:'+bw+'%;background:'+col(pct)+';border-radius:4px"></div></div>'
+        +'<table width="100%" cellpadding="0" cellspacing="0">'+detRows+'</table>'
+        +wpiF
+        +'</div>';
+    }
+    // Other processes
+    Object.entries(a.otherProcs||{}).forEach(function(e){
+      var proc=e[0],d=e[1];
+      var effRate=d.hrs>0?Math.round(d.target/d.hrs):(BENCH[proc]||0);
+      var bw=Math.min(d.pct/2,100);
+      var zn=d.qty===0?' <span style="color:#f59e0b;font-size:10px">(0 units \u2014 not in avg)</span>':'';
+      procHtml+='<div style="margin-bottom:14px">'
+        +'<table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:6px"><tr>'
+        +'<td style="font-size:13px;font-weight:700;color:var(--fg)">'+proc+'</td>'
+        +'<td align="right" style="font-size:17px;font-weight:900;color:'+col(d.pct)+'">'+d.pct+'%</td>'
+        +'</tr></table>'
+        +'<div style="height:7px;background:rgba(255,255,255,.1);border-radius:4px;overflow:hidden;margin-bottom:7px">'
+        +'<div style="height:100%;width:'+bw+'%;background:'+col(d.pct)+';border-radius:4px"></div></div>'
+        +'<div style="font-size:12px;color:var(--muted)">'+d.qty+' \u00f7 '+d.target.toFixed(1)+' = '+d.pct+'% \u00b7 '+d.ts+' \u00b7 '+effRate+'/hr'+zn+'</div>'
+        +'</div>';
+    });
+  }
+
+  var confNote=a.confirmed?'<div style="font-size:11px;color:#f59e0b;font-weight:700;margin-bottom:8px">\u2713 Confirmed payout record \u00b7 pre-22 Jun benchmarks</div>':'';
+  var procSec=a.confirmed
+    ?'<div style="font-size:12px;color:#64748b;font-style:italic">Process breakdown not shown \u2014 pre-22 Jun benchmarks applied.</div>'
+    :procHtml;
+
+  document.getElementById('dp').innerHTML=
+    '<button onclick="closeDet()" style="position:absolute;top:14px;right:14px;background:rgba(255,255,255,.1);border:none;color:#fff;font-size:16px;width:30px;height:30px;border-radius:8px;cursor:pointer;line-height:30px">\u2715</button>'
+    +'<table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:14px"><tr>'
+    +'<td valign="top" style="padding-right:10px">'
+    +'<div style="font-size:17px;font-weight:800;color:var(--fg)">'+a.name+'</div>'
+    +'<div style="font-size:12px;color:var(--muted);margin-top:3px">'+meta+'</div>'
+    +'</td>'
+    +'<td valign="top" align="right" style="white-space:nowrap;width:36%">'
+    +'<span style="display:inline-block;font-size:10px;font-weight:800;padding:3px 9px;border-radius:20px;background:'+tbg+';color:'+tfg+'">&#9670; '+a.tier+'</span>'
+    +'<br><span style="font-size:24px;font-weight:900;color:var(--fg)">$'+a.pay+'</span>'
+    +'<span style="font-size:11px;color:var(--muted)">/wk</span>'
+    +'</td>'
+    +'</tr></table>'
+    +confNote
+    +'<div style="border-top:1px solid rgba(255,255,255,.1);margin-bottom:14px"></div>'
+    +'<div style="font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:#93c5fd;margin-bottom:10px">'
+    +'\U0001f4ca '+(a.confirmed?'Confirmed Record':'Processes \u00b7 Updated Benchmarks')+'</div>'
+    +procSec
+    +'<div style="border-top:1px solid rgba(255,255,255,.1);margin:14px 0"></div>'
+    +'<div style="font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:#93c5fd;margin-bottom:8px">\U0001f556 IT Compliance</div>'
+    +'<div style="font-size:12px;color:var(--muted);margin-bottom:5px">'+itSub+'</div>'
+    +'<div style="height:9px;background:rgba(255,255,255,.1);border-radius:5px;overflow:hidden;margin-bottom:5px">'
+    +'<div style="height:100%;width:'+itBar.toFixed(1)+'%;background:'+ic+';border-radius:5px"></div></div>'
+    +'<div style="font-size:11px;color:#64748b;margin-bottom:6px">Goal: '+a.goal+'h'+itGoal+'</div>'
+    +'<table width="100%" cellpadding="0" cellspacing="0"><tr>'
+    +'<td style="font-size:13px;color:var(--muted)">IT Compliance</td>'
+    +'<td align="right" style="font-size:22px;font-weight:900;color:'+ic+'">'+a.itComp+'%</td>'
+    +'</tr></table>'
+    +'<div style="border-top:1px solid rgba(255,255,255,.1);margin:14px 0 10px"></div>'
+    +'<table width="100%" cellpadding="0" cellspacing="0"><tr>'
+    +'<td style="font-size:14px;font-weight:700;color:var(--muted)">Avg Productivity</td>'
+    +'<td align="right" style="font-size:28px;font-weight:900;color:'+ac+'">'+a.avg+'%</td>'
+    +'</tr></table>';
+
+  document.getElementById('dm').style.display='block';
+  document.body.style.overflow='hidden';
+}
+
+function closeDet(){
+  document.getElementById('dm').style.display='none';
+  document.body.style.overflow='';
+}
+
+// ════════════════════════════════════════════════════════
+// LEADERBOARD
+// ════════════════════════════════════════════════════════
+function setLbSort(s){lbSort=s;renderLeaderboard();}
+function renderLeaderboard(){
+  const btns=[{s:'total',l:'$ Earned'},{s:'weeks',l:'Weeks Paid'},{s:'avg',l:'Avg Prod'}];
+  document.getElementById('lb-sort-btns').innerHTML=btns.map(b=>
+    `<button onclick="setLbSort('${b.s}')" style="padding:5px 12px;border-radius:20px;font-size:11px;font-weight:700;cursor:pointer;border:1.5px solid ${lbSort===b.s?'var(--pr)':'var(--bdr)'};background:${lbSort===b.s?'var(--pr)':'var(--card)'};color:${lbSort===b.s?'#fff':'var(--muted)'};font-family:'Inter',sans-serif">${b.l}</button>`
+  ).join('');
+
+  const map={};
+  [...weeks].sort((a,b)=>new Date(a.dateFrom)-new Date(b.dateFrom)).forEach(w=>{
+    const wlbl=weekLabel(w);
+    (w.qualifiers||[]).forEach(a=>{
+      if(!map[a.name])map[a.name]={name:a.name,role:a.role,weeks:0,totalPay:0,avgSum:0,tC:{Elite:0,High:0,Base:0},lastWeek:''};
+      const r=map[a.name];
+      r.weeks++;r.totalPay+=a.pay;r.avgSum+=a.avg;r.tC[a.tier]=(r.tC[a.tier]||0)+1;r.lastWeek=wlbl;
+    });
   });
-  // Overall WPI formula
-  if (a.wpiFormula) {
-    procHtml += '<div style="background:rgba(8,145,178,.06);border:1px solid rgba(8,145,178,.15);border-radius:8px;padding:8px 12px;margin-top:4px">'
-      + '<div style="font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.7px;color:#0e7490;margin-bottom:3px">Overall WPI · priority-weighted</div>'
-      + '<div style="font-size:11.5px;font-family:monospace;font-weight:700;color:#0369a1">' + a.wpiFormula + '</div>'
-      + '</div>';
-  }
-
-  // Tier / pay badge for header
-  let badge;
-  if (a.qualifies) {
-    badge = '<span style="display:inline-block;font-size:10px;font-weight:800;padding:3px 9px;border-radius:20px;background:' + tbg + ';color:' + tfg + '">◆ ' + a.tier + '</span>'
-      + '<br><span style="font-size:24px;font-weight:900;color:var(--fg)">$' + a.pay + '</span>'
-      + '<span style="font-size:10px;color:var(--muted)">/wk</span>';
-  } else {
-    badge = '<span style="display:inline-block;font-size:10px;font-weight:800;padding:3px 9px;border-radius:20px;background:#f1f5f9;color:#94a3b8">— No bonus</span>';
-  }
-
-  document.getElementById('dp').innerHTML =
-    '<button id="dm-close" onclick="closeDet()" style="position:absolute;top:14px;right:14px;background:#f1f5f9;border:none;color:#334155;font-size:16px;width:30px;height:30px;border-radius:8px;cursor:pointer;line-height:30px">✕</button>'
-    // Header: name left, tier+pay right
-    + '<table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:14px"><tr>'
-    + '<td valign="top" style="padding-right:10px">'
-    + '<div style="font-size:17px;font-weight:800;color:var(--fg)">' + a.name + '</div>'
-    + '<div style="font-size:12px;color:var(--muted);margin-top:3px">' + meta + '</div>'
-    + '</td>'
-    + '<td valign="top" align="right" style="white-space:nowrap;width:36%">' + badge + '</td>'
-    + '</tr></table>'
-    // Processes section (tiered WPI)
-    + '<div style="border-top:1px solid rgba(8,145,178,.15);margin-bottom:14px"></div>'
-    + '<div style="font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:#0e7490;margin-bottom:10px">📊 Returns Processes · Priority WPI</div>'
-    + (procHtml || '<div style="font-size:13px;color:var(--muted);font-style:italic">No scored process data.</div>')
-    // IT section
-    + '<div style="border-top:1px solid rgba(8,145,178,.15);margin:14px 0"></div>'
-    + '<div style="font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:#0e7490;margin-bottom:8px">🕐 IT Compliance</div>'
-    + '<div style="font-size:12px;color:var(--muted);margin-bottom:5px">' + itSub + '</div>'
-    + '<div class="proc-bar-track"><div class="proc-bar-fill ' + colFill(a.itComp) + '" style="width:' + itBar.toFixed(1) + '%"></div></div>'
-    + '<div style="font-size:11px;color:#64748b;margin-bottom:6px">Goal: ' + a.goal + 'h' + itGoal + '</div>'
-    + '<table width="100%" cellpadding="0" cellspacing="0"><tr>'
-    + '<td style="font-size:13px;color:var(--muted)">IT Compliance</td>'
-    + '<td align="right" style="font-size:22px;font-weight:900;color:' + ic + '">' + a.itComp + '%</td>'
-    + '</tr></table>'
-    // Eligibility gate summary
-    + '<div style="border-top:1px solid rgba(8,145,178,.15);margin:14px 0 10px"></div>'
-    + '<div style="font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:#0e7490;margin-bottom:8px">✅ Bonus Eligibility</div>'
-    + '<table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:10px">'
-    + '<tr><td style="font-size:12px;color:var(--muted);padding:2px 0">' + (a.days>=4?'✔':'✘') + ' Days worked</td>'
-    + '<td align="right" style="font-size:12px;font-weight:700;color:' + (a.days>=4?'#059669':'#dc2626') + '">' + a.days + 'd (min 4)</td></tr>'
-    + '<tr><td style="font-size:12px;color:var(--muted);padding:2px 0">' + (a.hrsOk?'✔':'✘') + ' Hours (IT+NonIT)</td>'
-    + '<td align="right" style="font-size:12px;font-weight:700;color:' + (a.hrsOk?'#059669':'#dc2626') + '">' + a.total + 'h / ' + (a.hrsReq||24) + 'h req</td></tr>'
-    + '<tr><td style="font-size:12px;color:var(--muted);padding:2px 0">' + (a.avg>=100?'✔':'✘') + ' WPI Score</td>'
-    + '<td align="right" style="font-size:12px;font-weight:700;color:' + (a.avg>=100?'#059669':'#dc2626') + '">' + a.avg + '% (≥100%)</td></tr>'
-    + '</table>'
-    // Avg
-    + '<div style="border-top:1px solid rgba(8,145,178,.15);margin:10px 0"></div>'
-    + '<table width="100%" cellpadding="0" cellspacing="0"><tr>'
-    + '<td style="font-size:13px;font-weight:700;color:var(--muted)">WPI Score (priority-weighted)</td>'
-    + '<td align="right" style="font-size:28px;font-weight:900;color:' + ac + '">' + a.avg + '%</td>'
-    + '</tr></table>';
-
-  document.getElementById('dm').style.display = 'block';
-  document.body.style.overflow = 'hidden';
-  } catch(err) {
-    document.getElementById('dp').innerHTML =
-      '<button onclick="closeDet()" style="position:absolute;top:14px;right:14px;background:#f1f5f9;border:none;color:#334155;font-size:16px;width:30px;height:30px;border-radius:8px;cursor:pointer">✕</button>'
-      + '<div style="font-size:14px;font-weight:700;color:#dc2626;padding:20px 0">Could not render details: ' + (err && err.message ? err.message : 'unknown') + '</div>';
-    document.getElementById('dm').style.display = 'block';
-  }
+  let recs=Object.values(map);
+  if(lbSort==='total')      recs.sort((a,b)=>b.totalPay-a.totalPay);
+  else if(lbSort==='weeks') recs.sort((a,b)=>b.weeks-a.weeks||b.totalPay-a.totalPay);
+  else if(lbSort==='avg')   recs.sort((a,b)=>(b.avgSum/b.weeks)-(a.avgSum/a.weeks));
+  const maxPay=Math.max(...recs.map(r=>r.totalPay),1);
+  const tPaid=recs.reduce((s,r)=>s+r.totalPay,0);
+  const tPO=recs.reduce((s,r)=>s+r.weeks,0);
+  if(!recs.length){document.getElementById('lb-wrap').innerHTML=`<div style="padding:24px;text-align:center;color:var(--muted);font-size:13px">No bonus qualifiers yet.</div>`;return;}
+  const rankCls=i=>i===0?'g':i===1?'s':i===2?'br':'';
+  const rankIcon=i=>i===0?'🥇':i===1?'🥈':i===2?'🥉':i+1;
+  const rows=recs.map((r,i)=>{
+    const avg=Math.round(r.avgSum/r.weeks);
+    const barW=Math.round(r.totalPay/maxPay*100);
+    const tiers=[r.tC.Elite?`<span class="ltc ltce">E×${r.tC.Elite}</span>`:'',r.tC.High?`<span class="ltc ltch">H×${r.tC.High}</span>`:'',r.tC.Base?`<span class="ltc ltcb">B×${r.tC.Base}</span>`:''].filter(Boolean).join('');
+    return`<div class="lb-row">
+      <div class="lb-rank ${rankCls(i)}">${rankIcon(i)}</div>
+      <div><div class="lb-name">${r.name}</div><div class="lb-role">${r.role||'—'} · Last: ${r.lastWeek}</div></div>
+      <div class="lb-wks" style="text-align:center">${r.weeks}wk</div>
+      <div class="lb-tc">${tiers}</div>
+      <div class="lb-avg">${avg}%</div>
+      <div><div class="lb-total">$${r.totalPay}</div><div class="lb-bar-wrap"><div class="lb-bar-bg"><div class="lb-bar-fill" style="width:${barW}%"></div></div></div></div>
+    </div>`;
+  }).join('');
+  const footer=`<div class="lb-footer"><span></span><span>${recs.length} associates</span><span style="text-align:center">${tPO} payouts</span><span></span><span></span><span style="text-align:right;color:var(--ok)">$${tPaid}</span></div>`;
+  document.getElementById('lb-wrap').innerHTML=`
+    <div class="lb-hdr"><span>#</span><span>Associate</span><span style="text-align:center">Weeks Paid</span><span style="text-align:center">Tiers</span><span style="text-align:right">Avg Prod</span><span style="text-align:right">Total Earned</span></div>
+    ${rows}${footer}`;
 }
 
-function closeDet() {
-  document.getElementById('dm').style.display = 'none';
-  document.body.style.overflow = '';
+// ════════════════════════════════════════════════════════
+// ADD WEEK MODAL
+// ════════════════════════════════════════════════════════
+function openModal(){document.getElementById('modal').classList.add('show');}
+function closeModal(){document.getElementById('modal').classList.remove('show');pendingCSV=null;document.getElementById('dz-fn').textContent='';document.getElementById('dz').classList.remove('ok');document.getElementById('btn-add').disabled=true;document.getElementById('m-err').classList.remove('show');document.getElementById('m-start').value='';document.getElementById('m-end').value='';}
+function closeModalBg(e){if(e.target===document.getElementById('modal'))closeModal();}
+function dzDrag(e){e.preventDefault();document.getElementById('dz').classList.add('hover');}
+function dzLeave(){document.getElementById('dz').classList.remove('hover');}
+function dzDrop(e){e.preventDefault();dzLeave();const f=e.dataTransfer.files[0];if(f)readF(f);}
+function loadCSV(e){const f=e.target.files[0];if(f)readF(f);}
+function readF(f){const r=new FileReader();r.onload=ev=>{pendingCSV=ev.target.result;document.getElementById('dz-fn').textContent='✓ '+f.name;document.getElementById('dz').classList.add('ok');document.getElementById('btn-add').disabled=false;};r.readAsText(f);}
+function addWeek(){
+  const err=document.getElementById('m-err');err.classList.remove('show');
+  try{
+    if(!pendingCSV) throw new Error('No CSV loaded.');
+    const s=document.getElementById('m-start').value,e=document.getElementById('m-end').value;
+    const autoLbl=s&&e?fmtShort(s)+' – '+fmtShort(e):'New Week';
+    const scored=scoreWeek(pendingCSV, document.getElementById("modal-from").value);
+    if(!scored.length) throw new Error('No eligible associates found. Check that the CSV has the correct columns and at least one non-supervisor associate.');
+    const qualifiers=scored.filter(a=>a.qualifies);
+    const totalPay=qualifiers.reduce((s,a)=>s+a.pay,0);
+    const w={id:Date.now(),label:autoLbl,dateFrom:s||new Date().toISOString().slice(0,10),dateTo:e||new Date().toISOString().slice(0,10),savedAt:new Date().toISOString(),csvText:pendingCSV,scored,qualifiers,totalPay};
+    weeks.push(w);weeks.sort((a,b)=>new Date(a.dateFrom)-new Date(b.dateFrom));
+    selIdx=weeks.findIndex(x=>x.id===w.id);
+    save();render();closeModal();
+  }catch(e){err.textContent='⚠ '+e.message;err.classList.add('show');}
 }
 
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closeDet(); });
+// ════════════════════════════════════════════════════════
+// EXPORT BONUS CSV
+// ════════════════════════════════════════════════════════
+function exportBonusCSV(){
+  if(!weeks.length){alert('No weeks loaded yet.');return;}
+  const allQ=weeks.flatMap(w=>(w.qualifiers||[]).map(a=>({...a,wlbl:weekLabel(w)})));
+  if(!allQ.length){alert('No bonus qualifiers found.');return;}
+  const rows=[['Week','Associate','Role','Days Worked','IT Hours','Non-IT Hours','Total Hours','Avg Productivity','Tier','Payout ($)']];
+  allQ.forEach(a=>rows.push([a.wlbl,a.name,a.role||'',a.days,a.it.toFixed(1),a.nonit.toFixed(1),a.total.toFixed(1),a.avg+'%',a.tier,a.pay]));
+  const tPay=allQ.reduce((s,a)=>s+a.pay,0);
+  rows.push(['','','','','','','','','TOTAL',tPay]);
+  const csv=rows.map(r=>r.map(v=>{const s=String(v);return(s.includes(',')||s.includes('"'))?'"'+s.replace(/"/g,'""')+'"':s;}).join(',')).join('\r\n');
+  dl(new Blob([csv],{type:'text/csv;charset=utf-8;'}),'WH_Mississauga_Bonus_Export.csv');
+}
 
-// ═══════════════════════════════════════════════════
-// DOWNLOAD BAKED HTML
-// ═══════════════════════════════════════════════════
-function downloadHTML() {
-  if (!weeks.length) { alert('No data to download yet. Upload at least one week first.'); return; }
-  const bakedWeeks = weeks.map(w => ({
-    dateFrom: w.dateFrom,
-    filename: w.filename,
-    csvText: w.csvText,
-  }));
+// ════════════════════════════════════════════════════════
+// DOWNLOAD HTML SNAPSHOT
+// ════════════════════════════════════════════════════════
+function downloadHTML(){
+  if(!weeks.length){alert('No weeks loaded yet — nothing to download.');return;}
 
-  const src = document.documentElement.outerHTML;
-  // Inject baked data + auto-init script before </body>
-  const injection = `
+  // Bake all week CSV data into the output — no localStorage needed in the shared file
+  const bakedData = JSON.stringify(weeks.map(w=>({
+    id:w.id,label:w.label,dateFrom:w.dateFrom,dateTo:w.dateTo,savedAt:w.savedAt,csvText:w.csvText
+  })));
+
+  // Extract all styling from the live page
+  const styles = Array.from(document.querySelectorAll('style')).map(s=>s.textContent).join('\n');
+  const gfonts = 'https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Inter:wght@400;500;600;700;800;900&display=swap';
+
+  // Grab all scripts from the live page (scoring engine, renderers, helpers)
+  const allScripts = Array.from(document.querySelectorAll('script:not([src])'))
+    .map(s=>s.textContent).join('\n');
+
+  const out = `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Mississauga Fulfilment — Weekly Bonus Hub</title>
+<link href="${gfonts}" rel="stylesheet">
+<style>
+${styles}
+/* Shared-file overrides */
+body{background:var(--bg)}
+.share-nav{display:flex;align-items:center;background:linear-gradient(135deg,#1e3a5f,#1e40af);padding:0 24px;height:58px;gap:12px;position:sticky;top:0;z-index:200;box-shadow:0 2px 10px rgba(0,0,0,.25)}
+.share-nav-brand{display:flex;align-items:center;gap:10px;margin-right:auto}
+.share-nav-logo{font-size:24px}
+.share-nav-title{font-size:15px;font-weight:800;color:#fff}
+.share-nav-sub{font-size:10px;color:#93c5fd;font-weight:600;margin-top:1px}
+.share-nbtn{display:inline-flex;align-items:center;gap:5px;padding:7px 13px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;border:1.5px solid rgba(255,255,255,.2);background:rgba(255,255,255,.08);color:rgba(255,255,255,.9);font-family:'Inter',sans-serif;white-space:nowrap;transition:all .15s}
+.share-nbtn:hover{background:rgba(255,255,255,.18)}
+.share-nbtn.green{background:rgba(16,185,129,.2);border-color:rgba(16,185,129,.5);color:#6ee7b7}
+.share-nbtn.teal{background:rgba(6,182,212,.25);border-color:rgba(6,182,212,.5);color:#67e8f9}
+.share-nbtn.teal:hover{background:rgba(6,182,212,.4)}
+
+/* ── Qualifier Cards ──────────────────────────────── */
+#cards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(400px,1fr));gap:20px}
+.no-qual-msg{grid-column:1/-1;text-align:center;padding:50px 20px;color:var(--muted);font-size:16px;background:var(--card);border-radius:16px;border:2px dashed var(--bdr)}
+.qcard{background:var(--card);border-radius:16px;border:2px solid var(--bdr);padding:20px;display:flex;flex-direction:column;gap:0;transition:transform .15s,box-shadow .15s}
+.qcard:hover{transform:translateY(-3px);box-shadow:0 10px 28px rgba(0,0,0,.35)}
+.qcard.qe{border-left:5px solid #f59e0b}
+.qcard.qh{border-left:5px solid #6366f1}
+.qcard.qb{border-left:5px solid #10b981}
+.qcard-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px}
+.qcard-name{font-size:16px;font-weight:800;color:var(--fg);line-height:1.3}
+.qcard-sub{font-size:12px;color:var(--muted);margin-top:4px;font-weight:500}
+.qcard-badge{display:flex;flex-direction:column;align-items:flex-end;gap:5px}
+.tier-bdg{font-size:11px;font-weight:800;padding:4px 12px;border-radius:20px;white-space:nowrap}
+.tier-bdg.qe{background:#78350f;color:#fbbf24}
+.tier-bdg.qh{background:#1e1b4b;color:#a5b4fc}
+.tier-bdg.qb{background:#064e3b;color:#6ee7b7}
+.bonus-amt{font-size:28px;font-weight:900;color:var(--fg);line-height:1}
+.per-wk{font-size:12px;color:var(--muted);font-weight:600}
+.conf-note{font-size:11px;color:#f59e0b;font-weight:700;margin-bottom:8px;display:flex;align-items:center;gap:5px}
+.qcard-div{height:1px;background:var(--bdr);margin:14px 0}
+.qsec{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:#93c5fd;margin-bottom:10px}
+/* Process items */
+.proc-item{margin-bottom:12px}
+.proc-hd{display:flex;justify-content:space-between;align-items:center;margin-bottom:5px}
+.proc-n{font-size:13px;font-weight:700;color:var(--fg)}
+.proc-p{font-size:15px;font-weight:900}
+.proc-p.ph{color:#34d399}
+.proc-p.pw{color:#fbbf24}
+.proc-p.pl{color:#f87171}
+.ppbar{height:5px;background:rgba(255,255,255,.07);border-radius:3px;margin-bottom:8px;overflow:hidden}
+.ppbar-f{height:100%;border-radius:3px;transition:width .4s ease}
+.ppbar-f.ph{background:linear-gradient(90deg,#10b981,#34d399)}
+.ppbar-f.pw{background:linear-gradient(90deg,#d97706,#fbbf24)}
+.ppbar-f.pl{background:linear-gradient(90deg,#dc2626,#f87171)}
+.wchip2{font-size:9px;background:#7c3aed;color:#fff;padding:1px 6px;border-radius:4px;margin-left:5px;font-weight:800;vertical-align:middle}
+.pd-row{display:grid;grid-template-columns:52px 1fr auto auto;gap:6px;align-items:baseline;font-size:12px;padding:3px 0;color:var(--fg)}
+.pd-lbl{font-weight:800;color:var(--fg);font-size:12px}
+.pd-calc{font-family:'Space Mono',monospace;font-size:11px;color:var(--muted)}
+.pd-eq{font-weight:800;white-space:nowrap;font-size:12.5px}
+.pd-rate{font-size:10px;color:#64748b}
+.wpi-f{font-size:12px;color:#93c5fd;margin-top:7px;font-family:'Space Mono',monospace;font-weight:700;line-height:1.5}
+.proc-det{font-size:12px;color:var(--muted);margin-top:4px;line-height:1.6}
+/* IT compliance */
+.it2-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+.it2-sub{font-size:12px;color:var(--muted)}
+.it2-pct{font-size:18px;font-weight:900}
+.it2-pct.ph{color:#34d399}
+.it2-pct.pw{color:#fbbf24}
+.it2-pct.pl{color:#f87171}
+.it2-track{height:8px;background:rgba(255,255,255,.07);border-radius:4px;overflow:hidden;display:flex;margin-bottom:6px}
+.seg-it2{background:#3b82f6;height:100%;border-radius:4px 0 0 4px}
+.seg-ni2{background:#6366f1;height:100%}
+.it2-goal{font-size:11px;color:#64748b}
+/* Avg final */
+.avg-fin{display:flex;justify-content:space-between;align-items:center}
+.avg-big{font-size:24px;font-weight:900}
+.avg-big.ph{color:#34d399}
+.avg-big.pw{color:#fbbf24}
+.avg-big.pl{color:#f87171}
+@media(max-width:880px){#cards-grid{grid-template-columns:repeat(auto-fill,minmax(360px,1fr))}}
+@media(max-width:560px){#cards-grid{grid-template-columns:1fr}}
+@media(max-width:600px){#cards-grid{grid-template-columns:1fr}.qcard{padding:16px}.qcard-name{font-size:14px}.bonus-amt{font-size:22px}}
+
+/* ── Suggestions Panel ── */
+.sug-section{margin:24px 0 0;padding:28px 32px;background:linear-gradient(135deg,rgba(99,102,241,.08),rgba(16,185,129,.05));border:1px solid rgba(99,102,241,.2);border-radius:20px}
+.sug-title{font-size:17px;font-weight:800;color:var(--fg);margin-bottom:4px}
+.sug-sub{font-size:12px;color:var(--muted);margin-bottom:20px}
+.sug-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px}
+.sug-card{background:var(--card);border-radius:12px;padding:16px;border:1px solid var(--bdr);display:flex;gap:12px;align-items:flex-start}
+.sug-icon{font-size:22px;flex-shrink:0;margin-top:1px}
+.sug-body-title{font-size:13px;font-weight:800;color:var(--fg);margin-bottom:4px}
+.sug-body-desc{font-size:11.5px;color:var(--muted);line-height:1.55}
+@media(max-width:600px){.sug-section{padding:18px 16px}}
+
+/* ── Historical rate note ── */
+.hist-note{font-size:9.5px;color:#64748b;font-style:italic;margin-left:4px}
+
+.conf-card-info{font-size:11.5px;color:#64748b;font-style:italic;margin:4px 0 2px}
+
+/* ── Modal overrides ── */
+#dm { -webkit-overflow-scrolling: touch; }
+#dp { -webkit-tap-highlight-color: transparent; }
+</style>
+</head>
+<body>
+<div class="share-nav">
+  <div class="share-nav-brand">
+    <span class="share-nav-logo">🏭</span>
+    <div>
+      <div class="share-nav-title">Mississauga Fulfilment — Weekly Bonus Hub</div>
+      <div class="share-nav-sub">Weekly Performance · Shared View</div>
+    </div>
+  </div>
+  <button class="share-nbtn teal" onclick="exportBonusCSV()">⬇ Export Bonus CSV</button>
+  <button class="share-nbtn" onclick="window.print()">⎙ Print</button>
+</div>
+
+<div class="main" id="main-wrap">
+  <div class="ov-grid" id="ov-grid"></div>
+  <div class="chart-card" id="chart-card"></div>
+  <div class="pills-row" id="pills-row"></div>
+  <div id="week-detail">
+    <div class="sec-hdr">
+      <div class="sec-title" id="wk-title">Loading…</div>
+      <div style="font-size:13px;font-weight:800;color:var(--ok);font-family:'Space Mono',monospace" id="wk-pay"></div>
+    </div>
+    <div class="bench-bar">
+      <div>Picking <span class="bp">140/hr</span></div>
+      <div>Stowing <span class="bp">65/hr</span></div>
+      <div>Pack S <span class="bp">35/hr (WPI)</span></div>
+      <div>Pack M <span class="bp">25/hr (WPI)</span></div>
+      <div>Pack L <span class="bp">15/hr</span></div>
+      <div>Docking <span class="bp">80/hr</span></div>
+      <div>IT Goal <span class="bp">6.5h/day</span></div>
+      <div>⭐ Elite ≥130% <span class="bp" style="background:#854d0e">$125</span></div>
+      <div>💎 High ≥110% <span class="bp" style="background:#1e40af">$95</span></div>
+      <div>✅ Base ≥100% <span class="bp" style="background:#166634">$50</span></div>
+    </div>
+    <div id="bonus-banner"></div>
+    <div class="sec-hdr"><div class="sec-title">Associates This Week</div></div>
+    <div class="cards-grid" id="cards-grid"></div>
+  </div>
+  <div style="margin-top:28px">
+    <div class="sec-hdr">
+      <div class="sec-title">All-Time Leaderboard</div>
+      <div style="display:flex;gap:6px" id="lb-sort-btns"></div>
+    </div>
+    <div class="lb-wrap" id="lb-wrap"></div>
+  </div>
+</div>
+
 <script>
-(function(){
-  var BAKED = ${JSON.stringify(bakedWeeks)};
-  if(typeof weeks === 'undefined') return;
-  BAKED.forEach(function(b){
-    try{
-      var raw = parseCSV(b.csvText);
-      var allScored = raw.map(scoreAssociate).filter(Boolean);
-      var qualifiers = allScored.filter(function(a){return a.qualifies;});
-      weeks.push({id:Date.now()+Math.random(),dateFrom:b.dateFrom,filename:b.filename,
-        csvText:b.csvText,scored:qualifiers,qualifiers:qualifiers,
-        totalPay:qualifiers.reduce(function(s,a){return s+a.pay;},0)});
-    }catch(e){}
-  });
-  weeks.sort(function(a,b){return new Date(a.dateFrom)-new Date(b.dateFrom);});
-  selIdx=Math.max(0,weeks.length-1);
-  render();
-})();
-<\/script>`;
+// ── BAKED DATA (all weeks embedded — no server or localStorage needed) ──
+const BAKED_WEEKS = ${bakedData};
 
-  const baked = src.replace('</body>', injection + '</body>');
-  const blob = new Blob([baked], { type: 'text/html' });
-  const a = Object.assign(document.createElement('a'), {
-    href: URL.createObjectURL(blob),
-    download: `WH_Returns_Bonus_Hub_${new Date().toISOString().slice(0,10)}.html`,
-  });
-  a.click(); URL.revokeObjectURL(a.href);
+${allScripts}
+
+// ── INIT from baked data instead of localStorage ──
+function init(){
+  weeks = BAKED_WEEKS.map(w=>{
+    const allScored = scoreWeek(w.csvText, w.dateFrom);
+    const qualifiers = allScored.filter(a=>a.qualifies);
+    const scored = qualifiers; // show only qualifiers
+    return{...w, scored, qualifiers, totalPay:qualifiers.reduce((s,a)=>s+a.pay,0)};
+  }).sort((a,b)=>new Date(a.dateFrom)-new Date(b.dateFrom));
+  selIdx = Math.max(0, weeks.length-1);
+  render();
 }
 
-// ═══════════════════════════════════════════════════
+// Disable add/save/restore (read-only shared view)
+function save(){}
+function openModal(){ alert('Add Week is only available in your personal hub file.'); }
+function doRestore(){ alert('Restore is only available in your personal hub file.'); }
+function downloadHTML(){ alert('Download is only available in your personal hub file.'); }
+
+document.addEventListener('DOMContentLoaded', init);
+document.addEventListener('click', function(e){
+  var c = e.target.closest('.acard');
+  if(c) c.classList.toggle('pin');
+});
+<\/script>
+</body>
+</html>`;
+
+  const fname = 'WH_Mississauga_BonusHub_shared.html';
+  dl(new Blob([out],{type:'text/html;charset=utf-8'}), fname);
+}
+
+// ════════════════════════════════════════════════════════
+// BACKUP / RESTORE
+// ════════════════════════════════════════════════════════
+function doBackup(){const d=weeks.map(w=>({id:w.id,label:w.label,dateFrom:w.dateFrom,dateTo:w.dateTo,savedAt:w.savedAt,csvText:w.csvText}));dl(new Blob([JSON.stringify(d,null,2)],{type:'application/json'}),`WH_Mississauga_Bonus_backup_${new Date().toISOString().slice(0,10)}.json`);}
+function doRestore(){document.getElementById('restore-file').click();}
+function handleRestore(e){const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=ev=>{try{const d=JSON.parse(ev.target.result);if(!Array.isArray(d))throw new Error('Invalid');localStorage.setItem('wh-mississauga-hub',ev.target.result);init();}catch(err){alert('Restore failed: '+err.message);}};r.readAsText(f);e.target.value='';}
+function dl(blob,name){const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),2000);}
+
+// ════════════════════════════════════════════════════════
 // INIT
-// ═══════════════════════════════════════════════════
-loadFromLS();
-render();
+// ════════════════════════════════════════════════════════
+document.addEventListener('DOMContentLoaded',init);
+
+
+// ── INIT from baked data instead of localStorage ──
+function init(){
+  weeks = BAKED_WEEKS.map(w=>{
+    const allScored = scoreWeek(w.csvText, w.dateFrom);
+    const qualifiers = allScored.filter(a=>a.qualifies);
+    const scored = qualifiers; // show only qualifiers
+    return{...w, scored, qualifiers, totalPay:qualifiers.reduce((s,a)=>s+a.pay,0)};
+  }).sort((a,b)=>new Date(a.dateFrom)-new Date(b.dateFrom));
+  selIdx = Math.max(0, weeks.length-1);
+  render();
+}
+
+// Disable add/save/restore (read-only shared view)
+function save(){}
+function openModal(){ alert('Add Week is only available in your personal hub file.'); }
+function doRestore(){ alert('Restore is only available in your personal hub file.'); }
+function downloadHTML(){ alert('Download is only available in your personal hub file.'); }
+
+document.addEventListener('DOMContentLoaded', init);
+document.addEventListener('click', function(e){
+  var c = e.target.closest('.acard');
+  if(c) c.classList.toggle('pin');
+});
 window.__weeks=function(){return weeks;};
 </script>
+
+<!-- ─── Suggestions Panel ─────────────────────────── -->
+<div class="sug-section">
+  <div class="sug-title">💡 Suggested Improvements</div>
+  <div class="sug-sub">Ideas to make this hub even more useful — flag any you'd like built</div>
+  <div class="sug-grid">
+    <div class="sug-card">
+      <div class="sug-icon">📧</div>
+      <div><div class="sug-body-title">Gmail Bonus Email</div><div class="sug-body-desc">One-click copy of an HR-ready formatted table listing all qualifiers and amounts for the selected week, ready to paste into Gmail.</div></div>
+    </div>
+    <div class="sug-card">
+      <div class="sug-icon">📈</div>
+      <div><div class="sug-body-title">Associate Trend View</div><div class="sug-body-desc">Click any leaderboard name to see their week-by-week productivity %, tier history, and total earned — in a mini chart overlay.</div></div>
+    </div>
+    <div class="sug-card">
+      <div class="sug-icon">🎯</div>
+      <div><div class="sug-body-title">Near-Miss Coaching Panel</div><div class="sug-body-desc">Show associates who just missed bonus (e.g. 95–99% avg) with how many units short they were — useful for team feedback sessions.</div></div>
+    </div>
+    <div class="sug-card">
+      <div class="sug-icon">📊</div>
+      <div><div class="sug-body-title">Year-to-Date Totals</div><div class="sug-body-desc">Running total per associate across all loaded weeks — shows total earned, weeks paid, and highest single-week avg.</div></div>
+    </div>
+    <div class="sug-card">
+      <div class="sug-icon">🔔</div>
+      <div><div class="sug-body-title">Week-over-Week Arrows</div><div class="sug-body-desc">On each qualifier card, show ▲/▼ vs the previous week's avg productivity — instant visual for who improved or dipped.</div></div>
+    </div>
+    <div class="sug-card">
+      <div class="sug-icon">🖨️</div>
+      <div><div class="sug-body-title">Print / PDF Mode</div><div class="sug-body-desc">A clean print layout that strips the nav and charts, leaving just the qualifier cards for a shareable paper copy or PDF export.</div></div>
+    </div>
+    <div class="sug-card">
+      <div class="sug-icon">📍</div>
+      <div><div class="sug-body-title">Multi-Site View</div><div class="sug-body-desc">Toggle between Mississauga, Calgary, and Returns in one hub — shared overview cards showing combined grand totals across sites.</div></div>
+    </div>
+    <div class="sug-card">
+      <div class="sug-icon">🔍</div>
+      <div><div class="sug-body-title">Search by Associate</div><div class="sug-body-desc">Filter qualifier history across all weeks by name — quickly pull up Rohith's or Harwinder's full payout history in one view.</div></div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ── Popup Detail Modal ── -->
+<div id="dm" onclick="if(event.target===this)closeDet()" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.78);z-index:99999;overflow-y:auto;padding:24px;box-sizing:border-box">
+  <div id="dp" style="background:#0f172a;border-radius:20px;border:1px solid rgba(255,255,255,.15);max-width:580px;margin:auto;padding:26px;position:relative;box-sizing:border-box"></div>
+</div>
+<script>document.addEventListener("keydown",function(e){if(e.key==="Escape")closeDet();});</script>
+
 </body>
 </html>
