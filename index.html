@@ -285,6 +285,52 @@ const SKIP     = new Set(['fulfilment','customer return','scanning','move items'
 const IT_DAY   = 6.5;
 const BONUS_TIERS = [{tier:'Elite',min:131,pay:125},{tier:'High',min:111,pay:95},{tier:'Base',min:100,pay:50}];
 
+// ════════════════════════════════════════════════════════
+// RULESET HISTORY — version-controlled programme rules
+// ════════════════════════════════════════════════════════
+// Every era records the EXACT rules in force for weeks starting within
+// [from .. to] (inclusive, YYYY-MM-DD; null = open-ended). A historical
+// week always recomputes against its own era — never against today's
+// rules. To change any rule going forward, do NOT edit an existing era:
+// close the current era (set its `to`) and append a new era. Payout
+// history then stays permanently reproducible and auditable.
+const RULESET_HISTORY = [
+  {
+    from: null, to: '2026-06-21',
+    label: 'Era 1 · pre-22 Jun rules',
+    useWPI: true,
+    strictHoursGate: false,          // 30h/24h volume gate NOT applied in this era
+    itDay: IT_DAY,
+    itOverrides: { 'Charanjeet Singh': 5.0, 'Sanjot Singh': 4.0, 'Froilan': 5.0 },
+    tiers: BONUS_TIERS,
+    bench: BENCH,
+    confirmedIsTruth: true,
+    notes: 'Benchmarks differed in this era and CSVs were later re-exported under newer '
+         + 'rates, so live recomputes can drift from what was actually paid. Screenshot-'
+         + 'confirmed records (CONFIRMED_BONUSES) are the source of truth for these weeks; '
+         + 'recompute drift is surfaced as a visible discrepancy, never silently adopted.'
+  },
+  {
+    from: '2026-06-22', to: null,
+    label: 'Era 2 · from 22 Jun (updated benchmarks + hours gate)',
+    useWPI: true,
+    strictHoursGate: true,           // 30h (5d) / 24h (4d) IT+NonIT volume gate applies
+    itDay: IT_DAY,
+    itOverrides: { 'Charanjeet Singh': 5.0, 'Sanjot Singh': 4.0, 'Froilan': 5.0 },
+    tiers: BONUS_TIERS,
+    bench: BENCH,
+    confirmedIsTruth: false,
+    notes: 'Live CSV engine is authoritative from this era onward.'
+  }
+];
+function rulesetFor(dateFrom){
+  const d = dateFrom || '';
+  for (const rs of RULESET_HISTORY){
+    if ((rs.from == null || d >= rs.from) && (rs.to == null || d <= rs.to)) return rs;
+  }
+  return RULESET_HISTORY[RULESET_HISTORY.length - 1];
+}
+
 // Screenshot-confirmed payout records — these override computed results for
 // historical weeks (wks 3–8) to match actual paid bonuses exactly.
 // From 22 Jun 2026 (updated benchmarks), bonuses are computed from the CSV.
@@ -410,7 +456,9 @@ function parseCSV(txt){
 // ════════════════════════════════════════════════════════
 // SCORING ENGINE
 // ════════════════════════════════════════════════════════
-function scoreAssociate(raw, useWPI, strictHoursGate){
+function scoreAssociate(raw, ruleset){
+  const useWPI = ruleset.useWPI;
+  const strictHoursGate = ruleset.strictHoursGate;
   // Pack S+M combined
   let packQty=0, packTgt=0.0, packDetail=[];
   // Other scored processes
@@ -425,7 +473,7 @@ function scoreAssociate(raw, useWPI, strictHoursGate){
     for(const sp of SCORED){if(sp.toLowerCase()===p.proc.toLowerCase().trim()){matchedProc=sp;break;}}
     if(!matchedProc) continue;
 
-    const rate=BENCH[matchedProc];
+    const rate=ruleset.bench[matchedProc];
     if(!rate) continue;
     // Target = the source system's own per-row benchmark for that week (handles rate drift
     // over time correctly). Fall back to IT-hours × canonical rate only if the CSV didn't
@@ -484,28 +532,27 @@ function scoreAssociate(raw, useWPI, strictHoursGate){
   const it=Math.round(raw.totalit*10)/10;
   const nonit=Math.round(raw.nonit*10)/10;
   const total=Math.round((it+nonit)*10)/10;
-  // Per-associate daily IT goal rate
-  let itRate = IT_DAY;
-  if (raw.name.includes('Charanjeet Singh')) itRate = 5.0;
-  else if (raw.name.includes('Sanjot Singh')) itRate = 4.0;
-  else if (raw.name.includes('Froilan')) itRate = 5.0;
+  // Per-associate daily IT goal rate — resolved from this week's era ruleset
+  let itRate = ruleset.itDay;
+  for (const ovName of Object.keys(ruleset.itOverrides || {})) {
+    if (raw.name.includes(ovName)) { itRate = ruleset.itOverrides[ovName]; break; }
+  }
   // IT Compliance % goal — when this week's CSV has no Working Days column at all,
   // a flat single-day fallback would wildly inflate the % for anyone who logged
   // many hours. Estimate days from total logged hours for DISPLAY purposes only.
   // Bonus eligibility below still uses the raw CSV days value, unaffected.
   let itGoalDays = raw.days;
   if (itGoalDays === 0 && !raw.daysColPresent && total > 0) {
-    itGoalDays = Math.min(5, Math.max(1, Math.round(total / IT_DAY)));
+    itGoalDays = Math.min(5, Math.max(1, Math.round(total / ruleset.itDay)));
   }
   const goal = Math.round(itGoalDays * itRate * 10) / 10 || itRate;
   const itComp=goal>0?Math.round(total/goal*100):0;
 
-  // Bonus eligibility:
-  //  - Historical weeks (before 22 Jun 2026): ≥4 days + avg>=100% only — cross-checked
-  //    against actual paid bonus history (the 30h/24h volume gate did not reflect how
+  // Bonus eligibility — gates resolved from this week's era ruleset:
+  //  - Era 1 (pre-22 Jun 2026): ≥4 days + avg>=100% only — cross-checked against
+  //    actual paid bonus history (the 30h/24h volume gate did not reflect how
   //    bonuses were really determined; associates qualified despite being hours-short).
-  //  - From 22 Jun 2026 ("updated benchmarks"): adds the 30h(5d)/24h(4d) IT+NonIT
-  //    hour-volume requirement.
+  //  - Era 2 (from 22 Jun 2026): adds the 30h(5d)/24h(4d) IT+NonIT hour-volume gate.
   const daysOk = raw.days >= 4;
   const {req:hrsReq, note:hrsNote}=bonusItReq(raw.name, raw.days);
   const hrsOk = strictHoursGate ? (hrsReq>0 && total>=hrsReq) : true;
@@ -513,7 +560,7 @@ function scoreAssociate(raw, useWPI, strictHoursGate){
 
   if(daysOk&&hrsOk&&prodOk){
     let tier=null,pay=0;
-    for(const t of BONUS_TIERS){if(avg>=t.min){tier=t.tier;pay=t.pay;break;}}
+    for(const t of ruleset.tiers){if(avg>=t.min){tier=t.tier;pay=t.pay;break;}}
     return{name:raw.name,role:raw.role,joined:raw.joined,days:raw.days,
            packQty,packTgtR,packPct,packDetail,otherProcs,avg,
            it,nonit,total,goal,itComp,hrsReq,hrsNote,
@@ -526,24 +573,30 @@ function scoreAssociate(raw, useWPI, strictHoursGate){
 }
 
 function scoreWeek(csvText, dateFrom){
-  const useWPI = true;  // Mississauga always uses WPI
-  const strictHoursGate = dateFrom && dateFrom >= '2026-06-22';
+  const ruleset = rulesetFor(dateFrom);
   const raw = parseCSV(csvText);
   let scored = raw.filter(r=>!isExcluded(r.name,r.role))
-                   .map(r=>scoreAssociate(r, useWPI, strictHoursGate))
+                   .map(r=>scoreAssociate(r, ruleset))
                    .filter(a=>a!==null);
 
-  // Apply screenshot-confirmed bonus overrides for historical weeks
+  // Apply screenshot-confirmed bonus overrides for historical weeks.
+  // The confirmed record stays the source of truth, but any drift between
+  // it and the era-rule recompute is attached as a visible discrepancy —
+  // never silently swallowed.
   if (CONFIRMED_BONUSES[dateFrom]) {
     const conf = CONFIRMED_BONUSES[dateFrom];
     scored = conf.map(c => {
       const comp = scored.find(a => a.name === c.name);
-      if (comp) return {...comp, avg:c.avg, tier:c.tier, pay:c.pay, qualifies:true, confirmed:true};
+      if (comp) {
+        const drift = (comp.avg !== c.avg) || ((comp.tier||null) !== c.tier) || ((comp.pay||0) !== c.pay);
+        return {...comp, avg:c.avg, tier:c.tier, pay:c.pay, qualifies:true, confirmed:true,
+                discrepancy: drift ? {avg:comp.avg, tier:comp.tier||'\u2014', pay:comp.pay||0} : null};
+      }
       // Fallback: associate not found in this CSV — placeholder row
       return {name:c.name,role:'',joined:'',shift:'',days:0,avg:c.avg,tier:c.tier,
-              pay:c.pay,qualifies:true,confirmed:true,packPct:null,packQty:0,
+              pay:c.pay,qualifies:true,confirmed:true,discrepancy:null,packPct:null,packQty:0,
               packTgtR:0,packDetail:[],otherProcs:{},it:0,nonit:0,total:0,
-              goal:6.5,itComp:0,hrsReq:0,hrsNote:'',daysOk:true,hrsOk:true,
+              goal:ruleset.itDay,itComp:0,hrsReq:0,hrsNote:'',daysOk:true,hrsOk:true,
               prodOk:true,wpiMode:true,wpiLabel:''};
     });
   }
@@ -638,8 +691,9 @@ function selectWeek(i){selIdx=i;renderChart();renderPills();renderWeekDetail();}
 function renderWeekDetail(){
   if(!weeks.length) return;
   const w=weeks[selIdx];
+  const rs=rulesetFor(w.dateFrom);
   document.getElementById('wk-title').textContent=weekLabel(w);
-  document.getElementById('wk-pay').textContent=`$${w.totalPay} · ${w.qualifiers.length} qualifier${w.qualifiers.length!==1?'s':''}${w.dateFrom&&CONFIRMED_BONUSES[w.dateFrom]?' · ✓ Confirmed records':''}`;
+  document.getElementById('wk-pay').textContent=`$${w.totalPay} · ${w.qualifiers.length} qualifier${w.qualifiers.length!==1?'s':''}${w.dateFrom&&CONFIRMED_BONUSES[w.dateFrom]?' · ✓ Confirmed records':''} · ${rs.label}`;
   renderBonusBanner(w);
   renderCards(w.qualifiers);
 }
@@ -770,9 +824,15 @@ function openDet(i){
     });
   }
 
-  var confNote=a.confirmed?'<div style="font-size:11px;color:#f59e0b;font-weight:700;margin-bottom:8px">\u2713 Confirmed payout record \u00b7 pre-22 Jun benchmarks</div>':'';
+  var rsEra=rulesetFor((weeks[selIdx]||{}).dateFrom);
+  var confNote=a.confirmed?'<div style="font-size:11px;color:#f59e0b;font-weight:700;margin-bottom:8px">\u2713 Confirmed payout record \u00b7 '+rsEra.label+'</div>':'';
+  if(a.confirmed&&a.discrepancy){
+    confNote+='<div style="font-size:11px;color:#fbbf24;font-weight:700;background:rgba(245,158,11,.12);border:1px solid rgba(245,158,11,.35);border-radius:8px;padding:7px 10px;margin-bottom:8px">'
+      +'\u26a0 Era-rule recompute from current CSV: '+a.discrepancy.avg+'% ('+a.discrepancy.tier+' \u00b7 $'+a.discrepancy.pay+') '
+      +'\u2014 confirmed paid record retained as source of truth. CSV data was corrected after the original payout.</div>';
+  }
   var procSec=a.confirmed
-    ?'<div style="font-size:12px;color:#64748b;font-style:italic">Process breakdown not shown \u2014 pre-22 Jun benchmarks applied.</div>'
+    ?'<div style="font-size:12px;color:#64748b;font-style:italic">Process breakdown not shown \u2014 confirmed record; '+rsEra.label+' applied.</div>'
     :procHtml;
 
   document.getElementById('dp').innerHTML=
@@ -791,7 +851,7 @@ function openDet(i){
     +confNote
     +'<div style="border-top:1px solid rgba(255,255,255,.1);margin-bottom:14px"></div>'
     +'<div style="font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:#93c5fd;margin-bottom:10px">'
-    +'\U0001f4ca '+(a.confirmed?'Confirmed Record':'Processes \u00b7 Updated Benchmarks')+'</div>'
+    +'\U0001f4ca '+(a.confirmed?'Confirmed Record':'Processes \u00b7 '+rsEra.label)+'</div>'
     +procSec
     +'<div style="border-top:1px solid rgba(255,255,255,.1);margin:14px 0"></div>'
     +'<div style="font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:#93c5fd;margin-bottom:8px">\U0001f556 IT Compliance</div>'
