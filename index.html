@@ -334,6 +334,15 @@ function rulesetFor(dateFrom){
 // Screenshot-confirmed payout records — these override computed results for
 // historical weeks (wks 3–8) to match actual paid bonuses exactly.
 // From 22 Jun 2026 (updated benchmarks), bonuses are computed from the CSV.
+// ── Payment status ──────────────────────────────────────
+// Weeks whose period ends on or before PAID_THROUGH are marked PAID;
+// later weeks show as PENDING. Update this date as payouts are released.
+const PAID_THROUGH = '2026-08-02';
+function isPaid(w){ return !!(w && w.dateTo && w.dateTo <= PAID_THROUGH); }
+function paidBadge(w){ return isPaid(w)
+  ? '<span style="color:#059669;background:#d1fae5;border:1px solid #6ee7b7;border-radius:5px;padding:1px 6px;font-size:10px;font-weight:800;letter-spacing:.3px">✓ PAID</span>'
+  : '<span style="color:#b45309;background:#fef3c7;border:1px solid #fcd34d;border-radius:5px;padding:1px 6px;font-size:10px;font-weight:800;letter-spacing:.3px">◷ PENDING</span>'; }
+
 const CONFIRMED_BONUSES = {
   '2026-05-11': [
     {name:'Rohith Poongavalappil',avg:138,tier:'Elite',pay:125},
@@ -636,15 +645,19 @@ function renderOverview(){
     return;
   }
   const grand=weeks.reduce((s,w)=>s+w.totalPay,0);
+  const paidSum=weeks.filter(isPaid).reduce((s,w)=>s+w.totalPay,0);
+  const pendSum=grand-paidSum;
+  const paidWks=weeks.filter(isPaid).length;
+  const fmtPT=(()=>{const d=new Date(PAID_THROUGH+'T00:00:00');return d.toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'});})();
   const unique=new Set(weeks.flatMap(w=>w.qualifiers.map(a=>a.name))).size;
   const totalQ=weeks.reduce((s,w)=>s+w.qualifiers.length,0);
   const avgWk=weeks.length?Math.round(grand/weeks.length):0;
   const vc=p=>p>=100?'var(--ok)':p>=80?'var(--warn)':'var(--bad)';
   const cards=[
-    {lbl:'Total Paid Out',    val:'$'+grand,  sub:weeks.length+' week'+(weeks.length!==1?'s':'')+' tracked',  a:'#10b981',b:'#059669'},
-    {lbl:'Unique Recipients', val:unique,      sub:'associates earned bonus',                                   a:'#6366f1',b:'#4f46e5'},
-    {lbl:'Total Payouts',     val:totalQ,      sub:'bonus events recorded',                                    a:'#f59e0b',b:'#d97706'},
-    {lbl:'Avg / Week',        val:'$'+avgWk,   sub:'weekly payout average',                                    a:'#3b82f6',b:'#2563eb'},
+    {lbl:'Total Bonus',       val:'$'+grand,   sub:weeks.length+' week'+(weeks.length!==1?'s':'')+' tracked',            a:'#10b981',b:'#059669'},
+    {lbl:'Paid Out',          val:'$'+paidSum, sub:paidWks+' week'+(paidWks!==1?'s':'')+' · through '+fmtPT,             a:'#059669',b:'#047857'},
+    {lbl:'Pending',           val:'$'+pendSum, sub:(weeks.length-paidWks)+' week'+((weeks.length-paidWks)!==1?'s':'')+' awaiting payout', a:'#f59e0b',b:'#d97706'},
+    {lbl:'Unique Recipients', val:unique,      sub:'associates earned bonus',                                            a:'#6366f1',b:'#4f46e5'},
   ];
   document.getElementById('ov-grid').innerHTML=cards.map(c=>`
     <div class="ov" style="--a:${c.a};--b:${c.b}">
@@ -683,7 +696,8 @@ function renderPills(){
     <div class="wpill${w.origIdx===selIdx?' active':''}" onclick="selectWeek(${w.origIdx})">
       <div class="wpill-lbl">${weekLabel(w)}</div>
       <div class="wpill-pay">$${w.totalPay}</div>
-      <div class="wpill-ct">${w.qualifiers.length} paid${w.dateFrom&&CONFIRMED_BONUSES[w.dateFrom]?' · ✓':''}</div>
+      <div class="wpill-ct">${w.qualifiers.length} recipient${w.qualifiers.length!==1?'s':''}${w.dateFrom&&CONFIRMED_BONUSES[w.dateFrom]?' · ✓rec':''}</div>
+      <div style="margin-top:4px">${paidBadge(w)}</div>
     </div>`).join('');
 }
 
@@ -694,7 +708,7 @@ function renderWeekDetail(){
   const w=weeks[selIdx];
   const rs=rulesetFor(w.dateFrom);
   document.getElementById('wk-title').textContent=weekLabel(w);
-  document.getElementById('wk-pay').textContent=`$${w.totalPay} · ${w.qualifiers.length} qualifier${w.qualifiers.length!==1?'s':''}${w.dateFrom&&CONFIRMED_BONUSES[w.dateFrom]?' · ✓ Confirmed records':''} · ${rs.label}`;
+  document.getElementById('wk-pay').innerHTML=`$${w.totalPay} · ${w.qualifiers.length} qualifier${w.qualifiers.length!==1?'s':''} · ${paidBadge(w)}${w.dateFrom&&CONFIRMED_BONUSES[w.dateFrom]?' · ✓ Confirmed records':''} · ${rs.label}`;
   renderBonusBanner(w);
   renderCards(w.qualifiers);
 }
@@ -704,7 +718,7 @@ function renderBonusBanner(w){
   const el=document.getElementById('bonus-banner');
   if(!quals.length){el.innerHTML=`<div class="bonus-banner"><div class="bb-title">🏆 Weekly Bonus Qualifiers — Mississauga</div><div class="bb-none">No qualifiers this week</div></div>`;return;}
   el.innerHTML=`<div class="bonus-banner">
-    <div class="bb-title">🏆 Weekly Bonus Qualifiers — ${weekLabel(w)} &nbsp;<span style="font-size:12px;font-weight:700;color:#34d399">&nbsp;$${w.totalPay} paid</span></div>
+    <div class="bb-title">🏆 Weekly Bonus Qualifiers — ${weekLabel(w)} &nbsp;<span style="font-size:12px;font-weight:700;color:${isPaid(w)?'#34d399':'#fbbf24'}">&nbsp;$${w.totalPay} ${isPaid(w)?'paid':'pending'}</span></div>
     <div class="bb-grid">${quals.map(a=>`
       <div class="bb-person">
         <div><div class="bb-name">${a.name}</div><div class="bb-meta">${a.avg}% avg · ${a.days}d · ${a.total}h total</div></div>
@@ -960,12 +974,12 @@ function addWeek(){
 // ════════════════════════════════════════════════════════
 function exportBonusCSV(){
   if(!weeks.length){alert('No weeks loaded yet.');return;}
-  const allQ=weeks.flatMap(w=>(w.qualifiers||[]).map(a=>({...a,wlbl:weekLabel(w)})));
+  const allQ=weeks.flatMap(w=>(w.qualifiers||[]).map(a=>({...a,wlbl:weekLabel(w),status:isPaid(w)?'Paid':'Pending'})));
   if(!allQ.length){alert('No bonus qualifiers found.');return;}
-  const rows=[['Week','Associate','Role','Days Worked','IT Hours','Non-IT Hours','Total Hours','Avg Productivity','Tier','Payout ($)']];
-  allQ.forEach(a=>rows.push([a.wlbl,a.name,a.role||'',a.days,a.it.toFixed(1),a.nonit.toFixed(1),a.total.toFixed(1),a.avg+'%',a.tier,a.pay]));
+  const rows=[['Week','Associate','Role','Days Worked','IT Hours','Non-IT Hours','Total Hours','Avg Productivity','Tier','Payout ($)','Status']];
+  allQ.forEach(a=>rows.push([a.wlbl,a.name,a.role||'',a.days,a.it.toFixed(1),a.nonit.toFixed(1),a.total.toFixed(1),a.avg+'%',a.tier,a.pay,a.status]));
   const tPay=allQ.reduce((s,a)=>s+a.pay,0);
-  rows.push(['','','','','','','','','TOTAL',tPay]);
+  rows.push(['','','','','','','','','TOTAL',tPay,'']);
   const csv=rows.map(r=>r.map(v=>{const s=String(v);return(s.includes(',')||s.includes('"'))?'"'+s.replace(/"/g,'""')+'"':s;}).join(',')).join('\r\n');
   dl(new Blob([csv],{type:'text/csv;charset=utf-8;'}),'WH_Mississauga_Bonus_Export.csv');
 }
