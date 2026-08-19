@@ -284,6 +284,8 @@ const SKIP     = new Set(['fulfilment','customer return','scanning','move items'
 
 const IT_DAY   = 6.5;
 const BONUS_TIERS = [{tier:'Elite',min:131,pay:125},{tier:'High',min:111,pay:95},{tier:'Base',min:100,pay:50}];
+// Pooled era tiers — dashboard legend: Elite >130, High 110–130, Base 100–110.
+const POOLED_TIERS = [{tier:'Elite',min:131,pay:125},{tier:'High',min:110,pay:95},{tier:'Base',min:100,pay:50}];
 
 // ════════════════════════════════════════════════════════
 // RULESET HISTORY — version-controlled programme rules
@@ -311,8 +313,8 @@ const RULESET_HISTORY = [
          + 'recompute drift is surfaced as a visible discrepancy, never silently adopted.'
   },
   {
-    from: '2026-06-22', to: null,
-    label: 'Era 2 · from 22 Jun (updated benchmarks + hours gate)',
+    from: '2026-06-22', to: '2026-08-09',
+    label: 'Era 2 · 22 Jun–9 Aug (updated benchmarks + hours gate)',
     useWPI: true,
     strictHoursGate: true,           // 30h (5d) / 24h (4d) IT+NonIT volume gate applies
     itDay: IT_DAY,
@@ -320,7 +322,23 @@ const RULESET_HISTORY = [
     tiers: BONUS_TIERS,
     bench: BENCH,
     confirmedIsTruth: false,
-    notes: 'Live CSV engine is authoritative from this era onward.'
+    notes: 'Live CSV engine is authoritative. Productivity = mean of per-process %s (packing via WPI).'
+  },
+  {
+    from: '2026-08-10', to: null,
+    label: 'Era 3 · from 10 Aug (pooled productivity)',
+    useWPI: true,                    // WPI still used for the packing display line
+    strictHoursGate: true,
+    pooled: true,                    // avg = Σ units ÷ Σ target across all counted processes
+    wholeHourGate: true,             // IT & Non-IT rounded to whole hours before the gate/summary
+    itDay: IT_DAY,
+    itOverrides: { 'Charanjeet Singh': 5.0, 'Sanjot Singh': 4.0, 'Froilan': 5.0 },
+    tiers: POOLED_TIERS,             // High band starts at 110 (was 111)
+    bench: BENCH,
+    confirmedIsTruth: false,
+    notes: 'Productivity pooled: total units ÷ total target across counted processes (not a mean '
+         + 'of per-process %s). Hours gate uses whole-hour-rounded IT+Non-IT. Tier bands: '
+         + 'Elite >130, High 110–130, Base 100–110.'
   }
 ];
 function rulesetFor(dateFrom){
@@ -536,12 +554,29 @@ function scoreAssociate(raw, ruleset){
   const allPcts=[];
   if(packPct!==null && packQty>0) allPcts.push(packPct);
   for(const[,d] of Object.entries(otherProcs)) if(d.qty>0) allPcts.push(d.pct);
-  const avg=allPcts.length?Math.round(allPcts.reduce((a,b)=>a+b,0)/allPcts.length):0;
+  let avg=allPcts.length?Math.round(allPcts.reduce((a,b)=>a+b,0)/allPcts.length):0;
+
+  // Pooled productivity (Era 3+): a single ratio of total units ÷ total target across
+  // every counted process, instead of the mean of per-process %s. Packing S/M/L and all
+  // other scored processes are summed together.
+  let pooledU=0, pooledT=0;
+  if(ruleset.pooled){
+    pooledU=packQty; pooledT=packTgtR;
+    for(const[,d] of Object.entries(otherProcs)){ pooledU+=d.qty; pooledT+=d.target; }
+    avg = pooledT>0 ? Math.round(pooledU/pooledT*100) : 0;
+  }
 
   // IT compliance = (Total IT + Non-IT) / (days × 6.5)
-  const it=Math.round(raw.totalit*10)/10;
-  const nonit=Math.round(raw.nonit*10)/10;
-  const total=Math.round((it+nonit)*10)/10;
+  // Era 3 (wholeHourGate): IT & Non-IT are rounded to whole hours before summing —
+  // both for the hours gate and the summary line — matching the source dashboard.
+  let it, nonit, total;
+  if(ruleset.wholeHourGate){
+    it=Math.round(raw.totalit); nonit=Math.round(raw.nonit); total=it+nonit;
+  } else {
+    it=Math.round(raw.totalit*10)/10;
+    nonit=Math.round(raw.nonit*10)/10;
+    total=Math.round((it+nonit)*10)/10;
+  }
   // Per-associate daily IT goal rate — resolved from this week's era ruleset
   let itRate = ruleset.itDay;
   for (const ovName of Object.keys(ruleset.itOverrides || {})) {
