@@ -355,7 +355,7 @@ function rulesetFor(dateFrom){
 // ── Payment status ──────────────────────────────────────
 // Weeks whose period ends on or before PAID_THROUGH are marked PAID;
 // later weeks show as PENDING. Update this date as payouts are released.
-const PAID_THROUGH = '2026-09-13';
+const PAID_THROUGH = '2026-09-27';
 function isPaid(w){ return !!(w && w.dateTo && w.dateTo <= PAID_THROUGH); }
 function paidBadge(w){ return isPaid(w)
   ? '<span style="color:#059669;background:#d1fae5;border:1px solid #6ee7b7;border-radius:5px;padding:1px 6px;font-size:10px;font-weight:800;letter-spacing:.3px">✓ PAID</span>'
